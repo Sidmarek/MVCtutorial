@@ -1,0 +1,172 @@
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\ApplicationInsights.config
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\roslyn\csc.exe
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\roslyn\vbc.exe
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\roslyn\VBCSCompiler.exe
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\MVCtutorial.dll.config
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\MVCtutorial.dll
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\MVCtutorial.pdb
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Antlr3.Runtime.dll
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\EntityFramework.dll
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\EntityFramework.SqlServer.dll
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Microsoft.AI.Agent.Intercept.dll
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Microsoft.AI.DependencyCollector.dll
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Microsoft.AI.PerfCounterCollector.dll
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Microsoft.AI.ServerTelemetryChannel.dll
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Microsoft.AI.Web.dll
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Microsoft.AI.WindowsServer.dll
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Microsoft.ApplicationInsights.dll
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Microsoft.AspNet.Identity.Core.dll
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Microsoft.AspNet.Identity.Owin.dll
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Microsoft.Owin.dll
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Microsoft.Owin.Host.SystemWeb.dll
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Microsoft.Owin.Security.Cookies.dll
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Microsoft.Owin.Security.dll
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Microsoft.Owin.Security.Facebook.dll
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Microsoft.Owin.Security.Google.dll
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Microsoft.Owin.Security.OAuth.dll
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Microsoft.Owin.Security.Twitter.dll
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Newtonsoft.Json.dll
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Owin.dll
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\System.Web.Helpers.dll
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\System.Web.Mvc.dll
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\System.Web.Optimization.dll
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\System.Web.Razor.dll
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\System.Web.WebPages.Deployment.dll
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\System.Web.WebPages.dll
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\System.Web.WebPages.Razor.dll
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\WebGrease.dll
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Microsoft.AI.DependencyCollector.xml
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Microsoft.AI.ServerTelemetryChannel.xml
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Microsoft.AI.Web.xml
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Microsoft.AI.WindowsServer.xml
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Microsoft.ApplicationInsights.xml
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\System.Web.Helpers.xml
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\System.Web.Mvc.xml
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\System.Web.Optimization.xml
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\System.Web.Razor.xml
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\System.Web.WebPages.xml
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\System.Web.WebPages.Deployment.xml
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\System.Web.WebPages.Razor.xml
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Antlr3.Runtime.pdb
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Newtonsoft.Json.xml
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\EntityFramework.xml
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\EntityFramework.SqlServer.xml
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Microsoft.AspNet.Identity.Core.xml
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Microsoft.AspNet.Identity.Owin.xml
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Microsoft.Owin.xml
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Microsoft.Owin.Host.SystemWeb.xml
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Microsoft.Owin.Security.xml
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Microsoft.Owin.Security.Facebook.xml
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Microsoft.Owin.Security.Cookies.xml
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Microsoft.Owin.Security.OAuth.xml
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Microsoft.Owin.Security.Google.xml
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Microsoft.Owin.Security.Twitter.xml
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\obj\Debug\MVCtutorial.csprojResolveAssemblyReference.cache
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\obj\Debug\MVCtutorial.dll
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\obj\Debug\MVCtutorial.pdb
+C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\EntityFramework6.Npgsql.dll
+C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Npgsql.dll
+C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\EntityFramework6.Npgsql.xml
+C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Npgsql.xml
+C:\0\wwwroot\MVCtutorial\obj\Debug\MVCtutorial.csprojResolveAssemblyReference.cache
+C:\0\wwwroot\MVCtutorial\obj\Debug\MVCtutorial.dll
+C:\0\wwwroot\MVCtutorial\obj\Debug\MVCtutorial.pdb
+C:\0\wwwroot\MVCtutorial\bin\ApplicationInsights.config
+C:\0\wwwroot\MVCtutorial\bin\roslyn\csc.exe
+C:\0\wwwroot\MVCtutorial\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\0\wwwroot\MVCtutorial\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\0\wwwroot\MVCtutorial\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\0\wwwroot\MVCtutorial\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\0\wwwroot\MVCtutorial\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\0\wwwroot\MVCtutorial\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\0\wwwroot\MVCtutorial\bin\roslyn\System.Collections.Immutable.dll
+C:\0\wwwroot\MVCtutorial\bin\roslyn\System.Reflection.Metadata.dll
+C:\0\wwwroot\MVCtutorial\bin\roslyn\vbc.exe
+C:\0\wwwroot\MVCtutorial\bin\roslyn\VBCSCompiler.exe
+C:\0\wwwroot\MVCtutorial\bin\roslyn\VBCSCompiler.exe.config
+C:\0\wwwroot\MVCtutorial\bin\MVCtutorial.dll.config
+C:\0\wwwroot\MVCtutorial\bin\MVCtutorial.dll
+C:\0\wwwroot\MVCtutorial\bin\MVCtutorial.pdb
+C:\0\wwwroot\MVCtutorial\bin\Antlr3.Runtime.dll
+C:\0\wwwroot\MVCtutorial\bin\EntityFramework.dll
+C:\0\wwwroot\MVCtutorial\bin\EntityFramework.SqlServer.dll
+C:\0\wwwroot\MVCtutorial\bin\EntityFramework6.Npgsql.dll
+C:\0\wwwroot\MVCtutorial\bin\Microsoft.AI.Agent.Intercept.dll
+C:\0\wwwroot\MVCtutorial\bin\Microsoft.AI.DependencyCollector.dll
+C:\0\wwwroot\MVCtutorial\bin\Microsoft.AI.PerfCounterCollector.dll
+C:\0\wwwroot\MVCtutorial\bin\Microsoft.AI.ServerTelemetryChannel.dll
+C:\0\wwwroot\MVCtutorial\bin\Microsoft.AI.Web.dll
+C:\0\wwwroot\MVCtutorial\bin\Microsoft.AI.WindowsServer.dll
+C:\0\wwwroot\MVCtutorial\bin\Microsoft.ApplicationInsights.dll
+C:\0\wwwroot\MVCtutorial\bin\Microsoft.AspNet.Identity.Core.dll
+C:\0\wwwroot\MVCtutorial\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+C:\0\wwwroot\MVCtutorial\bin\Microsoft.AspNet.Identity.Owin.dll
+C:\0\wwwroot\MVCtutorial\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\0\wwwroot\MVCtutorial\bin\Microsoft.Owin.dll
+C:\0\wwwroot\MVCtutorial\bin\Microsoft.Owin.Host.SystemWeb.dll
+C:\0\wwwroot\MVCtutorial\bin\Microsoft.Owin.Security.Cookies.dll
+C:\0\wwwroot\MVCtutorial\bin\Microsoft.Owin.Security.dll
+C:\0\wwwroot\MVCtutorial\bin\Microsoft.Owin.Security.Facebook.dll
+C:\0\wwwroot\MVCtutorial\bin\Microsoft.Owin.Security.Google.dll
+C:\0\wwwroot\MVCtutorial\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+C:\0\wwwroot\MVCtutorial\bin\Microsoft.Owin.Security.OAuth.dll
+C:\0\wwwroot\MVCtutorial\bin\Microsoft.Owin.Security.Twitter.dll
+C:\0\wwwroot\MVCtutorial\bin\Microsoft.Web.Infrastructure.dll
+C:\0\wwwroot\MVCtutorial\bin\Newtonsoft.Json.dll
+C:\0\wwwroot\MVCtutorial\bin\Npgsql.dll
+C:\0\wwwroot\MVCtutorial\bin\Owin.dll
+C:\0\wwwroot\MVCtutorial\bin\System.Web.Helpers.dll
+C:\0\wwwroot\MVCtutorial\bin\System.Web.Mvc.dll
+C:\0\wwwroot\MVCtutorial\bin\System.Web.Optimization.dll
+C:\0\wwwroot\MVCtutorial\bin\System.Web.Razor.dll
+C:\0\wwwroot\MVCtutorial\bin\System.Web.WebPages.Deployment.dll
+C:\0\wwwroot\MVCtutorial\bin\System.Web.WebPages.dll
+C:\0\wwwroot\MVCtutorial\bin\System.Web.WebPages.Razor.dll
+C:\0\wwwroot\MVCtutorial\bin\WebGrease.dll
+C:\0\wwwroot\MVCtutorial\bin\EntityFramework6.Npgsql.xml
+C:\0\wwwroot\MVCtutorial\bin\Microsoft.AI.DependencyCollector.xml
+C:\0\wwwroot\MVCtutorial\bin\Microsoft.AI.ServerTelemetryChannel.xml
+C:\0\wwwroot\MVCtutorial\bin\Microsoft.AI.Web.xml
+C:\0\wwwroot\MVCtutorial\bin\Microsoft.AI.WindowsServer.xml
+C:\0\wwwroot\MVCtutorial\bin\Microsoft.ApplicationInsights.xml
+C:\0\wwwroot\MVCtutorial\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\0\wwwroot\MVCtutorial\bin\Npgsql.xml
+C:\0\wwwroot\MVCtutorial\bin\System.Web.Helpers.xml
+C:\0\wwwroot\MVCtutorial\bin\System.Web.Mvc.xml
+C:\0\wwwroot\MVCtutorial\bin\System.Web.Optimization.xml
+C:\0\wwwroot\MVCtutorial\bin\System.Web.Razor.xml
+C:\0\wwwroot\MVCtutorial\bin\System.Web.WebPages.xml
+C:\0\wwwroot\MVCtutorial\bin\System.Web.WebPages.Deployment.xml
+C:\0\wwwroot\MVCtutorial\bin\System.Web.WebPages.Razor.xml
+C:\0\wwwroot\MVCtutorial\bin\Antlr3.Runtime.pdb
+C:\0\wwwroot\MVCtutorial\bin\Newtonsoft.Json.xml
+C:\0\wwwroot\MVCtutorial\bin\EntityFramework.xml
+C:\0\wwwroot\MVCtutorial\bin\EntityFramework.SqlServer.xml
+C:\0\wwwroot\MVCtutorial\bin\Microsoft.AspNet.Identity.Core.xml
+C:\0\wwwroot\MVCtutorial\bin\Microsoft.AspNet.Identity.Owin.xml
+C:\0\wwwroot\MVCtutorial\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+C:\0\wwwroot\MVCtutorial\bin\Microsoft.Owin.xml
+C:\0\wwwroot\MVCtutorial\bin\Microsoft.Owin.Host.SystemWeb.xml
+C:\0\wwwroot\MVCtutorial\bin\Microsoft.Owin.Security.xml
+C:\0\wwwroot\MVCtutorial\bin\Microsoft.Owin.Security.Facebook.xml
+C:\0\wwwroot\MVCtutorial\bin\Microsoft.Owin.Security.Cookies.xml
+C:\0\wwwroot\MVCtutorial\bin\Microsoft.Owin.Security.OAuth.xml
+C:\0\wwwroot\MVCtutorial\bin\Microsoft.Owin.Security.Google.xml
+C:\0\wwwroot\MVCtutorial\bin\Microsoft.Owin.Security.Twitter.xml
+C:\0\wwwroot\MVCtutorial\bin\Microsoft.Owin.Security.MicrosoftAccount.xml

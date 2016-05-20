@@ -1,0 +1,52 @@
+﻿<h2>@ViewBag.Title</h2>
+<style type="text/css">
+    .tg {
+        border-collapse: collapse;
+        border-spacing: 0;
+        margin: 0px auto;
+    }
+
+        .tg td {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            padding: 10px 5px;
+            border-style: solid;
+            border-width: 1px;
+            overflow: hidden;
+            word-break: normal;
+        }
+
+        .tg th {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            font-weight: normal;
+            padding: 10px 5px;
+            border-style: solid;
+            border-width: 1px;
+            overflow: hidden;
+            word-break: normal;
+        }
+
+        .tg .tg-yw4l {
+            vertical-align: top;
+        }
+</style>
+<table class="tg">
+    <tr>
+        <th class="tg-yw4l">Id</th>
+        <th class="tg-yw4l">Alarm Label</th>
+        <th class="tg-yw4l">Origin Time</th>
+        <th class="tg-yw4l">ExpiryTime</th>
+    </tr>
+    
+        @for (int i=0; i<1010;i++)
+        {
+        <tr>
+            <td class="tg-yw4l">@ViewBag.Id[i]</td>
+            <td class="tg-yw4l">@ViewBag.Label[i]</td>
+            <td class="tg-yw4l">@ViewBag.originTime[i]</td>
+            <td class="tg-yw4l">@ViewBag.expTime[i]</td>
+        </tr>
+        }
+
+</table>
