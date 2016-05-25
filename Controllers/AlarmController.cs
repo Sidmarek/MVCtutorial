@@ -30,7 +30,7 @@ namespace MVCtutorial.Controllers
             time = timeForFormat % 86400;
 
             seconds = time % 60;
-            time = (time - seconds) / 60;
+            time = (time - seconds) / 60; 
             minutes = time % 60;
             hours = time / 60;
 

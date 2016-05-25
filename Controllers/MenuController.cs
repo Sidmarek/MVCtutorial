@@ -11,6 +11,7 @@ namespace MVCtutorial.Controllers
         // GET: Menu
         public ActionResult Index()
         {
+
             return View();
         }
     }

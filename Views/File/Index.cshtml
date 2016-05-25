@@ -1,0 +1,12 @@
+﻿@model MVCtutorial.File.Models.FileFormModel
+@{ 
+    ViewBag.Title = "File Managment System(FMS)";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+<a  class="btn-primary btn-lg">@Html.ActionLink("Create XML File", "preXMLForm", "File")</a>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

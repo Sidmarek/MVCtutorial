@@ -36,6 +36,10 @@ summary {
   display: block;
 }
 
+footer {
+    padding-left: 13%;
+}
+
 audio,
 canvas,
 video {
@@ -6814,3 +6818,4 @@ td.visible-print {
     display: none !important;
   }
 }
++

@@ -170,3 +170,44 @@ C:\0\wwwroot\MVCtutorial\bin\Microsoft.Owin.Security.OAuth.xml
 C:\0\wwwroot\MVCtutorial\bin\Microsoft.Owin.Security.Google.xml
 C:\0\wwwroot\MVCtutorial\bin\Microsoft.Owin.Security.Twitter.xml
 C:\0\wwwroot\MVCtutorial\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Microsoft.Data.Edm.dll
+C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Microsoft.Data.OData.dll
+C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\System.Net.Http.Formatting.dll
+C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\System.Spatial.dll
+C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\System.Web.Http.dll
+C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\System.Web.Http.OData.dll
+C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\System.Web.Http.WebHost.dll
+C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Microsoft.Data.Edm.xml
+C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\Microsoft.Data.OData.xml
+C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\System.Net.Http.Formatting.xml
+C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\System.Spatial.xml
+C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\System.Web.Http.xml
+C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\System.Web.Http.OData.xml
+C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\System.Web.Http.WebHost.xml
+C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\de\Microsoft.Data.Edm.resources.dll
+C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\es\Microsoft.Data.Edm.resources.dll
+C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\fr\Microsoft.Data.Edm.resources.dll
+C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\it\Microsoft.Data.Edm.resources.dll
+C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\ja\Microsoft.Data.Edm.resources.dll
+C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\ko\Microsoft.Data.Edm.resources.dll
+C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\ru\Microsoft.Data.Edm.resources.dll
+C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\zh-Hans\Microsoft.Data.Edm.resources.dll
+C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\zh-Hant\Microsoft.Data.Edm.resources.dll
+C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\de\Microsoft.Data.OData.resources.dll
+C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\es\Microsoft.Data.OData.resources.dll
+C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\fr\Microsoft.Data.OData.resources.dll
+C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\it\Microsoft.Data.OData.resources.dll
+C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\ja\Microsoft.Data.OData.resources.dll
+C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\ko\Microsoft.Data.OData.resources.dll
+C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\ru\Microsoft.Data.OData.resources.dll
+C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\zh-Hans\Microsoft.Data.OData.resources.dll
+C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\zh-Hant\Microsoft.Data.OData.resources.dll
+C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\de\System.Spatial.resources.dll
+C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\es\System.Spatial.resources.dll
+C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\fr\System.Spatial.resources.dll
+C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\it\System.Spatial.resources.dll
+C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\ja\System.Spatial.resources.dll
+C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\ko\System.Spatial.resources.dll
+C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\ru\System.Spatial.resources.dll
+C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\zh-Hans\System.Spatial.resources.dll
+C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\zh-Hant\System.Spatial.resources.dll

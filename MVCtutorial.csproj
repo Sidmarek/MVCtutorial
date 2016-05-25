@@ -259,6 +259,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AlarmController.cs" />
+    <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
@@ -266,6 +267,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\FileViewModels.cs" />
     <Compile Include="Models\AlarmViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -321,6 +323,10 @@
     <Content Include="Views\Alarm\Index.cshtml" />
     <Content Include="Views\Home\News.cshtml" />
     <Content Include="Views\Home\Order.cshtml" />
+    <Content Include="Views\File\Index.cshtml" />
+    <Content Include="Views\File\backup.cshtml" />
+    <Content Include="Views\File\preXMLForm.cshtml" />
+    <Content Include="Views\File\CreateXMLForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
