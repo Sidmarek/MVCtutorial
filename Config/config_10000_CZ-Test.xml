@@ -1,0 +1,1 @@
+﻿<?xml version="1.0" encoding="utf-8"?><configuration><contract><id>10000</id><prefix /><country>CZ</country><name>Test</name><description /></contract><alarm /><graph /><scheme /><report><reportURL_1>http://localhost:49767/File/CreateXMLForm</reportURL_1></report></configuration>

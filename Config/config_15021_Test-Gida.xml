@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <contract>
+    <id>15021</id>
+    <country>TU</country>
+    <name>Gida</name>
+  </contract>
+  <plc name="Aroma">
+      <alarm>
+        <DbName>Gida</DbName>
+      </alarm>
+      <graph>
+        <width>1024</width>
+        <height>768</height>
+        <viewFile>/java/grafy_cfg_TRGID_WF.ini</viewFile>
+        <nameFile>/java/grafy_names_TRGID.ini</nameFile>
+        <messageLevel>1</messageLevel>
+        <language>EN</language>
+        <langEnb>101</langEnb>
+        <timezone>CET</timezone>
+    </graph>
+    <scheme name="Overview">
+      <url>http://users.nordit.cz/ih2/10530_Gida/gida_overview_sch_WF.htm</url>
+      <name>Overview</name>
+    </scheme>
+    <scheme>
+      <url>http://users.nordit.cz/ih2/10530_Gida/gida_PF1_operation_sch_WF.htm</url>
+      <name>PF1</name>
+    </scheme>
+    <scheme>
+      <url>http://users.nordit.cz/ih2/10530_Gida/gida_PF2_operation_sch_WF.htm</url>
+      <name>PF2</name>
+    </scheme>
+    <scheme>
+      <url>http://users.nordit.cz/ih2/10530_Gida/gida_PF3_operation_sch_WF.htm</url>
+      <name>PF3</name>
+    </scheme>
+  </plc>
+</configuration>

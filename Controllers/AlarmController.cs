@@ -1,6 +1,7 @@
 ﻿using MVCtutorial.Alarms.Models;
 using Npgsql;
 using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 
 
@@ -58,7 +59,10 @@ namespace MVCtutorial.Controllers
 
         public string DBConnnection() {
             // PostgeSQL-style connection string
-            string DB = System.IO.File.ReadAllText(@"C:\0\wwwroot\MVCtutorial\Config\config.txt");
+            int id = int.Parse(Request.QueryString["id"]);
+            FileController FC = new FileController();
+            List<String> Database = FC.readXML("DbName", id);
+            String DB = Database[0];
             string connstring = String.Format("Server={0};Port={1};User Id={2};Password={3};Database={4};",
               "192.168.2.12", 5432, "postgres", "Nordit0276", DB);
             return connstring;
@@ -71,7 +75,7 @@ namespace MVCtutorial.Controllers
             string connstring = DBConnnection();
             NpgsqlConnection conn = new NpgsqlConnection(connstring);
             conn.Open();
-            string DB = System.IO.File.ReadAllText(@"C:\0\wwwroot\MVCtutorial\Config\config.txt");
+            
             string sql = "SELECT * FROM alarm_history ORDER BY origin_pktime DESC LIMIT " + NumberOfRecords + " OFFSET " + (PageNumber * NumberOfRecords);
             NpgsqlCommand cmd = new NpgsqlCommand(sql, conn);
             //Prepare DataReader
