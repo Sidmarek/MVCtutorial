@@ -59,10 +59,15 @@ namespace MVCtutorial.Controllers
                 XmlNodeList nList = xn.ChildNodes;
                 foreach (XmlNode n in nList)
                 {
-                   
+                   XmlAttribute some =  n.Attributes["name"];
+                    if (some == null)
+                    {
                         XMLNodesName.Add(n.Name);
-                   
-                   //XMLNodesName.Add(n.Attributes["name"].Value);
+                    }
+                    else
+                    {
+                        XMLNodesName.Add(n.Attributes["name"].Value);
+                    }
                 }
             }
             return XMLNodesName;
