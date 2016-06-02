@@ -89,7 +89,7 @@ namespace MVCtutorial.Controllers
 
         //
         // GET: /Account/Register
-        //[Authorize(Roles ="Marek")]
+        [Authorize(Roles ="Marek")]
         public ActionResult Register()
         {
             return View();
@@ -98,7 +98,7 @@ namespace MVCtutorial.Controllers
         //
         // POST: /Account/Register
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "Marek")]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             //if (ModelState.IsValid)

@@ -23,15 +23,15 @@
       <url>http://users.nordit.cz/ih2/10530_Gida/gida_overview_sch_WF.htm</url>
       <name>Overview</name>
     </scheme>
-    <scheme>
+    <scheme name="PF1">
       <url>http://users.nordit.cz/ih2/10530_Gida/gida_PF1_operation_sch_WF.htm</url>
       <name>PF1</name>
     </scheme>
-    <scheme>
+    <scheme name="PF2">
       <url>http://users.nordit.cz/ih2/10530_Gida/gida_PF2_operation_sch_WF.htm</url>
       <name>PF2</name>
     </scheme>
-    <scheme>
+    <scheme name="PF3">
       <url>http://users.nordit.cz/ih2/10530_Gida/gida_PF3_operation_sch_WF.htm</url>
       <name>PF3</name>
     </scheme>

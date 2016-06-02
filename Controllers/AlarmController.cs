@@ -59,7 +59,8 @@ namespace MVCtutorial.Controllers
 
         public string DBConnnection() {
             // PostgeSQL-style connection string
-            int id = int.Parse(Request.QueryString["id"]);
+            int id = (int)(Session["id"]);
+            //int id = int.Parse(Request.QueryString["id"]);
             FileController FC = new FileController();
             List<String> Database = FC.readXML("DbName", id);
             String DB = Database[0];
@@ -149,7 +150,7 @@ namespace MVCtutorial.Controllers
                 //Select Alarms using SelectAlarms(int count) method (defined upper )
                 int count = 20;
                 SelectAlarms(count, 0);
-
+           
             }
             catch (Exception msg)
             {
@@ -157,7 +158,7 @@ namespace MVCtutorial.Controllers
 
                 throw msg;
             }
-            return View();
+           return View();
         }
         /*
 

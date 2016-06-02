@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace MVCtutorial.Controllers
 {
@@ -58,7 +59,10 @@ namespace MVCtutorial.Controllers
                 XmlNodeList nList = xn.ChildNodes;
                 foreach (XmlNode n in nList)
                 {
-                    XMLNodesName.Add(n.Name);
+                   
+                        XMLNodesName.Add(n.Name);
+                   
+                   //XMLNodesName.Add(n.Attributes["name"].Value);
                 }
             }
             return XMLNodesName;

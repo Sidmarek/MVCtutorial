@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
+using System.Web.Security;
+using System.Web.SessionState;
 
 namespace MVCtutorial.Controllers
 {
@@ -12,6 +13,11 @@ namespace MVCtutorial.Controllers
         [Authorize]
         public ActionResult Index()
         {
+            string userName = User.Identity.Name;
+            //Roles.AddUserToRole(userName, "15021");
+            string[] some = Roles.GetAllRoles();
+            ViewBag.some = some;
+            
             FileController FC = new FileController();
             
             List<int> Numbers = FC.GetAllConfigsProjectNumbers();

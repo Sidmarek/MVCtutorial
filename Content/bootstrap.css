@@ -6843,4 +6843,60 @@ td.visible-print {
     display: block;
     transition: 0.3s
 }
+.tg {
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin: 0px auto;
+    background-color: #ccc2cc;
+    border: 1px solid black;
+    width: 85%;
+}
+
+.tg td {
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    padding: 3px 1px;
+    word-break: normal;
+}
+
+.tg tr:hover {
+    background-color: gold;
+}
+
+.tg th {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    background-color: white;
+    padding: 7px 4px;
+    border-style: solid;
+    overflow: hidden;
+    word-break: normal;
+}
+
+.tg .tg-yw4l {
+    vertical-align: top;
+}
+
+.tg-yw4l {
+    width: 5%;
+}
+
+.tg-yw42 {
+    max-width: 50%;
+}
+
+.tg-yw43 {
+    width: 15%;
+}
+
+.tg-yw44 {
+    width: 15%;
+}
+.first {
+    margin-left: -10%;
+}
+.second {
+    margin-left: -10%;
+}
 +

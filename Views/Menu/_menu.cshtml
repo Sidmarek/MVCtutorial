@@ -1,0 +1,10 @@
+﻿<div class="sidenav a">
+@{
+    ViewBag.Names = Session["names"];
+    ViewBag.id = Session["id"];
+ }
+@foreach (String item in ViewBag.Names)
+{
+    <a href="/@item?id=@ViewBag.id">@item</a>
+}
+</div>
