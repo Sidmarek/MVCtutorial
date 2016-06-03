@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+	<contract>
+		<id>15014</id>
+		<prefix />
+		<country>DE</country>
+		<name>Sinnack</name>
+		<description/>
+	</contract>
+	<plc name="Megaline L1000">	
+		<alarm>
+			<alarmDbName_1>Sinnack</alarmDbName_1>
+		</alarm>
+		<scheme name="Overview">
+			<schemeURL_1>users.nordit.cz/10320_Sinnack/sinnack_overview_sch_Bio1_DE.htm</schemeURL_1>
+		</scheme>
+		<scheme name="MF">
+			<schemeURL_2>users.nordit.cz/10320_Sinnack/sinnack_MD_operation_sch_Bio1_DE.htm</schemeURL_2>
+		</scheme>
+		<scheme name="SF1">
+			<schemeURL_1>users.nordit.cz/10320_Sinnack/sinnack_SF1_operation_sch_Bio1_DE.htm</schemeURL_1>
+		</scheme>
+		<scheme name="SF2">
+			<schemeURL_2>users.nordit.cz/10320_Sinnack/sinnack_SF2_operation_sch_Bio1_DE.htm</schemeURL_2>
+		</scheme>
+		<scheme name="SF3">
+			<schemeURL_2>users.nordit.cz/10320_Sinnack/sinnack_SF3_operation_sch_Bio1_DE.htm</schemeURL_2>
+		</scheme>
+		<scheme name="SF4">
+			<schemeURL_2>users.nordit.cz/10320_Sinnack/sinnack_SF4_operation_sch_Bio1_DE.htm</schemeURL_2>
+		</scheme>
+		<graph name="Diagramme">
+			<graphWidth_1>1024</graphWidth_1>
+			<graphHeight_1>640</graphHeight_1>
+			<graphViewFile_1>/java/grafy_cfg_DESIN_Bio1.ini</graphViewFile_1>
+			<graphNameFile_1>/java/grafy_names_DESIN_Bio1.ini</graphNameFile_1>
+			<graphMessageLevel_1>1</graphMessageLevel_1>
+			<graphLanguage_1>DE</graphLanguage_1>
+			<graphLangEnb_1>101</graphLangEnb_1>
+			<graphTimezone_1>CET</graphTimezone_1>
+		</graph>
+	</plc>
+	<plc name="Megaline L2000">			
+		<alarm>
+			<alarmDbName_1>Sinnack</alarmDbName_1>
+		</alarm>
+		<scheme name="Overview">
+			<schemeURL_1>users.nordit.cz/10320_Sinnack/sinnack_overview_sch_Bio2_DE.htm</schemeURL_1>
+		</scheme>
+		<scheme name="MF">
+			<schemeURL_2>users.nordit.cz/10320_Sinnack/sinnack_MD_operation_sch_Bio2_DE.htm</schemeURL_2>
+		</scheme>
+		<scheme name="SF1">
+			<schemeURL_1>users.nordit.cz/10320_Sinnack/sinnack_SF1_operation_sch_Bio2_DE.htm</schemeURL_1>
+		</scheme>
+		<scheme name="SF2">
+			<schemeURL_2>users.nordit.cz/10320_Sinnack/sinnack_SF2_operation_sch_Bio2_DE.htm</schemeURL_2>
+		</scheme>
+		<scheme name="SF3">
+			<schemeURL_2>users.nordit.cz/10320_Sinnack/sinnack_SF3_operation_sch_Bio2_DE.htm</schemeURL_2>
+		</scheme>
+		<scheme name="SF4">
+			<schemeURL_2>users.nordit.cz/10320_Sinnack/sinnack_SF4_operation_sch_Bio2_DE.htm</schemeURL_2>
+		</scheme>
+		<graph>
+			<graphWidth_1>1024</graphWidth_1>
+			<graphHeight_1>640</graphHeight_1>
+			<graphViewFile_1>/java/grafy_cfg_DESIN_Bio2.ini/</graphViewFile_1>
+			<graphNameFile_1>/java/grafy_names_DESIN_Bio2.ini</graphNameFile_1>
+			<graphMessageLevel_1>1</graphMessageLevel_1>
+			<graphLanguage_1>EN</graphLanguage_1>
+			<graphLangEnb_1>101</graphLangEnb_1>
+			<graphTimezone_1>CET</graphTimezone_1>
+		</graph>
+	</plc>
+</configuration>

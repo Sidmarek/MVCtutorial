@@ -3,6 +3,10 @@
     ViewBag.Title = "Menu";
 }
 <h2>@ViewBag.Name</h2>
+@{
+    String scheme = "url";
+    ViewBag.scheme = Session[scheme];
+}
 <div>
-    <object type="text/html" data="http://users.nordit.cz/ih2/10530_Gida/gida_overview_sch_WF.htm" width="1200px" height="850px" style="overflow:auto;border:5px ridge blue"></object>
+    <object type="text/html" width="1260" height="800" data="@ViewBag.scheme"></object>
 </div>

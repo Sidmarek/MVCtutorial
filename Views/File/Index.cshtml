@@ -7,12 +7,6 @@
 
 @Html.ActionLink("Create XML File", "preXMLForm", "File")<br>
 
-@ViewBag.count<br>
-<ul>
-@foreach(var number in ViewBag.Numbers) {
-    <li>@number</li>
-}
-</ul>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }

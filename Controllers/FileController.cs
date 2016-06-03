@@ -37,13 +37,35 @@ namespace MVCtutorial.Controllers
                 XmlNodeList nList = xn.ChildNodes;
                 foreach (XmlNode n in nList)
                 {
-                    XMLcontentList.Add(n.InnerText);
+                    XmlNodeList nodeList = n.ChildNodes;
+                    foreach (XmlNode node in nodeList)
+                    {
+                        XMLcontentList.Add(node.InnerText);
+                    }
                 }
+               
+                
             }
+            
             return XMLcontentList;
         }
+        public string readNodeXML(String tag, int ProjectNumber)
+        {
+            XmlDocument xml = new XmlDocument();
+            String search_pattern = "config_" + ProjectNumber + "*";
+            string[] absoulte_path = Directory.GetFiles(path, search_pattern);
+            xml.Load(absoulte_path[0]);
 
-        public List<String> readNodesNameXML(String tag, int ProjectNumber)
+            XmlNodeList xnList = xml.SelectNodes("//" + tag);
+            string text = xnList[0].InnerText;
+
+            return text;
+        }
+        /* @param String tag, @return List<String> XMLcontentList
+        * Method to parse XML nodes from config
+        * XMLcontentList is List indexed by integer
+       */
+        public List<String> readNodesNameXML(String tag, int ProjectNumber, int xmlDeepLevel)
         {
             List<String> XMLNodesName = new List<string>();
             XmlDocument xml = new XmlDocument();
@@ -55,18 +77,42 @@ namespace MVCtutorial.Controllers
 
             foreach (XmlNode xn in xnList)
             {
-                XMLNodesName.Add(xn.Attributes["name"].Value);
-                XmlNodeList nList = xn.ChildNodes;
-                foreach (XmlNode n in nList)
+                if (xmlDeepLevel == 1)
                 {
-                   XmlAttribute some =  n.Attributes["name"];
-                    if (some == null)
+                    XmlAttribute attributeNamePlc = xn.Attributes["name"];
+                    if (attributeNamePlc == null)
                     {
-                        XMLNodesName.Add(n.Name);
+                        XMLNodesName.Add(xn.Name);
                     }
                     else
                     {
-                        XMLNodesName.Add(n.Attributes["name"].Value);
+                        XMLNodesName.Add(xn.Attributes["name"].Value);
+                    }
+                }
+
+               XmlNodeList nList = xn.ChildNodes;
+                
+               foreach (XmlNode n in nList)
+               {
+                    if (xmlDeepLevel == 2)
+                    {
+                        XmlAttribute attributeNameOther = n.Attributes["name"];
+                        if (attributeNameOther == null)
+                        {
+                            XMLNodesName.Add(n.Name);
+                        }
+                        else
+                        {
+                            XMLNodesName.Add(n.Attributes["name"].Value);
+                        }
+                    }
+                    if (xmlDeepLevel >= 3)
+                    {
+                        XmlNodeList nodeList = n.ChildNodes;
+                        foreach (XmlNode node in nodeList)
+                        {
+                            XMLNodesName.Add(node.Name);
+                        }
                     }
                 }
             }
@@ -120,9 +166,9 @@ namespace MVCtutorial.Controllers
                 
                 String projectNumber = fileName.Substring(start + 1, end-start-1);
                 int temp = Int32.Parse(projectNumber);
-                    XMLcontentList = readXML("name", temp);
-                    String Name = XMLcontentList[0];
-                    if(!ProjectNames.Contains(Name))
+
+                    String Name = readNodeXML("name", temp);
+                    if (!ProjectNames.Contains(Name))
                     {
                         ProjectNames.Add(Name);
                     }
@@ -240,10 +286,6 @@ namespace MVCtutorial.Controllers
 
         public ActionResult Index()
         {
-            List<String> XMLcontentList = new List<string>();
-            ProjectNames = GetAllConfigsNames();
-            XMLcontentList = readXML("contract", 15021);
-            ViewBag.Numbers = ProjectNames;
             return View();
         }
 

@@ -62,8 +62,8 @@ namespace MVCtutorial.Controllers
             int id = (int)(Session["id"]);
             //int id = int.Parse(Request.QueryString["id"]);
             FileController FC = new FileController();
-            List<String> Database = FC.readXML("DbName", id);
-            String DB = Database[0];
+            //List<String> Database = FC.readXML("DbName", id);
+            String DB = Session["alarmDbName_1"].ToString();
             string connstring = String.Format("Server={0};Port={1};User Id={2};Password={3};Database={4};",
               "192.168.2.12", 5432, "postgres", "Nordit0276", DB);
             return connstring;
