@@ -15,7 +15,16 @@
         <a href="" class="plc">@ViewBag.plc[i]</a>
         i++;
     } else {
-        <a href="/@type?id=@ViewBag.id&name=@ViewBag.names[j]">@ViewBag.names[j]</a>
+        if (i == 0)
+        {
+            <a href="/@type?id=@ViewBag.id&name=@ViewBag.names[j]&plc=@ViewBag.plc[i]">@ViewBag.names[j]</a>
+        }
+        else
+        {
+            i--;
+            <a href="/@type?id=@ViewBag.id&name=@ViewBag.names[j]&plc=@ViewBag.plc[i]">@ViewBag.names[j]</a>
+            i++;
+        }
         j++;
     }
 }
