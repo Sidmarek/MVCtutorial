@@ -7,7 +7,7 @@
   </contract>
   <plc name="Aroma">
       <alarm>
-        <DbName>Gida</DbName>
+        <dbName>Gida</dbName>
       </alarm>
       <graph>
         <width>1024</width>

@@ -17,18 +17,21 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Use on ASP.NET", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Users on ASP.NET", "Homepage", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
+                @if (User.IsInRole("Admin"))
+                {
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Alarms","Index","Alarm")</li>
+                    <li>@Html.ActionLink("Alarms", "Index", "Alarm")</li>
                     <li>@Html.ActionLink("File", "Index", "File")</li>
                     <li>@Html.ActionLink("Menu", "Index", "Menu")</li>
                 </ul>
+                }
                 @Html.Partial("_LoginPartial")
             </div>
-
+            
         </div>
     </div>
     <div class="container body-content">

@@ -1,0 +1,12 @@
+﻿
+@{
+    ViewBag.Title = "index";
+    ViewBag.types = Session["types"];
+    ViewBag.values = Session["values"];
+    ViewBag.session = Session.Keys;
+    int i = 0;
+}
+<ul>
+<li>@ViewBag.session</li>
+</ul>
+<h2>@ViewBag.name</h2>

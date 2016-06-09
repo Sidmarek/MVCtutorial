@@ -1,0 +1,22 @@
+﻿<div class="sidenav a">
+@{
+    ViewBag.Names = Session["names"];
+    ViewBag.plc = Session["plc"];
+    ViewBag.id = Session["id"];
+    ViewBag.types = Session["types"];
+    int i = 0;
+    int j = 0;
+ }
+<h2>@ViewBag.inView</h2>    
+
+@foreach (String type in ViewBag.types)
+{
+    if (type.Contains("plc"))    {
+        <a href="" class="plc">@ViewBag.plc[i]</a>
+        i++;
+    } else {
+        <a href="/@type?id=@ViewBag.id&name=@ViewBag.names[j]">@ViewBag.names[j]</a>
+        j++;
+    }
+}
+</div>

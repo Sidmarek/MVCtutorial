@@ -3,14 +3,10 @@
 
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Alarms";
 }
-
-<h2>Index</h2>
-
-
 <h2 class="header">Alarms</h2>
-
+@Html.Partial("~/Views/Menu/_Menu.cshtml")
 <div class="top">
     <div class="row">
         @using (Html.BeginForm("Form", "Alarm", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
@@ -46,79 +42,23 @@
     </div>
 </div>
 <div class="bottom">
-    <style type="text/css">
-        .tg {
-            border-collapse: collapse;
-            border-spacing: 0;
-            margin: 0px auto;
-            background-color: #ccc2cc;
-            border: 1px solid black;
-            width: 85%;
-        }
+        <table class="tg">
+        <tr>
+            <th class="tg-yw4l">Id</th>
+            <th class="tg-yw42">Alarm Label</th>
+            <th class="tg-yw43">Origin Time</th>
+            <th class="tg-yw44">ExpiryTime</th>
+        </tr>
 
-            .tg td {
-                font-family: Arial, sans-serif;
-                font-size: 12px;
-                padding: 3px 1px;
-                word-break: normal;
-            }
 
-            .tg tr:hover {
-                font-family: Arial;
-                font-size: 14px;
-                padding: 1px 1px;
-                border-style: solid;
-                background-color: gold;
-            }
-
-            .tg th {
-                font-family: Arial, sans-serif;
-                font-size: 14px;
-                font-weight: bold;
-                background-color: white;
-                padding: 7px 4px;
-                border-style: solid;
-                overflow: hidden;
-                word-break: normal;
-            }
-
-            .tg .tg-yw4l {
-                vertical-align: top;
-            }
-
-        .tg-yw4l {
-            width: 5%;
-        }
-
-        .tg-yw42 {
-            max-width: 50%;
-        }
-
-        .tg-yw43 {
-            width: 15%;
-        }
-
-        .tg-yw44 {
-            width: 15%;
-        }
-    </style>
-          <table class="tg">
+        @for (int i = 0; i < 20; i++)
+        {
             <tr>
-                <th class="tg-yw4l">Id</th>
-                <th class="tg-yw42">Alarm Label</th>
-                <th class="tg-yw43">Origin Time</th>
-                <th class="tg-yw44">ExpiryTime</th>
+                <td class="tg-yw4l">@ViewBag.Id[i]</td>
+                <td class="tg-yw42">@ViewBag.Label[i]</td>
+                <td class="tg-yw43">@ViewBag.originTime[i]</td>
+                <td class="tg-yw44">@ViewBag.expTime[i]</td>
             </tr>
-
-
-            @for (int i = 0; i < 20; i++)
-            {
-                <tr>
-                    <td class="tg-yw4l">@ViewBag.Id[i]</td>
-                    <td class="tg-yw42">@ViewBag.Label[i]</td>
-                    <td class="tg-yw43">@ViewBag.originTime[i]</td>
-                    <td class="tg-yw44">@ViewBag.expTime[i]</td>
-                </tr>
-            }
-        </table>
-    </div>
+        }
+    </table>
+</div>

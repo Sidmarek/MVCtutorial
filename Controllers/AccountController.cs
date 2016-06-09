@@ -79,7 +79,7 @@ namespace MVCtutorial.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    return RedirectToAction("Homepage","Home");
                case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
@@ -89,7 +89,7 @@ namespace MVCtutorial.Controllers
 
         //
         // GET: /Account/Register
-        [Authorize(Roles ="Marek")]
+        [Authorize(Roles ="Admin")]
         public ActionResult Register()
         {
             return View();
@@ -98,7 +98,7 @@ namespace MVCtutorial.Controllers
         //
         // POST: /Account/Register
         [HttpPost]
-        [Authorize(Roles = "Marek")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             //if (ModelState.IsValid)

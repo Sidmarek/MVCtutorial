@@ -10,7 +10,8 @@ using System.Xml.Linq;
 
 namespace MVCtutorial.Controllers
 {
-    public class FileController : Controller
+    [Authorize(Roles = "Admin")]
+    public class FileController :Controller
     {
         public String path = @"C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\Config\";
         
@@ -30,7 +31,6 @@ namespace MVCtutorial.Controllers
             string[] absoulte_path = Directory.GetFiles(path, search_pattern);
             xml.Load(absoulte_path[0]);
             XmlNodeList xnList = xml.SelectNodes("//" + tag);
-            int coutn = xnList.Count;
             
             foreach (XmlNode xn in xnList)
             {
@@ -111,7 +111,21 @@ namespace MVCtutorial.Controllers
                         XmlNodeList nodeList = n.ChildNodes;
                         foreach (XmlNode node in nodeList)
                         {
-                            XMLNodesName.Add(node.Name);
+                            String parentNode;
+                            String grandParentNode;
+                            XmlAttribute attributeNameOther = n.Attributes["name"];
+                            if (attributeNameOther == null)
+                            {
+                                grandParentNode = node.ParentNode.ParentNode.Name;
+                                parentNode = node.ParentNode.Name;
+
+                            }
+                            else
+                            {
+                                grandParentNode = node.ParentNode.ParentNode.Attributes["name"].Value;
+                                parentNode = n.Attributes["name"].Value;
+                            }
+                            XMLNodesName.Add(node.Name+parentNode+grandParentNode);
                         }
                     }
                 }
@@ -124,27 +138,21 @@ namespace MVCtutorial.Controllers
          * Method to return all files (project number) from the path (folder on the end of path)
          */
 
-        public List<int> GetAllConfigsProjectNumbers() {
-            
-            string[] fileArray = Directory.GetFiles(path, "*.xml");
-            foreach (String fileName in fileArray)
-            {
-                /*
-                int start = fileName.LastIndexOf("\\");
-                int length = fileName.Length;
-                int remainer = fileName.IndexOf("_");
-                int substract = length - remainer;
-                String projectNumber = fileName.Substring(start+1, length-start-substract-1);
-                */
-                int length = fileName.Length;
-                int start = fileName.IndexOf("_");
-                int end = fileName.LastIndexOf("_");
-                
-                String projectNumber = fileName.Substring(start + 1, end-start-1);
-                int temp = Int32.Parse(projectNumber);
-                if (!ProjectNumbers.Contains(temp))
+        public List<int> GetAllConfigsProjectNumbers(string[] IDs) {
+            foreach (String ID in IDs) {
+                string[] fileArray = Directory.GetFiles(path, "config_" + ID + "*.xml");
+                foreach (String fileName in fileArray)
                 {
-                    ProjectNumbers.Add(temp);
+                    int length = fileName.Length;
+                    int start = fileName.IndexOf("_");
+                    int end = fileName.LastIndexOf("_");
+
+                    String projectNumber = fileName.Substring(start + 1, end - start - 1);
+                    int temp = Int32.Parse(projectNumber);
+                    if (!ProjectNumbers.Contains(temp))
+                    {
+                        ProjectNumbers.Add(temp);
+                    }
                 }
             }            
             return ProjectNumbers;
@@ -154,38 +162,41 @@ namespace MVCtutorial.Controllers
          * @param void, @return List<int> ProjectNames
          * Method to return all names of files from the path (folder on the end of path)
          */
-        public List<String> GetAllConfigsNames()
+        public List<String> GetAllConfigsNames(string[] IDs) 
         {
+
             List<String> XMLcontentList = new List<string>();
-            string[] fileArray = Directory.GetFiles(path, "*.xml");
-            foreach (String fileName in fileArray)
+            foreach (String ID in IDs)
             {
-                int length = fileName.Length;
-                int start = fileName.IndexOf("_");
-                int end = fileName.LastIndexOf("_");
-                
-                String projectNumber = fileName.Substring(start + 1, end-start-1);
-                int temp = Int32.Parse(projectNumber);
+                string[] fileArray = Directory.GetFiles(path, "config_" + ID + "*.xml");
+                foreach (String fileName in fileArray)
+                {
+                    int length = fileName.Length;
+                    int start = fileName.IndexOf("_");
+                    int end = fileName.LastIndexOf("_");
+
+                    String projectNumber = fileName.Substring(start + 1, end - start - 1);
+                    int temp = Int32.Parse(projectNumber);
 
                     String Name = readNodeXML("name", temp);
                     if (!ProjectNames.Contains(Name))
                     {
                         ProjectNames.Add(Name);
                     }
-                
+                }
             }
             return ProjectNames;
         }
 
         /* @param String tag, @return List<String> XMLcontentList
-         * Method to parse XML nodes from config
+         * Method to count nuber of some tags
          * XMLcontentList is List indexed by integer
         */
         public int XMLtagCount(String tag, int ProjectNumber)
         {
             
             XmlDocument xml = new XmlDocument();
-            String search_pattern = "_config_" + ProjectNumber + "*";
+            String search_pattern = "config_" + ProjectNumber + "*";
             string[] absoulte_path = Directory.GetFiles(path, search_pattern);
             xml.Load(absoulte_path[0]);
 
@@ -193,6 +204,33 @@ namespace MVCtutorial.Controllers
 
             int count = xnList.Count;
             return count;
+        }
+        /* @param String tag, int ProjectNumber 
+         * @return List<String> XMLNodesType
+         * Get types of Nodes in 2 levels - one perent level one child level
+         * type = (ex. alarm, graph, plc, scheme, etc.)
+         */
+        public List<String> XMLgetTypes(String tag, int ProjectNumber)
+        {
+
+            XmlDocument xml = new XmlDocument();
+            String search_pattern = "config_" + ProjectNumber + "*";
+            string[] absoulte_path = Directory.GetFiles(path, search_pattern);
+            xml.Load(absoulte_path[0]);
+            List<String> XMLNodesType = new List<String>();
+            XmlNodeList xnList = xml.SelectNodes("//" + tag);
+
+            foreach (XmlNode xn in xnList)
+            {
+                XMLNodesType.Add(xn.Name);
+                XmlNodeList nList = xn.ChildNodes;
+
+                    foreach (XmlNode n in nList)
+                    {
+                            XMLNodesType.Add(n.Name);
+                    }
+            }
+            return XMLNodesType;
         }
 
         /* Not prepared for building config file

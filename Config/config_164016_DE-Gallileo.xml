@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <contract>
+    <id>164016</id>
+    <country>DE</country>
+    <name>Galileo</name>
+  </contract>
+  <plc name="Rest Dough">
+    <alarm>
+        <dbName>Trierweiler</dbName>
+    </alarm>
+  </plc>
+</configuration>

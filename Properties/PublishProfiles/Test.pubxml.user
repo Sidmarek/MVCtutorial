@@ -9,6 +9,12 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <_PublishTargetUrl>http://localhost/</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
+    <File Include=".gitattributes">
+      <publishTime>05/04/2016 12:51:32</publishTime>
+    </File>
+    <File Include=".gitignore">
+      <publishTime>05/04/2016 12:52:10</publishTime>
+    </File>
     <File Include="ApplicationInsights.config">
       <publishTime>04/22/2016 13:19:48</publishTime>
     </File>
@@ -29,6 +35,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="App_Start/Startup.Auth.cs">
       <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="App_Start/WebApiConfig.cs">
+      <publishTime>05/20/2016 12:32:43</publishTime>
     </File>
     <File Include="bin/Antlr3.Runtime.dll">
       <publishTime>02/22/2013 07:43:40</publishTime>
@@ -172,10 +181,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/23/2012 15:23:58</publishTime>
     </File>
     <File Include="bin/MVCtutorial.dll">
-      <publishTime>06/01/2016 11:01:44</publishTime>
+      <publishTime>06/06/2016 14:04:08</publishTime>
     </File>
     <File Include="bin/MVCtutorial.pdb">
-      <publishTime>06/01/2016 11:01:44</publishTime>
+      <publishTime>06/06/2016 14:04:07</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>08/03/2014 20:33:56</publishTime>
@@ -291,8 +300,17 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Config/config.txt">
       <publishTime>11/05/2016 12:07:10</publishTime>
     </File>
+    <File Include="Config132545_Someasdg_dsaasdf.txt">
+      <publishTime>05/23/2016 16:11:22</publishTime>
+    </File>
+    <File Include="Config132545_Somefdgdf_fgsfgd.xml">
+      <publishTime>05/24/2016 09:05:05</publishTime>
+    </File>
+    <File Include="Config4157_Someasdg_sdffsa.txt">
+      <publishTime>05/23/2016 16:33:04</publishTime>
+    </File>
     <File Include="Content/bootstrap.css">
-      <publishTime>05/31/2016 15:29:03</publishTime>
+      <publishTime>06/06/2016 10:54:27</publishTime>
     </File>
     <File Include="Content/bootstrap.min.css">
       <publishTime>04/22/2016 13:19:20</publishTime>
@@ -306,11 +324,20 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Controllers/AlarmController.cs">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
+    <File Include="Controllers/FileController.cs">
+      <publishTime>06/06/2016 10:42:47</publishTime>
+    </File>
     <File Include="Controllers/HomeController.cs">
       <publishTime>05/19/2016 17:14:42</publishTime>
     </File>
     <File Include="Controllers/ManageController.cs">
       <publishTime>12/05/2016 17:03:08</publishTime>
+    </File>
+    <File Include="Controllers/MenuController.cs">
+      <publishTime>06/06/2016 14:04:03</publishTime>
+    </File>
+    <File Include="Controllers/SchemeController.cs">
+      <publishTime>06/06/2016 12:28:25</publishTime>
     </File>
     <File Include="favicon.ico">
       <publishTime>04/22/2016 13:19:12</publishTime>
@@ -335,6 +362,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Models/AlarmViewModels.cs">
       <publishTime>05/05/2016 16:01:29</publishTime>
+    </File>
+    <File Include="Models/FileViewModels.cs">
+      <publishTime>05/24/2016 16:37:59</publishTime>
     </File>
     <File Include="Models/IdentityModels.cs">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -442,7 +472,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/05/2016 13:14:51</publishTime>
     </File>
     <File Include="Views/Alarm/Index.cshtml">
-      <publishTime>05/18/2016 16:06:41</publishTime>
+      <publishTime>06/02/2016 13:04:52</publishTime>
     </File>
     <File Include="Views/Alarm/Result.cshtml">
       <publishTime>02/05/2016 13:11:30</publishTime>
@@ -454,7 +484,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/24/2016 17:30:10</publishTime>
     </File>
     <File Include="Views/File/Index.cshtml">
-      <publishTime>05/30/2016 09:56:27</publishTime>
+      <publishTime>06/03/2016 14:45:16</publishTime>
     </File>
     <File Include="Views/File/preXMLForm.cshtml">
       <publishTime>05/24/2016 17:40:38</publishTime>
@@ -466,7 +496,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/22/2016 13:19:12</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>05/31/2016 12:20:18</publishTime>
+      <publishTime>06/01/2016 13:42:06</publishTime>
     </File>
     <File Include="Views/Home/News.cshtml">
       <publishTime>05/23/2016 10:40:17</publishTime>
@@ -493,7 +523,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Views/Menu/Index.cshtml">
-      <publishTime>06/01/2016 11:01:39</publishTime>
+      <publishTime>06/03/2016 16:43:08</publishTime>
+    </File>
+    <File Include="Views/Menu/_Menu.cshtml">
+      <publishTime>06/06/2016 11:37:35</publishTime>
+    </File>
+    <File Include="Views/Scheme/index.cshtml">
+      <publishTime>06/06/2016 12:55:57</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>04/22/2016 13:19:28</publishTime>
@@ -502,7 +538,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/22/2016 13:19:29</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>05/31/2016 12:19:51</publishTime>
+      <publishTime>06/02/2016 12:56:24</publishTime>
     </File>
     <File Include="Views/Shared/_LoginPartial.cshtml">
       <publishTime>05/17/2016 16:30:39</publishTime>
@@ -514,7 +550,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/22/2016 13:19:12</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>06/01/2016 11:55:08</publishTime>
+      <publishTime>06/06/2016 14:16:10</publishTime>
     </File>
   </ItemGroup>
 </Project>
