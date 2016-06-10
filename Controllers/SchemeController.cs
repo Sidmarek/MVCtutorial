@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
 namespace MVCtutorial.Controllers
 {
-    [Authorize(Roles = "View")]
+    [Authorize(Roles = "Admin")]
     public class SchemeController : Controller
     {
         // GET: Scheme
-        [Authorize]
+        //[Authorize]
         public ActionResult Index()
         {
             int i = 0;
@@ -23,9 +24,25 @@ namespace MVCtutorial.Controllers
                     i++;
                 }
             }
+
+            Session["SchemeURLImage"] = ViewBag.url;
             ViewBag.id = id;
             ViewBag.name = name;
             return View();
+        }
+
+        public void getImage() {
+            string url = Session["SchemeURLImage"].ToString();
+            //string schemeURL = "http://users.nordit.cz/tps/10290_Ulaanbaatar/__pic_sch_overview_MNULA_L4__";
+            WebClient client = new WebClient();
+            byte[] data = client.DownloadData(url);
+            //MemoryStream mem = new MemoryStream(data);
+
+            //var yourImage = Image.FromStream(mem);
+            //yourImage.                        
+            //yourImage.Save(path, ImageFormat.Png);
+            Response.BinaryWrite(data);
+            Response.ContentType = "image/png";
         }
     }
 }

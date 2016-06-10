@@ -3,10 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Xml;
+using System.Drawing;
 using System.Xml.Linq;
+using System.Drawing.Imaging;
 
 namespace MVCtutorial.Controllers
 {
@@ -18,11 +21,35 @@ namespace MVCtutorial.Controllers
         List<String> ProjectNames = new List<string>();
         List<int> ProjectNumbers = new List<int>();
 
+
+        public String downloadfile(String url, String path)
+        {
+            
+            string[] absoulte_path = Directory.GetFiles(path, "*.png");
+            int count = absoulte_path.Count();
+
+            ViewBag.count = count;
+            String src = "Content/ulaanbaatar" + count + ".png";
+            ViewBag.src = src;
+
+            String fileName = "ulaanbaatar" + count + ".png";
+            String absoultePath = path + fileName;
+            WebClient client = new WebClient();
+            client.DownloadFile(new Uri(url), absoultePath);
+                      
+            if (count>1) {
+                int index = count - 2;
+                string fordelete = absoulte_path[index];
+                System.IO.File.Delete(fordelete);
+            }    
+
+            return absoultePath;
+        }
+
         /* @param String tag, @return List<String> XMLcontentList
          * Method to parse XML nodes from config
          * XMLcontentList is List indexed by integer
-        */
-
+         */
         public List<String> readXML(String tag, int ProjectNumber)
         {
             List<String> XMLcontentList = new List<string>();
@@ -324,6 +351,7 @@ namespace MVCtutorial.Controllers
 
         public ActionResult Index()
         {
+            //ViewBag.image = downloadfile(schemeURL, path);
             return View();
         }
 

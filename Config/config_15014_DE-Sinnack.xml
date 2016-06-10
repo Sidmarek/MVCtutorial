@@ -12,22 +12,22 @@
 			<dbName>Sinnack</dbName>
 		</alarm>
 		<scheme name="Overview">
-			<url>http://users.nordit.cz/10320_Sinnack/sinnack_overview_sch_Bio1_DE.htm</url>
+			<url>http://users.nordit.cz/ih/10320_Sinnack/__pic_sch_overview_DESIN_Bio1_DE__</url>
 		</scheme>
 		<scheme name="MF">
-			<url>http://users.nordit.cz/10320_Sinnack/sinnack_MD_operation_sch_Bio1_DE.htm</url>
+			<url>http://users.nordit.cz/ih/10320_Sinnack/__pic_sch_MD_operation_DESIN_Bio1_DE__</url>
 		</scheme>
 		<scheme name="SF1">
-			<url>http://users.nordit.cz/10320_Sinnack/sinnack_SF1_operation_sch_Bio1_DE.htm</url>
+			<url>http://users.nordit.cz/ih/10320_Sinnack/__pic_sch_SF1_operation_DESIN_Bio1_DE__</url>
 		</scheme>
 		<scheme name="SF2">
-			<url>http://users.nordit.cz/10320_Sinnack/sinnack_SF2_operation_sch_Bio1_DE.htm</url>
+			<url>http://users.nordit.cz/ih/10320_Sinnack/__pic_sch_SF2_operation_DESIN_Bio1_DE__</url>
 		</scheme>
 		<scheme name="SF3">
-			<url>http://users.nordit.cz/10320_Sinnack/sinnack_SF3_operation_sch_Bio1_DE.htm</url>
+			<url>http://users.nordit.cz/ih/10320_Sinnack/__pic_sch_SF3_operation_DESIN_Bio1_DE__</url>
 		</scheme>
 		<scheme name="SF4">
-			<url>http://users.nordit.cz/10320_Sinnack/sinnack_SF4_operation_sch_Bio1_DE.htm</url>
+			<url>http://users.nordit.cz/ih/10320_Sinnack/__pic_sch_SF4_operation_DESIN_Bio1_DE__</url>
 		</scheme>
 		<graph name="Diagramme">
 			<width>1024</width>
@@ -45,22 +45,22 @@
 			<dbName>Sinnack</dbName>
 		</alarm>
 		<scheme name="Overview">
-			<url>http://users.nordit.cz/10320_Sinnack/sinnack_overview_sch_Bio2_DE.htm</url>
+			<url>http://users.nordit.cz/ih/10320_Sinnack/__pic_sch_overview_DESIN_Bio2_DE__</url>
 		</scheme>
 		<scheme name="MF">
-			<url>http://users.nordit.cz/10320_Sinnack/sinnack_MD_operation_sch_Bio2_DE.htm</url>
+			<url>http://users.nordit.cz/ih/10320_Sinnack/__pic_sch_MD_operation_DESIN_Bio2_DE__</url>
 		</scheme>
 		<scheme name="SF1">
-			<url>http://users.nordit.cz/10320_Sinnack/sinnack_SF1_operation_sch_Bio2_DE.htm</url>
+			<url>http://users.nordit.cz/ih/10320_Sinnack/__pic_sch_SF1_operation_DESIN_Bio2_DE__</url>
 		</scheme>
 		<scheme name="SF2">
-			<url>http://users.nordit.cz/10320_Sinnack/sinnack_SF2_operation_sch_Bio2_DE.htm</url>
+			<url>http://users.nordit.cz/ih/10320_Sinnack/__pic_sch_SF2_operation_DESIN_Bio2_DE__</url>
 		</scheme>
 		<scheme name="SF3">
-			<url>http://users.nordit.cz/10320_Sinnack/sinnack_SF3_operation_sch_Bio2_DE.htm</url>
+			<url>http://users.nordit.cz/ih/10320_Sinnack/__pic_sch_SF3_operation_DESIN_Bio2_DE__</url>
 		</scheme>
 		<scheme name="SF4">
-			<url>http://users.nordit.cz/10320_Sinnack/sinnack_SF4_operation_sch_Bio2_DE.htm</url>
+			<url>http://users.nordit.cz/ih/10320_Sinnack/__pic_sch_SF4_operation_DESIN_Bio2_DE__</url>
 		</scheme>
 		<graph>
 			<width>1024</width>

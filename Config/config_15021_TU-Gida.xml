@@ -20,16 +20,16 @@
         <timezone>CET</timezone>
     </graph>
     <scheme name="Overview">
-      <url>http://users.nordit.cz/ih2/10530_Gida/gida_overview_sch_WF.htm</url>
+      <url>http://users.nordit.cz/ih2/10530_Gida/__pic_sch_overview_TRGID_WF__</url>
     </scheme>
     <scheme name="PF1">
-      <url>http://users.nordit.cz/ih2/10530_Gida/gida_PF1_operation_sch_WF.htm</url>
+      <url>http://users.nordit.cz/ih2/10530_Gida/__pic_sch_PF1_operation_TRGID_WF__</url>
     </scheme>
     <scheme name="PF2">
-      <url>http://users.nordit.cz/ih2/10530_Gida/gida_PF2_operation_sch_WF.htm</url>
+      <url>http://users.nordit.cz/ih2/10530_Gida/__pic_sch_PF2_operation_TRGID_WF__</url>
     </scheme>
     <scheme name="PF3">
-      <url>http://users.nordit.cz/ih2/10530_Gida/gida_PF3_operation_sch_WF.htm</url>
+      <url>http://users.nordit.cz/ih2/10530_Gida/__pic_sch_PF3_operation_TRGID_WF__</url>
     </scheme>
   </plc>
 </configuration>

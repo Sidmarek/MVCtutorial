@@ -14,11 +14,6 @@ namespace MVCtutorial.Controllers
     {
         public ActionResult Index()
         {
-            String dj = Session.Mode.ToString();
-            if (Session.IsCookieless)
-            {
-                int i =5;
-            }
             return View();
         }
         public ActionResult News()
