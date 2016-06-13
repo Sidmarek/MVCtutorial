@@ -508,7 +508,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/13/2016 12:23:05</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>06/13/2016 12:21:55</publishTime>
+      <publishTime>06/13/2016 12:34:54</publishTime>
     </File>
     <File Include="Views/Home/News.cshtml">
       <publishTime>05/23/2016 10:40:17</publishTime>
@@ -541,7 +541,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/07/2016 09:01:33</publishTime>
     </File>
     <File Include="Views/Scheme/index.cshtml">
-      <publishTime>06/10/2016 15:11:48</publishTime>
+      <publishTime>06/13/2016 12:33:39</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>04/22/2016 13:19:28</publishTime>
