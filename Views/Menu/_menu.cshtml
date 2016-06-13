@@ -17,12 +17,12 @@
     } else {
         if (i == 0)
         {
-            <a href="/@type?id=@ViewBag.id&name=@ViewBag.names[j]&plc=@ViewBag.plc[i]">@ViewBag.names[j]</a>
+            <a href="/@type?&name=@ViewBag.names[j]&plc=@ViewBag.plc[i]">@ViewBag.names[j]</a>
         }
         else
         {
             i--;
-            <a href="/@type?id=@ViewBag.id&name=@ViewBag.names[j]&plc=@ViewBag.plc[i]">@ViewBag.names[j]</a>
+            <a href="/@type?name=@ViewBag.names[j]&plc=@ViewBag.plc[i]">@ViewBag.names[j]</a>
             i++;
         }
         j++;

@@ -6,13 +6,13 @@ using System.Web.Mvc;
 
 namespace MVCtutorial.Controllers
 {
+    [Authorize(Roles = "View")]
     public class GraphController : Controller
     {
         // GET: Graph
         public ActionResult Index()
         {
             int i = 0;
-            int id = int.Parse(Request.QueryString["id"]);
             String name = Request.QueryString["name"];
             String plc = Request.QueryString["plc"];
 
@@ -25,7 +25,6 @@ namespace MVCtutorial.Controllers
                 }
             }
 
-            ViewBag.id = id;
             ViewBag.name = name;
             return View();
         }

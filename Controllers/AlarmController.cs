@@ -13,15 +13,15 @@ namespace MVCtutorial.Controllers
         //define int i
         public int i = 0;
         //Predefiened arrays
-        public string[] title = new string[1000];
-        public int[] alarm_id = new int[1000];
-        public int[] id = new int[50];
-        public int[] label = new int[50];
-        public int[] originTime = new int[50];
-        public int[] expTime = new int[50];
-        public string[] labels = new string[50];
-        public string[] datetimeOrigin = new string[50];
-        public string[] datetimeExp = new string[50];
+        public string[] title = new string[500];
+        public int[] alarm_id = new int[500];
+        public int[] id = new int[30];
+        public int[] label = new int[30];
+        public int[] originTime = new int[30];
+        public int[] expTime = new int[30];
+        public string[] labels = new string[30];
+        public string[] datetimeOrigin = new string[30];
+        public string[] datetimeExp = new string[30];
 
         public String JulToDateTime(int timeForFormat) {
             int date, time, fact, reminder;
@@ -60,9 +60,7 @@ namespace MVCtutorial.Controllers
         public string DBConnnection() {
             // PostgeSQL-style connection string
             int id = (int)(Session["id"]);
-            //int id = int.Parse(Request.QueryString["id"]);
-            FileController FC = new FileController();
-            //List<String> Database = FC.readXML("DbName", id);
+            FileController FC = new FileController();            
             String DB = Session["dbNamealarmplc"].ToString();
             string connstring = String.Format("Server={0};Port={1};User Id={2};Password={3};Database={4};",
               "192.168.2.12", 5432, "postgres", "Nordit0276", DB);
@@ -99,7 +97,7 @@ namespace MVCtutorial.Controllers
                 datetimeExp[i] = JulToDateTime(expTime[i]);
                 i++;
             }
-            cmd.Dispose();
+            //cmd.Dispose();
             conn.Close();
 
             //Give page number and number of records on page to view
@@ -121,9 +119,9 @@ namespace MVCtutorial.Controllers
             conn.Open();
 
             // Execute the query and obtain a result set                
-            NpgsqlCommand command = new NpgsqlCommand("SELECT title,alarm_id FROM alarm_texts LIMIT 1000", conn);
+            NpgsqlCommand cmd = new NpgsqlCommand("SELECT title,alarm_id FROM alarm_texts LIMIT 1000", conn);
             //Prepare DataReader
-            NpgsqlDataReader dataReader = command.ExecuteReader();
+            NpgsqlDataReader dataReader = cmd.ExecuteReader();
 
             //Cycle reads data from result set 
             while (dataReader.Read())
@@ -134,7 +132,7 @@ namespace MVCtutorial.Controllers
             }
             //We need to close connection to select texts
             i = 0;
-            command.Dispose();
+            //cmd.Dispose();
             conn.Close();
 
         }

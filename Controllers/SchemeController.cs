@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace MVCtutorial.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "View")]
     public class SchemeController : Controller
     {
         // GET: Scheme
@@ -15,7 +15,6 @@ namespace MVCtutorial.Controllers
         public ActionResult Index()
         {
             int i = 0;
-            int id = int.Parse(Request.QueryString["id"]);
             String name = Request.QueryString["name"];
             String plc = Request.QueryString["plc"];
             foreach (String key in Session.Keys) {
@@ -26,7 +25,6 @@ namespace MVCtutorial.Controllers
             }
 
             Session["SchemeURLImage"] = ViewBag.url;
-            ViewBag.id = id;
             ViewBag.name = name;
             return View();
         }
