@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewBag.Title = "Graph";
+}
+
+<h2>Graph</h2>
+
+<applet code="GPane.class" archive="gc13.jar" codebase="/java" width="@ViewData["widthgraphplc"]" height="@ViewData["heightgraphplc"]">
+    <param name="ViewFile" value="@ViewData["viewFilegraphplc"]">
+    <param name="NameFile" value="@ViewData["nameFilegraphplc"]">
+    <param name="MessageLevel" value="@ViewData["messageLevelgraphplc"]">
+    <param name="Language" value="@ViewData["languagegraphplc"]">
+    <param name="LangEnb" value="@ViewData["langEnbgraphplc"]">
+    <param name="Timezone" value="@ViewData["timezonegraphplc"]">
+</applet>

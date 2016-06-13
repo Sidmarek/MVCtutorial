@@ -6,6 +6,10 @@
 <h2>@ViewBag.Title.</h2>
 
 @Html.ActionLink("Create XML File", "preXMLForm", "File")<br>
+@ViewBag.image
+@ViewBag.data
+
+<img src="@ViewBag.src" alt="SchemeTry">
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

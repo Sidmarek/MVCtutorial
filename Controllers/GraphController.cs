@@ -15,6 +15,7 @@ namespace MVCtutorial.Controllers
             int id = int.Parse(Request.QueryString["id"]);
             String name = Request.QueryString["name"];
             String plc = Request.QueryString["plc"];
+
             foreach (String key in Session.Keys)
             {
                 if (key.Contains("graphplc"))

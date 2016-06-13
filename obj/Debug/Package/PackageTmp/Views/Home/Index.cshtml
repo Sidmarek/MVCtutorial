@@ -6,7 +6,14 @@
 <h2>Homepage</h2>
 <div class="jumbotron">
     <p class="lead">Prepare yourself for stunning experience on new users.nordit.cz vizulization platform with NORDIT platform brand</p>
-    <p class="lead">This is welcome screen please @Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</p>
+    @if (!(Request.IsAuthenticated))
+    {
+        <p class="lead">This is welcome screen please @Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</p>
+    }
+    else
+    {
+        <p class="lead">If you wan to continue into your bakery please @Html.ActionLink("click here", "Home", "Homepage")</p>
+    }
 </div>
 <div class="row">
     <div class="col-md-4">

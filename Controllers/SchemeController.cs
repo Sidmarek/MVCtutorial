@@ -33,7 +33,7 @@ namespace MVCtutorial.Controllers
 
         public void getImage() {
             string url = Session["SchemeURLImage"].ToString();
-            //string schemeURL = "http://users.nordit.cz/tps/10290_Ulaanbaatar/__pic_sch_overview_MNULA_L4__";
+
             WebClient client = new WebClient();
             byte[] data = client.DownloadData(url);
             //MemoryStream mem = new MemoryStream(data);
