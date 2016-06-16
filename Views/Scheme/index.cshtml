@@ -2,7 +2,8 @@
     var t;
     function autoreload() {
         load();
-        t=setTimeout("autoreload()", 20000);
+        setInterval("autoreload()", 20000);
+        console.log("loading");
     }
     function reload() {
         load();
@@ -20,6 +21,6 @@
 }
 @Html.Partial("~/Views/Menu/_Menu.cshtml")
 <h2>@ViewBag.name</h2>
-<div onclick="reload()" onload="autoreload()">
+<div onclick="reload()">
     <img id="schema" src="/scheme/getImage" />
 </div>
