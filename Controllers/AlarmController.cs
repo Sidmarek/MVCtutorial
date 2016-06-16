@@ -13,15 +13,15 @@ namespace MVCtutorial.Controllers
         //define int i
         public int i = 0;
         //Predefiened arrays
-        public string[] title = new string[500];
-        public int[] alarm_id = new int[500];
-        public int[] id = new int[30];
-        public int[] label = new int[30];
-        public int[] originTime = new int[30];
-        public int[] expTime = new int[30];
-        public string[] labels = new string[30];
-        public string[] datetimeOrigin = new string[30];
-        public string[] datetimeExp = new string[30];
+        public string[] title = new string[1250];
+        public int[] alarm_id = new int[1250];
+        public int[] id = new int[32];
+        public int[] label = new int[32];
+        public int[] originTime = new int[32];
+        public int[] expTime = new int[32];
+        public string[] labels = new string[32];
+        public string[] datetimeOrigin = new string[32];
+        public string[] datetimeExp = new string[32];
 
         public String JulToDateTime(int timeForFormat) {
             int date, time, fact, reminder;
