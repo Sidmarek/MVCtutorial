@@ -181,10 +181,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/23/2012 15:23:58</publishTime>
     </File>
     <File Include="bin/MVCtutorial.dll">
-      <publishTime>06/13/2016 12:56:31</publishTime>
+      <publishTime>06/15/2016 17:07:04</publishTime>
     </File>
     <File Include="bin/MVCtutorial.pdb">
-      <publishTime>06/13/2016 12:56:31</publishTime>
+      <publishTime>06/15/2016 17:07:04</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>08/03/2014 20:33:56</publishTime>
@@ -310,7 +310,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/23/2016 16:33:04</publishTime>
     </File>
     <File Include="Content/bootstrap.css">
-      <publishTime>06/06/2016 10:54:27</publishTime>
+      <publishTime>06/15/2016 14:09:45</publishTime>
     </File>
     <File Include="Content/bootstrap.min.css">
       <publishTime>04/22/2016 13:19:20</publishTime>
@@ -321,14 +321,17 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Controllers/AccountController.cs">
       <publishTime>06/09/2016 12:54:43</publishTime>
     </File>
+    <File Include="Controllers/AdminController.cs">
+      <publishTime>06/15/2016 17:06:59</publishTime>
+    </File>
     <File Include="Controllers/AlarmController.cs">
-      <publishTime>06/07/2016 09:16:38</publishTime>
+      <publishTime>06/13/2016 15:02:13</publishTime>
     </File>
     <File Include="Controllers/FileController.cs">
-      <publishTime>06/10/2016 13:13:34</publishTime>
+      <publishTime>06/15/2016 13:34:18</publishTime>
     </File>
     <File Include="Controllers/GraphController.cs">
-      <publishTime>06/13/2016 11:53:49</publishTime>
+      <publishTime>06/13/2016 12:55:56</publishTime>
     </File>
     <File Include="Controllers/HomeController.cs">
       <publishTime>06/10/2016 10:27:34</publishTime>
@@ -340,7 +343,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/09/2016 13:01:38</publishTime>
     </File>
     <File Include="Controllers/SchemeController.cs">
-      <publishTime>06/13/2016 12:13:27</publishTime>
+      <publishTime>06/13/2016 12:49:39</publishTime>
     </File>
     <File Include="Controllers/SecurityAttribute.cs">
       <publishTime>06/08/2016 16:01:44</publishTime>
@@ -365,6 +368,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Models/AccountViewModels.cs">
       <publishTime>05/16/2016 10:54:42</publishTime>
+    </File>
+    <File Include="Models/AdminModels.cs">
+      <publishTime>06/15/2016 15:59:38</publishTime>
     </File>
     <File Include="Models/AlarmViewModels.cs">
       <publishTime>05/18/2016 16:41:26</publishTime>
@@ -474,6 +480,21 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Views/Account/_ExternalLoginsListPartial.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
+    <File Include="Views/Admin/AddRole.cshtml">
+      <publishTime>06/15/2016 16:10:27</publishTime>
+    </File>
+    <File Include="Views/Admin/AddUser.cshtml">
+      <publishTime>06/15/2016 15:08:38</publishTime>
+    </File>
+    <File Include="Views/Admin/Index.cshtml">
+      <publishTime>06/15/2016 17:01:05</publishTime>
+    </File>
+    <File Include="Views/Admin/RemoveRole.cshtml">
+      <publishTime>06/15/2016 16:11:07</publishTime>
+    </File>
+    <File Include="Views/Admin/RemoveUser.cshtml">
+      <publishTime>06/15/2016 15:14:03</publishTime>
+    </File>
     <File Include="Views/Alarm/Form.cshtml">
       <publishTime>06/02/2016 13:05:56</publishTime>
     </File>
@@ -550,10 +571,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/22/2016 13:19:29</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>06/09/2016 12:25:26</publishTime>
+      <publishTime>06/13/2016 14:32:52</publishTime>
     </File>
     <File Include="Views/Shared/_LoginPartial.cshtml">
-      <publishTime>06/09/2016 12:30:32</publishTime>
+      <publishTime>06/15/2016 17:11:23</publishTime>
     </File>
     <File Include="Views/Web.config">
       <publishTime>04/22/2016 13:19:12</publishTime>

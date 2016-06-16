@@ -6910,4 +6910,7 @@ td.visible-print {
 .second {
     margin-left: -10%;
 }
+.message {
+    color: red;
+}
 +
