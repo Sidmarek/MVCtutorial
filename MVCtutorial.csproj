@@ -346,6 +346,7 @@
     <Content Include="Views\Scheme\index.cshtml" />
     <Content Include="Views\Home\Homepage.cshtml" />
     <Content Include="Views\Graph\index.cshtml" />
+    <Content Include="Views\Manage\DefaultView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

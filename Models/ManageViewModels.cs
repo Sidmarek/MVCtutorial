@@ -57,4 +57,11 @@ namespace MVCtutorial.Models
         [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }
+    public class DefaultViewModel
+    {
+        [Required]
+        [DataType(DataType.Text)]
+        [Display(Name = "Choose please your default view")]
+        public string setDefaultView { get; set; }
+    }
 }

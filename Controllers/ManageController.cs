@@ -49,7 +49,15 @@ namespace MVCtutorial.Controllers
                 _userManager = value;
             }
         }
+        public ActionResult DefaultView()
+        {
 
+            return View();
+        }
+        [HttpPost]
+        public async Task<ActionResult> DefaultViewForm(DefaultViewModel model) {
+            return View();
+        }
         //
         // GET: /Manage/Index
         public async Task<ActionResult> Index(ManageMessageId? message)

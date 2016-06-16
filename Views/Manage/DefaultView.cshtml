@@ -1,0 +1,26 @@
+﻿@model MVCtutorial.Models.ChangePasswordViewModel
+@{
+    ViewBag.Title = "Default View";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+@using (Html.BeginForm("DefaultViewForm", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <h4>Change your Default View</h4>
+    <hr />
+    <select name="" form="carform">
+        @foreach (String option in ViewBag.options) {
+            <option value="@option">@option</option>
+        }
+    </select>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Change password" class="btn btn-default" />
+        </div>
+    </div>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
