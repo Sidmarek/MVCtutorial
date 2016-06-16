@@ -1,40 +1,15 @@
 ﻿<script>
     var t;
-    var i = 0;
     function autoreload() {
         load();
-        //ajax();
-        //t = setTimeout("autoreload", 20000); // perioda v ms
-        //setInterval(function() {
-          //  location = location
-           // console.log("loading image");
-        //}, 20000);
         t=setTimeout("autoreload()", 20000);
     }
-    function load() {
-        //_im = $("<img>");
-        var d = new Date();
-        //var cas = d.getTime();
-        //$.ajax({
-         //   url: "/scheme/getImage?" + d.getTime(),
-           // async: true
-       // });
-        document.getElementById("schema").src = "/scheme/getImage?514561" + d.getTime();
-        //_im.bind("load", function () { $(this).show(); $('body img#schema').html("/scheme/getImage?" + d.getTime()+ "\"");});
-        
-        //_im.attr('src', "/scheme/getImage?" + d.getTime());
-        //_im.attr('alt', "s" + i);
-        
-        i++;
+    function reload() {
+        load();
     }
-    
-    function ajax() {
+    function load() {
         var d = new Date();
-        $.ajax({
-            url: "/scheme/getImage?" + d.getTime(),
-            async: true
-        });
-        load("/scheme/getImage?" + d.getTime());
+        document.getElementById("schema").src = "/scheme/getImage?514561" + d.getTime();
     }
 </script>
 @{
@@ -45,6 +20,6 @@
 }
 @Html.Partial("~/Views/Menu/_Menu.cshtml")
 <h2>@ViewBag.name</h2>
-<div onclick="autoreload()" >
+<div onclick="reload()" onload="autoreload()">
     <img id="schema" src="/scheme/getImage" />
 </div>
