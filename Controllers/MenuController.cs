@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.SessionState;
 
 namespace MVCtutorial.Controllers
 {
@@ -13,8 +10,32 @@ namespace MVCtutorial.Controllers
         [Authorize]
         public ActionResult Index()
         {
+            int i = 0;
+            getMenu();
+
+
+            db db = new db();
+            object s = db.singleItemSelect("DefaultView", "AspNetUsers", "UserName = '" + User.Identity.Name.ToString() + "'");
+            string name = s.ToString();
+
+            foreach (String key in Session.Keys)
+            {
+                if (key.Contains(name))
+                {
+                    ViewBag.url = Session[key];
+                    i++;
+                }
+            }
+
+            Session["SchemeURLImage"] = ViewBag.url;
+
+
+            return View();
+        }
+        public ActionResult getMenu()
+        {
             String preId;
-            int id=00000;
+            int id = 00000;
             if (Request.QueryString["id"] != null)
             {
                 preId = Request.QueryString["id"].ToString();
@@ -24,10 +45,11 @@ namespace MVCtutorial.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("Login","Account");
-                } 
+                    return RedirectToAction("Login", "Account");
+                }
             }
-            else {
+            else
+            {
                 if ((Int32.TryParse(Session["id"].ToString(), out id)) == true)
                 {
                     //out int id = int id 
@@ -37,29 +59,31 @@ namespace MVCtutorial.Controllers
                     return RedirectToAction("Index", "Home");
                 }
             }
-            FileController FC = new FileController();
+            int i = 0;
 
-            List<String> values = FC.readXML("plc",id);
+            FileController FC = new FileController();
+            List<String> values = FC.readXML("plc", id);
             List<String> items = FC.readNodesNameXML("plc", id, 3);
             List<String> plc = FC.readNodesNameXML("plc", id, 1);
             List<String> names = FC.readNodesNameXML("plc", id, 2);
             List<String> types = FC.XMLgetTypes("plc", id);
 
-            int i = 0;
-            foreach (String value in values) {
+            i = 0;
+            foreach (String value in values)
+            {
                 //String name = names[i] + items[i];
                 Session.Add(items[i], value);
                 i++;
             }
-            Session.Add("values",values);
-            
+            Session.Add("values", values);
+
             Session.Add("id", id);
             Session.Add("names", names);
             Session.Add("plc", plc);
             Session.Add("types", types);
             ViewBag.id = id;
 
-            return View();
+            return RedirectToAction("Index", "Menu");
         }
     }
 }

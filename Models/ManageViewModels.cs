@@ -60,7 +60,6 @@ namespace MVCtutorial.Models
     public class DefaultViewModel
     {
         [Required]
-        [DataType(DataType.Text)]
         [Display(Name = "Choose please your default view")]
         public string setDefaultView { get; set; }
     }
