@@ -181,10 +181,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/23/2012 15:23:58</publishTime>
     </File>
     <File Include="bin/MVCtutorial.dll">
-      <publishTime>06/15/2016 17:07:04</publishTime>
+      <publishTime>06/20/2016 12:54:31</publishTime>
     </File>
     <File Include="bin/MVCtutorial.pdb">
-      <publishTime>06/15/2016 17:07:04</publishTime>
+      <publishTime>06/20/2016 12:54:31</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>08/03/2014 20:33:56</publishTime>
@@ -439,7 +439,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/22/2016 13:19:27</publishTime>
     </File>
     <File Include="Scripts/_references.js">
-      <publishTime>04/22/2016 13:19:49</publishTime>
+      <publishTime>06/16/2016 14:03:13</publishTime>
     </File>
     <File Include="Startup.cs">
       <publishTime>04/22/2016 13:19:28</publishTime>
@@ -543,8 +543,11 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Views/Manage/ChangePassword.cshtml">
       <publishTime>04/22/2016 13:19:29</publishTime>
     </File>
+    <File Include="Views/Manage/DefaultView.cshtml">
+      <publishTime>06/17/2016 16:50:32</publishTime>
+    </File>
     <File Include="Views/Manage/Index.cshtml">
-      <publishTime>05/12/2016 17:17:29</publishTime>
+      <publishTime>06/20/2016 13:02:14</publishTime>
     </File>
     <File Include="Views/Manage/ManageLogins.cshtml">
       <publishTime>04/22/2016 13:19:29</publishTime>
@@ -556,13 +559,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Views/Menu/Index.cshtml">
-      <publishTime>06/07/2016 08:47:23</publishTime>
+      <publishTime>06/17/2016 16:25:43</publishTime>
     </File>
     <File Include="Views/Menu/_Menu.cshtml">
       <publishTime>06/13/2016 12:46:31</publishTime>
     </File>
     <File Include="Views/Scheme/index.cshtml">
-      <publishTime>06/16/2016 14:14:48</publishTime>
+      <publishTime>06/20/2016 12:58:27</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>04/22/2016 13:19:28</publishTime>
@@ -574,7 +577,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/16/2016 14:13:13</publishTime>
     </File>
     <File Include="Views/Shared/_LoginPartial.cshtml">
-      <publishTime>06/15/2016 17:11:23</publishTime>
+      <publishTime>06/20/2016 12:51:32</publishTime>
     </File>
     <File Include="Views/Web.config">
       <publishTime>04/22/2016 13:19:12</publishTime>

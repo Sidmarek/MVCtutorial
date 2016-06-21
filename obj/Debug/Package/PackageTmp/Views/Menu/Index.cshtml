@@ -1,12 +1,23 @@
-﻿@Html.Partial("_Menu")
+﻿<script>
+    var t;
+    function autoreload() {
+        load();
+        setInterval("autoreload()", 20000);
+        console.log("loading");
+    }
+    function reload() {
+        load();
+    }
+    function load() {
+        var d = new Date();
+        document.getElementById("schema").src = "/scheme/getImage?514561" + d.getTime();
+    }
+</script>
+@Html.Partial("_Menu")
 @{
     ViewBag.Title = "Menu";
 }
 <h2>@ViewBag.Name</h2>
-@{
-    String scheme = "url";
-    ViewBag.scheme = Session[scheme];
-}
-<div>
-    <object type="text/html" width="1260" height="800" data="http://users.nordit.cz/10290_Ulaanbaatar/ulaanbaatar_overview_sch_L4.htm"></object>
+<div onclick="reload()">
+    <img id="schema" src="/scheme/getImage" />
 </div>
