@@ -4,6 +4,35 @@ using System.Web.Mvc;
 
 namespace MVCtutorial.Admin.Models
 {
+    public class AdminAddMaskModel
+    {
+        //Model for add mask to masks of some bakery
+        
+
+        [Required]
+        [DataType(DataType.Text)]
+        [Display(Name = "Id of bakery")]
+        public string bakeryId { get; set; }
+
+        [Required]
+        [DataType(DataType.Text)]
+        [Display(Name = "Name of mask to add")]
+        public string Mask { get; set; }
+    }
+    public class AdminRemoveMaskModel
+    {
+        //Model for remove mask of existing bakery
+        
+        [Required]
+        [DataType(DataType.Text)]
+        [Display(Name = "Id of bakery")]
+        public string bakeryId { get; set; }
+
+        [Required]
+        [DataType(DataType.Text)]
+        [Display(Name = "Name of mask for remove")]
+        public string Mask { get; set; }
+    }
     public class AdminAddUserModel
     {
         //Model for add user to exsting role

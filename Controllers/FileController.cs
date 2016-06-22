@@ -19,17 +19,25 @@ namespace MVCtutorial.Controllers
         List<int> ProjectNumbers = new List<int>();
         public string[] absoulte_path;
 
+
+        /*
+         * @param Stirng NetworkPath, string maskfile = null, String extension = "*", @return string[] absoulte_path
+         * Method to get all files from server with exact params as mask of the file
+         */ 
         public string[] findFilesOnServer(String networkPath, String maskFile = null, String extension = "*")
         {
-            //string nameFile, localPath;
-            
+            string maskPath;
+            int iHelper;
             if (maskFile == null)
             {
                 absoulte_path = Directory.GetFiles(networkPath, "*."+ extension);
             }
             else
             {
-                absoulte_path = Directory.GetFiles(networkPath, maskFile + "*." + extension);
+                iHelper = maskFile.LastIndexOf(@"\");
+                maskPath = maskFile.Substring(0, maskFile.Length - (maskFile.Length - iHelper));
+                maskFile = maskFile.Substring(iHelper+1);
+                absoulte_path = Directory.GetFiles(networkPath+maskPath, maskFile + "*." + extension);
             }
             int count = absoulte_path.Count();
 
@@ -38,6 +46,27 @@ namespace MVCtutorial.Controllers
             return absoulte_path;
         }
 
+        /*
+         * @param void, @return 
+         */ 
+        public List<string> selectMasks() {
+            db db = new db();
+            string mask;
+            List<string> masks = new List<string>();
+            int i = 0;
+            List<object> objectList = db.multipleItemSelect("maskFile", "mask_directory", "bakeryId='" + Session["id"] + "'");
+            foreach (object o in objectList)
+            {
+                mask = o.ToString();
+                masks.Add(mask);
+            }
+            return masks;
+        }
+
+        /*
+         * @param void, @return void
+         * Method for download a file
+         */
         public void downloadFile() {
                 WebClient client = new WebClient();
                 String absoultePathToFile = null;
@@ -110,6 +139,11 @@ namespace MVCtutorial.Controllers
             
             return XMLcontentList;
         }
+
+        /*
+         * @param String tag, @return string text
+         * Method to read exact XML node inner text 
+         */
         public string readNodeXML(String tag, int ProjectNumber)
         {
             XmlDocument xml = new XmlDocument();
@@ -124,9 +158,9 @@ namespace MVCtutorial.Controllers
         }
 
         /* @param String tag, @return List<String> XMLcontentList
-        * Method to parse XML nodes from config
-        * XMLcontentList is List indexed by integer
-       */
+         * Method to parse XML nodes from config
+         * XMLcontentList is List indexed by integer
+         */
         public List<String> readNodesNameXML(String tag, int ProjectNumber, int xmlDeepLevel)
         {
             List<String> XMLNodesName = new List<string>();
@@ -194,6 +228,7 @@ namespace MVCtutorial.Controllers
             }
             return XMLNodesName;
         }
+
         /* DONT USE ANY UNDERBRACKET IN THE PATH
          * GetAllConfigsProjectNumbers()
          * @param void, @return List<int> ProjectNumbers
@@ -219,6 +254,7 @@ namespace MVCtutorial.Controllers
             }            
             return ProjectNumbers;
         }
+
         /* DONT USE ANY UNDERBRACKET IN THE PATH
          * GetAllConfigsNames()
          * @param void, @return List<int> ProjectNames
@@ -267,6 +303,7 @@ namespace MVCtutorial.Controllers
             int count = xnList.Count;
             return count;
         }
+
         /* @param String tag, int ProjectNumber 
          * @return List<String> XMLNodesType
          * Get types of Nodes in 2 levels - one perent level one child level
@@ -386,16 +423,23 @@ namespace MVCtutorial.Controllers
 
         public ActionResult Index()
         {
-            string[] files;
+            List<string> filesToView = new List<string>();
             string fileName;
-            List<string> forView = new List<string>();
-            files = findFilesOnServer(network_path);
-            foreach(string file in files)
+            int iHelper;
+            List<string> masks = new List<string>();
+            masks = selectMasks();
+            foreach (string mask in masks)
             {
-                fileName = file.Substring(network_path.Count());
-                forView.Add(fileName);
+                string[] files = findFilesOnServer(network_path, mask);
+                foreach (string file in files) {
+                    iHelper = file.LastIndexOf(@"\");
+                    fileName = file.Substring(iHelper+1);
+                    filesToView.Add(fileName);
+                }
+
             }
-            ViewBag.files = forView;
+            ViewBag.files = filesToView;
+            ViewBag.masks = masks;
             return View();
         }
 

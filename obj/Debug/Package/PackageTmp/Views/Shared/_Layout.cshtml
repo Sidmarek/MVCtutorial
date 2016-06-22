@@ -42,6 +42,9 @@
         @RenderBody()
     </div>
     <hr />
+    @{ 
+        Session["tempforview"] = null;
+    }
     <footer>
         <p>&copy; @DateTime.Now.Year - Marek Novak ASP.NET MVC Application</p>
     </footer>

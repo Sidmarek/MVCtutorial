@@ -32,6 +32,12 @@ namespace MVCtutorial.Controllers
 
             return View();
         }
+
+        /*
+         * @param void, @return redirect 
+         * Method to get Menu o
+         * to Menu on Index view method
+         */
         public ActionResult getMenu()
         {
             String preId;

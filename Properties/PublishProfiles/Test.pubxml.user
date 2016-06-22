@@ -181,10 +181,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/23/2012 15:23:58</publishTime>
     </File>
     <File Include="bin/MVCtutorial.dll">
-      <publishTime>06/22/2016 08:59:54</publishTime>
+      <publishTime>06/22/2016 14:42:44</publishTime>
     </File>
     <File Include="bin/MVCtutorial.pdb">
-      <publishTime>06/22/2016 08:59:54</publishTime>
+      <publishTime>06/22/2016 14:42:44</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>08/03/2014 20:33:56</publishTime>
@@ -480,6 +480,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Views/Account/_ExternalLoginsListPartial.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
+    <File Include="Views/Admin/AddMask.cshtml">
+      <publishTime>06/22/2016 13:18:16</publishTime>
+    </File>
     <File Include="Views/Admin/AddRole.cshtml">
       <publishTime>06/15/2016 16:10:27</publishTime>
     </File>
@@ -487,13 +490,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/15/2016 15:08:38</publishTime>
     </File>
     <File Include="Views/Admin/Index.cshtml">
-      <publishTime>06/15/2016 17:01:05</publishTime>
+      <publishTime>06/22/2016 12:00:48</publishTime>
+    </File>
+    <File Include="Views/Admin/RemoveMask.cshtml">
+      <publishTime>06/22/2016 13:19:14</publishTime>
     </File>
     <File Include="Views/Admin/RemoveRole.cshtml">
-      <publishTime>06/15/2016 16:11:07</publishTime>
+      <publishTime>06/22/2016 11:57:32</publishTime>
     </File>
     <File Include="Views/Admin/RemoveUser.cshtml">
-      <publishTime>06/15/2016 15:14:03</publishTime>
+      <publishTime>06/22/2016 11:57:07</publishTime>
     </File>
     <File Include="Views/Alarm/Form.cshtml">
       <publishTime>06/02/2016 13:05:56</publishTime>
@@ -511,7 +517,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/24/2016 17:30:10</publishTime>
     </File>
     <File Include="Views/File/Index.cshtml">
-      <publishTime>06/22/2016 08:58:21</publishTime>
+      <publishTime>06/22/2016 14:39:53</publishTime>
     </File>
     <File Include="Views/File/preXMLForm.cshtml">
       <publishTime>05/24/2016 17:40:38</publishTime>
@@ -574,7 +580,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/22/2016 13:19:29</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>06/21/2016 15:40:04</publishTime>
+      <publishTime>06/22/2016 10:02:10</publishTime>
     </File>
     <File Include="Views/Shared/_LoginPartial.cshtml">
       <publishTime>06/20/2016 12:51:32</publishTime>

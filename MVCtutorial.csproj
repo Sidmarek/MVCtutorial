@@ -334,6 +334,8 @@
     <Content Include="Views\Admin\RemoveRole.cshtml" />
     <Content Include="Views\Admin\AddRole.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\AddMask.cshtml" />
+    <Content Include="Views\Admin\RemoveMask.cshtml" />
     <None Include="Views\Alarm\Form.cshtml" />
     <Content Include="Views\Alarm\Index.cshtml" />
     <Content Include="Views\Home\News.cshtml" />

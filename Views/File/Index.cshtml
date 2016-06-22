@@ -6,20 +6,21 @@
 <h2>@ViewBag.Title.</h2>
 
 @Html.ActionLink("Create XML File", "preXMLForm", "File")<br>
-@foreach (string file in ViewBag.files) {
-    @file
-    <a href="/File/downloadFile?nameFile=@file">Download</a>
-    if (file.Contains(".pdf") || file.Contains(".txt"))
-    {
-        <a href="/File/downloadFile?nameFile=@file&View=1">View</a><br>
-    }
-    else
-    {
-        <br>
+@foreach (string mask in ViewBag.masks) {
+    <b>Following files are in mask: "@mask":</b><br>
+    foreach (string file in ViewBag.files) {
+        @file
+        <a href="/File/downloadFile?nameFile=@file">Download</a>
+        if (file.Contains(".pdf") || file.Contains(".txt"))
+        {
+            <a href="/File/downloadFile?nameFile=@file&View=1">View</a><br>
+        }
+        else
+        {
+            <br>
+        }
     }
 }
-
-<img src="@ViewBag.src" alt="SchemeTry">
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
