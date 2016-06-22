@@ -3,44 +3,82 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Web.Mvc;
 using System.Xml;
+using System.Net;
 
 namespace MVCtutorial.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class FileController :Controller
     {
-        public String path = @"C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\Config\";
-        
-        List<String> ProjectNames = new List<string>();
+        public static String path = @"C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\Config\";
+        public static string network_path = @"\\192.168.2.20\Public\0\Marek\db\";
+        public static string local_path = @"C:\0\00\db\";
+        List <String> ProjectNames = new List<string>();
         List<int> ProjectNumbers = new List<int>();
+        public string[] absoulte_path;
 
-
-        public String downloadfile(String url, String path)
+        public string[] findFilesOnServer(String networkPath, String maskFile = null, String extension = "*")
         {
+            //string nameFile, localPath;
             
-            string[] absoulte_path = Directory.GetFiles(path, "*.png");
+            if (maskFile == null)
+            {
+                absoulte_path = Directory.GetFiles(networkPath, "*."+ extension);
+            }
+            else
+            {
+                absoulte_path = Directory.GetFiles(networkPath, maskFile + "*." + extension);
+            }
             int count = absoulte_path.Count();
 
             ViewBag.count = count;
-            String src = "Content/ulaanbaatar" + count + ".png";
-            ViewBag.src = src;
-
-            String fileName = "ulaanbaatar" + count + ".png";
-            String absoultePath = path + fileName;
-            WebClient client = new WebClient();
-            client.DownloadFile(new Uri(url), absoultePath);
-                      
-            if (count>1) {
-                int index = count - 2;
-                string fordelete = absoulte_path[index];
-                System.IO.File.Delete(fordelete);
-            }    
-
-            return absoultePath;
+            Session["absoulte_path"]  = absoulte_path;
+            return absoulte_path;
         }
+
+        public void downloadFile() {
+                WebClient client = new WebClient();
+                String absoultePathToFile = null;
+                String nameFile = Request.QueryString["nameFile"].ToString();
+
+                ViewBag.s = Session["absoulte_path"];
+                foreach (string path in ViewBag.s) {
+                    if (path.Contains(network_path + nameFile)) {
+                        absoultePathToFile = path;
+                    }
+                }
+                Response.ContentType = "application/octet-stream";
+
+
+                if (absoultePathToFile == null)
+                {
+                    Session["tempforview"] = "Error: Your file has been not found";
+                }
+                else
+                {
+
+                    if (Request.QueryString["View"] != null) 
+                    {
+                        if (absoultePathToFile.Contains(".pdf"))
+                        {
+                            Response.ContentType = "application/pdf";
+                        }
+                        else
+                        {
+                            Response.ContentType = "text/plain";
+                        }
+                        Response.TransmitFile(absoultePathToFile);//For View the file
+                    }
+                    else {                    
+                        Response.AppendHeader("Content-Disposition", "attachment; filename=" + nameFile);
+                        Response.TransmitFile(absoultePathToFile);
+                        Response.Flush();
+                    }
+            }
+        }
+
 
         /* @param String tag, @return List<String> XMLcontentList
          * Method to parse XML nodes from config
@@ -84,6 +122,7 @@ namespace MVCtutorial.Controllers
 
             return text;
         }
+
         /* @param String tag, @return List<String> XMLcontentList
         * Method to parse XML nodes from config
         * XMLcontentList is List indexed by integer
@@ -347,7 +386,16 @@ namespace MVCtutorial.Controllers
 
         public ActionResult Index()
         {
-            //ViewBag.image = downloadfile(schemeURL, path);
+            string[] files;
+            string fileName;
+            List<string> forView = new List<string>();
+            files = findFilesOnServer(network_path);
+            foreach(string file in files)
+            {
+                fileName = file.Substring(network_path.Count());
+                forView.Add(fileName);
+            }
+            ViewBag.files = forView;
             return View();
         }
 
