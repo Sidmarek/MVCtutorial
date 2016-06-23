@@ -45,13 +45,13 @@ namespace MVCtutorial.Controllers
         }
 
         /*
-         * @param void, @return 
+         * @param void, @return List<string> 
+         * Method to select all mask for current bakery
          */ 
         public List<string> selectMasks() {
             db db = new db();
             string mask;
             List<string> masks = new List<string>();
-            int i = 0;
             List<object> objectList = db.multipleItemSelect("maskFile", "mask_directory", "bakeryId='" + Session["id"] + "'");
             foreach (object o in objectList)
             {
@@ -90,18 +90,18 @@ namespace MVCtutorial.Controllers
                     {
                         if (absoultePathToFile.Contains(".pdf"))
                         {
-                            Response.ContentType = "application/pdf";
+                            Response.ContentType = "application/pdf"; //change content type for pdf files
                         }
                         else
                         {
-                            Response.ContentType = "text/plain";
+                            Response.ContentType = "text/plain"; //change content type for txt files
                         }
                         Response.TransmitFile(absoultePathToFile);//For View the file
                     }
                     else {                    
                         Response.AppendHeader("Content-Disposition", "attachment; filename=" + nameFile);
-                        Response.TransmitFile(absoultePathToFile);
-                        Response.Flush();
+                        Response.TransmitFile(absoultePathToFile); //For download file
+                        Response.Flush(); //For download file
                     }
             }
         }

@@ -60,7 +60,6 @@ namespace MVCtutorial.Controllers
         public string DBConnnection() {
             // PostgeSQL-style connection string
             int id = (int)(Session["id"]);
-            FileController FC = new FileController();            
             String DB = Session["dbNamealarmplc"].ToString();
             string connstring = String.Format("Server={0};Port={1};User Id={2};Password={3};Database={4};",
               "192.168.2.12", 5432, "postgres", "Nordit0276", DB);

@@ -35,6 +35,10 @@ namespace MVCtutorial.Controllers
             return View();
         }
 
+        /*
+         * @param AdminAddMaskModel model, return void 
+         * Method to add mask of file(directory)
+         */
         [HttpPost]
         public ActionResult AddMaskForm(AdminAddMaskModel model)
         {
@@ -53,6 +57,7 @@ namespace MVCtutorial.Controllers
             return RedirectToAction("AddMask", "Admin");
         }
 
+
         public ActionResult RemoveMask()
         {
             db db = new db();
@@ -70,6 +75,10 @@ namespace MVCtutorial.Controllers
             return View();
         }
 
+        /*
+         * @param void, return void 
+         * Method to remove mask of file(directory)
+         */
         [HttpPost]
         public ActionResult RemoveMaskForm(AdminRemoveMaskModel model)
         {

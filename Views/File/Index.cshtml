@@ -6,7 +6,7 @@
 <h2>@ViewBag.Title.</h2>
 
 @foreach (string mask in ViewBag.masks) {
-    <b>Following files are in mask: "@mask":</b><br>
+    <div class="list-group-item-heading"><b>Following files are in mask: "@mask":</b><br></div>
     foreach (string file in ViewBag.files) {
         @file
         <a href="/File/downloadFile?nameFile=@file">Download</a>
