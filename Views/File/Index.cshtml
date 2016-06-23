@@ -5,7 +5,6 @@
 
 <h2>@ViewBag.Title.</h2>
 
-@Html.ActionLink("Create XML File", "preXMLForm", "File")<br>
 @foreach (string mask in ViewBag.masks) {
     <b>Following files are in mask: "@mask":</b><br>
     foreach (string file in ViewBag.files) {

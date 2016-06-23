@@ -67,12 +67,12 @@ namespace MVCtutorial.Controllers
             }
             int i = 0;
 
-            FileController FC = new FileController();
-            List<String> values = FC.readXML("plc", id);
-            List<String> items = FC.readNodesNameXML("plc", id, 3);
-            List<String> plc = FC.readNodesNameXML("plc", id, 1);
-            List<String> names = FC.readNodesNameXML("plc", id, 2);
-            List<String> types = FC.XMLgetTypes("plc", id);
+            XMLController XC = new XMLController();
+            List<String> values = XC.readXML("plc", id);
+            List<String> items = XC.readNodesNameXML("plc", id, 3);
+            List<String> plc = XC.readNodesNameXML("plc", id, 1);
+            List<String> names = XC.readNodesNameXML("plc", id, 2);
+            List<String> types = XC.XMLgetTypes("plc", id);
 
             i = 0;
             foreach (String value in values)

@@ -45,12 +45,12 @@ namespace MVCtutorial.Controllers
                     String some = User.Identity.Name.ToString();
                     ViewBag.some = some;
 
-                    FileController FC = new FileController();
+                    XMLController XC = new XMLController();
 
-                    List<int> Numbers = FC.GetAllConfigsProjectNumbers(existingRolesForUser);
+                    List<int> Numbers = XC.GetAllConfigsProjectNumbers(existingRolesForUser);
                     ViewBag.Numbers = Numbers;
                     ViewBag.Count = Numbers.Count();
-                    List<string> Texts = FC.GetAllConfigsNames(existingRolesForUser);
+                    List<string> Texts = XC.GetAllConfigsNames(existingRolesForUser);
                     ViewBag.Text = Texts;
 
                     return View();
