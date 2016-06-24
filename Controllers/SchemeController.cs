@@ -31,11 +31,6 @@ namespace MVCtutorial.Controllers
 
             WebClient client = new WebClient();
             byte[] data = client.DownloadData(url);
-            //MemoryStream mem = new MemoryStream(data);
-
-            //var yourImage = Image.FromStream(mem);
-            //yourImage.                        
-            //yourImage.Save(path, ImageFormat.Png);
             Response.BinaryWrite(data);
             Response.ContentType = "image/png";
         }

@@ -27,7 +27,6 @@
                 {
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("File", "Index", "File")</li>
                     <li>@Html.ActionLink("XML", "Index", "XML")</li>
                 </ul>
                 }
@@ -37,7 +36,7 @@
         </div>
     </div>
     <div class="container body-content">
-        <div class="message">@ViewBag.error<br>></div>
+        <div class="message">@ViewBag.error<br></div>
         @RenderBody()
     </div>
     <hr />

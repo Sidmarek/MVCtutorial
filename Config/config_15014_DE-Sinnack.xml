@@ -72,5 +72,8 @@
 			<langEnb>101</langEnb>
 			<timezone>CET</timezone>
 		</graph>
+		<Download>
+			<path>\\192.168.2.20\Public\Zakazky\0_New\15_rok\15014_DE_Sinnack\</path>
+		</Download>
 	</plc>
 </configuration>

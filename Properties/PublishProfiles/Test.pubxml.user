@@ -181,10 +181,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/23/2012 15:23:58</publishTime>
     </File>
     <File Include="bin/MVCtutorial.dll">
-      <publishTime>06/22/2016 14:42:44</publishTime>
+      <publishTime>06/24/2016 14:14:34</publishTime>
     </File>
     <File Include="bin/MVCtutorial.pdb">
-      <publishTime>06/22/2016 14:42:44</publishTime>
+      <publishTime>06/24/2016 14:14:34</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>08/03/2014 20:33:56</publishTime>
@@ -510,6 +510,12 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Views/Alarm/Result.cshtml">
       <publishTime>02/05/2016 13:11:30</publishTime>
     </File>
+    <File Include="Views/Download/backup.cshtml">
+      <publishTime>05/24/2016 15:39:26</publishTime>
+    </File>
+    <File Include="Views/Download/Index.cshtml">
+      <publishTime>06/24/2016 14:23:58</publishTime>
+    </File>
     <File Include="Views/File/backup.cshtml">
       <publishTime>05/24/2016 15:39:26</publishTime>
     </File>
@@ -517,7 +523,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/24/2016 17:30:10</publishTime>
     </File>
     <File Include="Views/File/Index.cshtml">
-      <publishTime>06/22/2016 14:39:53</publishTime>
+      <publishTime>06/24/2016 13:28:56</publishTime>
     </File>
     <File Include="Views/File/preXMLForm.cshtml">
       <publishTime>05/24/2016 17:40:38</publishTime>
@@ -580,7 +586,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/22/2016 13:19:29</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>06/22/2016 10:02:10</publishTime>
+      <publishTime>06/24/2016 15:08:33</publishTime>
     </File>
     <File Include="Views/Shared/_LoginPartial.cshtml">
       <publishTime>06/20/2016 12:51:32</publishTime>
@@ -588,11 +594,20 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Views/Web.config">
       <publishTime>04/22/2016 13:19:12</publishTime>
     </File>
+    <File Include="Views/XML/CreateXMLForm.cshtml">
+      <publishTime>06/23/2016 10:25:22</publishTime>
+    </File>
+    <File Include="Views/XML/Index.cshtml">
+      <publishTime>06/23/2016 10:22:46</publishTime>
+    </File>
+    <File Include="Views/XML/preXMLForm.cshtml">
+      <publishTime>06/23/2016 10:25:34</publishTime>
+    </File>
     <File Include="Views/_ViewStart.cshtml">
       <publishTime>04/22/2016 13:19:12</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>06/09/2016 16:56:39</publishTime>
+      <publishTime>06/24/2016 13:36:17</publishTime>
     </File>
   </ItemGroup>
 </Project>

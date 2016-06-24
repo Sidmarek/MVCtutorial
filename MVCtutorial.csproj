@@ -47,6 +47,7 @@
         </ObjectGroup>
       </Objects>
     </PublishDatabaseSettings>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -263,7 +264,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AlarmController.cs" />
     <Compile Include="Controllers\db.cs" />
-    <Compile Include="Controllers\FileController.cs" />
+    <Compile Include="Controllers\DownloadController.cs" />
     <Compile Include="Controllers\GraphController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -274,6 +275,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminModels.cs" />
     <Compile Include="Models\FileViewModels.cs" />
@@ -341,8 +343,8 @@
     <Content Include="Views\Alarm\Index.cshtml" />
     <Content Include="Views\Home\News.cshtml" />
     <Content Include="Views\Home\Order.cshtml" />
-    <Content Include="Views\File\Index.cshtml" />
-    <Content Include="Views\File\backup.cshtml" />
+    <Content Include="Views\Download\Index.cshtml" />
+    <Content Include="Views\Download\backup.cshtml" />
     <Content Include="Views\XML\preXMLForm.cshtml" />
     <Content Include="Views\XML\CreateXMLForm.cshtml" />
     <Content Include="Views\Menu\Index.cshtml" />

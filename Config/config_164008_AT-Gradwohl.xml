@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+	<contract>
+		<id>164008</id>
+		<prefix />
+		<country>AT</country>
+		<name>Gradwohl</name>
+		<description/>
+	</contract>
+	<plc name="Bread fermentation">	
+		<alarm>
+			<dbName>Gradwohl</dbName>
+		</alarm>
+		<scheme name="MF1">
+			<url>http://users.nordit.cz/ih2/10560_Gradwohl/__pic_sch_MF1_operation_ATGRA_IH__</url>
+		</scheme>
+		<graph name="Diagramme">
+			<width>1024</width>
+			<height>640</height>
+			<viewFile>/java/grafy_cfg_ATGRA.ini</viewFile>
+			<nameFile>/java/grafy_cfg_ATGRA.ini</nameFile>
+			<messageLevel>1</messageLevel>
+			<language>DE</language>
+			<langEnb>110</langEnb>
+			<timezone>CET</timezone>
+		</graph>
+    <graph name="Diagramme(HiRes)">
+			<width>1600</width>
+			<height>920</height>
+			<viewFile>/java/grafy_cfg_ATGRA.ini</viewFile>
+			<nameFile>/java/grafy_cfg_ATGRA.ini</nameFile>
+			<messageLevel>1</messageLevel>
+			<language>DE</language>
+			<langEnb>110</langEnb>
+			<timezone>CET</timezone>
+		</graph>
+	</plc>	
+</configuration>
