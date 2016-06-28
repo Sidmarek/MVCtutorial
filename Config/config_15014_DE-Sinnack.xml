@@ -75,5 +75,7 @@
 		<Download>
 			<path>\\192.168.2.20\Public\Zakazky\0_New\15_rok\15014_DE_Sinnack\</path>
 		</Download>
+		<CMS name="Project Info">
+		</CMS>
 	</plc>
 </configuration>

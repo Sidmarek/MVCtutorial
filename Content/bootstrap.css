@@ -6865,9 +6865,13 @@ td.visible-print {
 
 .tg td {
     font-family: Arial, sans-serif;
+    max-width: 600px;
     font-size: 12px;
-    padding: 3px 1px;
+    padding: 3px 5px;
     word-break: normal;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .tg tr:hover {

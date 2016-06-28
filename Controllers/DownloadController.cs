@@ -22,20 +22,20 @@ namespace MVCtutorial.Controllers
          * @param Stirng NetworkPath, string maskfile = null, String extension = "*", @return string[] absoulte_path
          * Method to get all files from server with exact params as mask of the file
          */ 
-        public string[] findFilesOnServer(String networkPath, String maskFile = null, String extension = "*")
+        public string[] findFilesOnServer(String networkPath, String maskFile = null)
         {
             string maskPath;
             int iHelper;
             if (maskFile == null)
             {
-                absoulte_path = Directory.GetFiles(networkPath, "*."+ extension);
+                absoulte_path = Directory.GetFiles(networkPath, "*.*");
             }
             else
             {
                 iHelper = maskFile.LastIndexOf(@"\");
                 maskPath = maskFile.Substring(0, maskFile.Length - (maskFile.Length - iHelper));
                 maskFile = maskFile.Substring(iHelper+1);
-                absoulte_path = Directory.GetFiles(networkPath+maskPath, maskFile + "*." + extension);
+                absoulte_path = Directory.GetFiles(networkPath+maskPath, maskFile);
             }
             int count = absoulte_path.Count();
 

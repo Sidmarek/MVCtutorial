@@ -263,6 +263,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AlarmController.cs" />
+    <Compile Include="Controllers\CMSController.cs" />
     <Compile Include="Controllers\db.cs" />
     <Compile Include="Controllers\DownloadController.cs" />
     <Compile Include="Controllers\GraphController.cs" />
@@ -277,6 +278,7 @@
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\CMSModels.cs" />
     <Compile Include="Models\AdminModels.cs" />
     <Compile Include="Models\FileViewModels.cs" />
     <Compile Include="Models\AlarmViewModels.cs" />
@@ -354,6 +356,8 @@
     <Content Include="Views\Graph\index.cshtml" />
     <Content Include="Views\Manage\DefaultView.cshtml" />
     <Content Include="Views\XML\Index.cshtml" />
+    <Content Include="Views\CMS\Index.cshtml" />
+    <Content Include="Views\CMS\add.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

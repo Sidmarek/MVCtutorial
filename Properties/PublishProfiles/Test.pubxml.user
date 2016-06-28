@@ -181,10 +181,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/23/2012 15:23:58</publishTime>
     </File>
     <File Include="bin/MVCtutorial.dll">
-      <publishTime>06/24/2016 14:14:34</publishTime>
+      <publishTime>06/28/2016 15:35:54</publishTime>
     </File>
     <File Include="bin/MVCtutorial.pdb">
-      <publishTime>06/24/2016 14:14:34</publishTime>
+      <publishTime>06/28/2016 15:35:53</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>08/03/2014 20:33:56</publishTime>
@@ -310,7 +310,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/23/2016 16:33:04</publishTime>
     </File>
     <File Include="Content/bootstrap.css">
-      <publishTime>06/15/2016 14:09:45</publishTime>
+      <publishTime>06/28/2016 12:57:27</publishTime>
     </File>
     <File Include="Content/bootstrap.min.css">
       <publishTime>04/22/2016 13:19:20</publishTime>
@@ -510,6 +510,12 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Views/Alarm/Result.cshtml">
       <publishTime>02/05/2016 13:11:30</publishTime>
     </File>
+    <File Include="Views/CMS/add.cshtml">
+      <publishTime>06/28/2016 14:24:27</publishTime>
+    </File>
+    <File Include="Views/CMS/Index.cshtml">
+      <publishTime>06/28/2016 13:49:09</publishTime>
+    </File>
     <File Include="Views/Download/backup.cshtml">
       <publishTime>05/24/2016 15:39:26</publishTime>
     </File>
@@ -586,7 +592,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/22/2016 13:19:29</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>06/24/2016 15:08:33</publishTime>
+      <publishTime>06/27/2016 08:23:06</publishTime>
     </File>
     <File Include="Views/Shared/_LoginPartial.cshtml">
       <publishTime>06/20/2016 12:51:32</publishTime>

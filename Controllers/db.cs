@@ -35,7 +35,9 @@ namespace MVCtutorial.Controllers
 
             if (where == null)
             {
-                SqlCommand cmd = new SqlCommand("SELECT " + column + " FROM "+ table, conn);
+                //SqlCommand cmd = new SqlCommand("SELECT " + column + " FROM "+ table, conn);
+                string sql = string.Format("SELECT {0} FROM {1}", column, table);
+                SqlCommand cmd = new SqlCommand(sql, conn);
                 SqlDataReader r = cmd.ExecuteReader();
                 while (r.Read())
                 {
@@ -44,7 +46,9 @@ namespace MVCtutorial.Controllers
             }
             else
             {
-                SqlCommand cmd = new SqlCommand("SELECT " + column + " FROM "+ table +" WHERE " + where, conn);
+                //SqlCommand cmd = new SqlCommand("SELECT " + column + " FROM "+ table +" WHERE " + where, conn);
+                string sql = string.Format("SELECT {0} FROM {1} WHERE {2}", column, table, where);
+                SqlCommand cmd = new SqlCommand(sql, conn);
                 SqlDataReader r = cmd.ExecuteReader();
                 while (r.Read())
                 {
@@ -63,27 +67,36 @@ namespace MVCtutorial.Controllers
         {
             dbConnection();
             conn.Open();
-            int i = 0;
             List<object> result = new List<object>();
 
             if (where == null)
             {
-                SqlCommand cmd = new SqlCommand("SELECT " + column + " FROM " + table, conn);
+                string sql = string.Format("SELECT {0} FROM {1}", column, table);
+                SqlCommand cmd = new SqlCommand(sql, conn);
+
+                //SqlCommand cmd = new SqlCommand("SELECT " + column + " FROM " + table, conn);
                 SqlDataReader r = cmd.ExecuteReader();
                 while (r.Read())
                 {
-                    result.Add(r[column]);
-                    i++;
+                    for (int i = 0; i < r.FieldCount; i++)
+                    {
+                        result.Add(r[i]);
+                    }
                 }
             }
             else
             {
-                SqlCommand cmd = new SqlCommand("SELECT " + column + " FROM " + table + " WHERE " + where, conn);
+                string sql = string.Format("SELECT {0} FROM {1} WHERE {2}", column, table, where);
+                SqlCommand cmd = new SqlCommand(sql,conn);
+                //SqlCommand cmd = new SqlCommand("SELECT "+ column +" FROM " + table + " WHERE bakeryId = @where" , conn);
+                //cmd.Parameters.AddWithValue("@where", 15014);
                 SqlDataReader r = cmd.ExecuteReader();
                 while (r.Read())
                 {
-                    result.Add(r[column]);
-                    i++;
+                    for (int i=0; i<r.FieldCount;i++)
+                    {
+                        result.Add(r[i]);
+                    }
                 }
             }
 
@@ -99,14 +112,18 @@ namespace MVCtutorial.Controllers
             conn.Open();
             if (where == null)
             {
-                SqlCommand cmd = new SqlCommand("UPDATE " + table + " SET  @set WHERE " + where, conn);
-                cmd.Parameters.AddWithValue("@set", set);
+                string sql = string.Format("UPDATE {0} SET {1} WHERE {2}", table, set, where);
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                //SqlCommand cmd = new SqlCommand("UPDATE " + table + " SET  @set WHERE " + where, conn);
+                //cmd.Parameters.AddWithValue("@set", set);
                 cmd.ExecuteNonQuery();
             }
             else
             {
-                SqlCommand cmd = new SqlCommand("UPDATE " + table + " SET  @set", conn);
-                cmd.Parameters.AddWithValue("@set", set);
+                string sql = string.Format("UPDATE {0} SET {1}", table, set);
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                //SqlCommand cmd = new SqlCommand("UPDATE " + table + " SET  @set", conn);
+                //cmd.Parameters.AddWithValue("@set", set);
                 cmd.ExecuteNonQuery();
             }
         }
@@ -121,14 +138,18 @@ namespace MVCtutorial.Controllers
             conn.Open();
             if (where == null)
             {
-                SqlCommand cmd = new SqlCommand("INSERT INTO " + table + "(" + column + ") VALUES  @values WHERE " + where, conn);
-                cmd.Parameters.AddWithValue("@value", value);
+                string sql = string.Format("INSERT INTO {0} ({1}) VALUES {2} WHERE {3}", table, column, value, where);
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                //SqlCommand cmd = new SqlCommand("INSERT INTO " + table + "(" + column + ") VALUES  @values WHERE " + where, conn);
+                //cmd.Parameters.AddWithValue("@value", value);
                 cmd.ExecuteNonQuery();
             }
             else
             {
-                SqlCommand cmd = new SqlCommand("INSERT INTO " + table + " VALUES  @values", conn);
-                cmd.Parameters.AddWithValue("@value", value);
+                string sql = string.Format("INSERT INTO {0} ({1}) VALUES {2}", table, column, value);
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                //SqlCommand cmd = new SqlCommand("INSERT INTO " + table + " VALUES  @values", conn);
+                //cmd.Parameters.AddWithValue("@value", value);
                 cmd.ExecuteNonQuery();
             }
         }
@@ -143,12 +164,16 @@ namespace MVCtutorial.Controllers
             await conn.OpenAsync();
             if (where == null)
             {
-                SqlCommand cmd = new SqlCommand("INSERT INTO " + table + "(" + column + ") VALUES  ("+ value +")", conn);
+                string sql = string.Format("INSERT INTO {0} ({1}) VALUES ({2})", table, column, value);
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                //SqlCommand cmd = new SqlCommand("INSERT INTO " + table + "(" + column + ") VALUES  ("+ value +")", conn);
                 await cmd.ExecuteNonQueryAsync();
             }
             else
             {
-                SqlCommand cmd = new SqlCommand("INSERT INTO " + table + "(" + column + ") VALUES  ("+ value +") WHERE " + where, conn);
+                string sql = string.Format("INSERT INTO {0} ({1}) VALUES ({2}) WHERE {3}", table, column, value, where);
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                //SqlCommand cmd = new SqlCommand("INSERT INTO " + table + "(" + column + ") VALUES  ("+ value +") WHERE " + where, conn);
                 await cmd.ExecuteNonQueryAsync();
             }
         }
@@ -173,11 +198,15 @@ namespace MVCtutorial.Controllers
             dbConnection();
             await conn.OpenAsync();
             if (where==null) {
-                SqlCommand cmd = new SqlCommand("UPDATE " + table + " SET "+ set, conn);
+                //SqlCommand cmd = new SqlCommand("UPDATE " + table + " SET "+ set, conn);
+                string sql = string.Format("UPDATE {0} SET {1}", table, set);
+                SqlCommand cmd = new SqlCommand(sql, conn);
                 await cmd.ExecuteNonQueryAsync();
             }
             else {
-                SqlCommand cmd = new SqlCommand("UPDATE " + table + " SET "+ set +" WHERE " + where, conn);
+                //SqlCommand cmd = new SqlCommand("UPDATE " + table + " SET "+ set +" WHERE " + where, conn);
+                string sql = string.Format("UPDATE {0} SET {1} WHERE {2}", table, set, where);
+                SqlCommand cmd = new SqlCommand(sql, conn);
                 await cmd.ExecuteNonQueryAsync();
             }
         }
