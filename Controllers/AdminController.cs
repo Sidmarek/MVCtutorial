@@ -19,6 +19,7 @@ namespace MVCtutorial.Controllers
 
         public ActionResult  AddMask()
         {
+            ViewBag.roles = Roles.GetAllRoles();
             db db = new db();
             List<string> stringList = new List<string>();
             List<object> objectList = db.multipleItemSelect("maskFile", maskTable, "bakeryId='" + Session["id"] + "'");
@@ -42,18 +43,19 @@ namespace MVCtutorial.Controllers
         [HttpPost]
         public ActionResult AddMaskForm(AdminAddMaskModel model)
         {
-            int bakeryId = Int32.Parse(model.bakeryId.ToString());
             db db = new db();
-            string FileMask = db.singleItemSelect("maskFile", maskTable, "bakeryId='" + bakeryId + "' AND maskFile='" + model.Mask + "'").ToString();
-            if (FileMask.Length == 13)
-            {
-                db.singleItemInsertAsync(maskTable, "bakeryId,maskFile", bakeryId + ",'" + model.Mask + "'"); //TODO solve potential SQL injections
+            //string FileMask = db.singleItemSelect("maskFile", maskTable, "bakeryId='" + bakeryId + "' AND maskFile='" + model.Mask + "'").ToString();
+            if (model.bakeryId !=null) {
+                int bakeryId = int.Parse(model.bakeryId.ToString());                
+                db.singleItemInsertAsync(maskTable, "bakeryId,maskFile,maskName", bakeryId + ",'" + model.Mask + "','" + model.maskName + "','" + model.maskRole + "'");
                 Session["tempforview"] = "Mask: " + model.Mask + " has been successfully added to bakery: " + model.bakeryId + ".";
             }
-            else {
-                db.singleItemUpdateAsync(maskTable, "maskFile='" + model.Mask + "'", "bakeryId='" + bakeryId + "'"); //TODO solve potential SQL injections
-                Session["tempforview"] = "Mask: " + model.Mask + " has been successfully updated in bakery: " + model.bakeryId + ".";
+            else
+            {
+                db.singleItemInsertAsync(maskTable, "bakeryId,maskFile,maskName,maskRole", Session["id"].ToString() + ",'" + model.Mask + "','" + model.maskName + "'" + "','" + model.maskRole + "'");
+                Session["tempforview"] = "Mask: " + model.Mask + " has been successfully added to bakery: " + Session["id"].ToString() + ".";
             }
+            
             return RedirectToAction("AddMask", "Admin");
         }
 

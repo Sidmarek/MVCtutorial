@@ -154,26 +154,33 @@ namespace MVCtutorial.Controllers
             }
         }
 
-        /* Async method
-         * @param string table, string column, string value, string where(optional), @result void
-         * Method to insert one single element
-         */
+        /// <summary>
+        /// Async method 
+        /// Method to insert one single element
+        /// </summary>
+        /// <param name="table">string SQL table to write into that</param>
+        /// <param name="column">string SQL column</param>
+        /// <param name="value">string value to defined values to write into database</param>
+        /// <param name="where">string where condition</param>
         public async void singleItemInsertAsync(string table, string column, string value, string where = null)
         {
             dbConnection();
             await conn.OpenAsync();
+            string tableSQL = string.Format(@"{0}", table);
+            string columnSQL = string.Format(@"{0}", column);
+            string valueSQL = string.Format(@"{0}", value);
+            
             if (where == null)
             {
                 string sql = string.Format("INSERT INTO {0} ({1}) VALUES ({2})", table, column, value);
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                //SqlCommand cmd = new SqlCommand("INSERT INTO " + table + "(" + column + ") VALUES  ("+ value +")", conn);
                 await cmd.ExecuteNonQueryAsync();
             }
             else
             {
+                string whereSQL = string.Format(@"{0}", where);
                 string sql = string.Format("INSERT INTO {0} ({1}) VALUES ({2}) WHERE {3}", table, column, value, where);
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                //SqlCommand cmd = new SqlCommand("INSERT INTO " + table + "(" + column + ") VALUES  ("+ value +") WHERE " + where, conn);
                 await cmd.ExecuteNonQueryAsync();
             }
         }

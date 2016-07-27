@@ -8,15 +8,22 @@ namespace MVCtutorial.Admin.Models
     {
         //Model for add mask to masks of some bakery
         
-
-        [Required]
         [DataType(DataType.Text)]
         [Display(Name = "Id of bakery")]
         public string bakeryId { get; set; }
 
-        [Required]
         [DataType(DataType.Text)]
         [Display(Name = "Name of mask to add")]
+        public string maskName { get; set; }
+
+        
+        [DataType(DataType.Text)]
+        [Display(Name = "Mask permission-role to view and download files:")]
+        public string maskRole { get; set; }
+
+        [Required]
+        [DataType(DataType.Text)]
+        [Display(Name = "Mask for files selection")]
         public string Mask { get; set; }
     }
     public class AdminRemoveMaskModel

@@ -181,10 +181,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/23/2012 15:23:58</publishTime>
     </File>
     <File Include="bin/MVCtutorial.dll">
-      <publishTime>06/28/2016 15:35:54</publishTime>
+      <publishTime>07/08/2016 15:10:32</publishTime>
     </File>
     <File Include="bin/MVCtutorial.pdb">
-      <publishTime>06/28/2016 15:35:53</publishTime>
+      <publishTime>07/08/2016 15:10:32</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>08/03/2014 20:33:56</publishTime>

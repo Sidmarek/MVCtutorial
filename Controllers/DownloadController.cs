@@ -7,7 +7,7 @@ using System.Net;
 
 namespace MVCtutorial.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Download")]
     public class DownloadController :Controller
     {
         public static String path = @"C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\Config\";
@@ -46,8 +46,12 @@ namespace MVCtutorial.Controllers
 
         /*
          * @param void, @return List<string> 
-         * Method to select all mask for current bakery
-         */ 
+         * 
+         */
+        /// <summary>
+        /// Method to select all mask for current bakery
+        /// </summary>
+        /// <returns>List<string> masks</returns>
         public List<string> selectMasks() {
             db db = new db();
             string mask;
@@ -60,7 +64,26 @@ namespace MVCtutorial.Controllers
             }
             return masks;
         }
-
+        /// <summary>
+        /// method to select roles for all masks
+        /// </summary>
+        /// <returns>List<string> maskRoles</returns>
+        public List<string> selectMasksRoles() {
+            db db = new db();
+            string maskRole;
+            List<string> masksRoles = new List<string>();
+            List<object> objectList = db.multipleItemSelect("maskRole", "mask_directory", "bakeryId='" + Session["id"] + "'");
+            foreach (object o in objectList)
+            {
+                maskRole = o.ToString();
+                masksRoles.Add(maskRole);
+            }
+            return masksRoles;
+        }
+        /// <summary>
+        /// Method to select all masks names
+        /// </summary>
+        /// <returns>List<string> masksNames</returns>
         public List<string> selectMasksNames()
         {
             db db = new db();
