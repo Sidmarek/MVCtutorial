@@ -15,10 +15,10 @@
         ViewBag.fileName = fileName;
         <div class="list-group-item-text">
             @ViewBag.fileName
-            <a href="/File/downloadFile?nameFile=@ViewBag.fileName">Download</a>
+            <a href="/Download/downloadFile?nameFile=@file">Download</a>
             @if (file.Contains(".pdf") || file.Contains(".txt"))
             {
-                <a href="/File/downloadFile?nameFile=@file&View=1">View</a><br>
+                <a href="/Download/downloadFile?nameFile=@file&View=1">View</a><br>
             }
             else
             {

@@ -181,10 +181,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/23/2012 15:23:58</publishTime>
     </File>
     <File Include="bin/MVCtutorial.dll">
-      <publishTime>07/08/2016 15:10:32</publishTime>
+      <publishTime>08/03/2016 15:52:46</publishTime>
     </File>
     <File Include="bin/MVCtutorial.pdb">
-      <publishTime>07/08/2016 15:10:32</publishTime>
+      <publishTime>08/03/2016 15:52:46</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>08/03/2014 20:33:56</publishTime>
@@ -481,7 +481,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Views/Admin/AddMask.cshtml">
-      <publishTime>06/22/2016 13:18:16</publishTime>
+      <publishTime>07/27/2016 12:33:17</publishTime>
     </File>
     <File Include="Views/Admin/AddRole.cshtml">
       <publishTime>06/15/2016 16:10:27</publishTime>
@@ -514,13 +514,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/28/2016 14:24:27</publishTime>
     </File>
     <File Include="Views/CMS/Index.cshtml">
-      <publishTime>06/28/2016 13:49:09</publishTime>
+      <publishTime>07/27/2016 09:52:21</publishTime>
     </File>
     <File Include="Views/Download/backup.cshtml">
       <publishTime>05/24/2016 15:39:26</publishTime>
     </File>
     <File Include="Views/Download/Index.cshtml">
-      <publishTime>06/24/2016 14:23:58</publishTime>
+      <publishTime>08/03/2016 10:31:39</publishTime>
     </File>
     <File Include="Views/File/backup.cshtml">
       <publishTime>05/24/2016 15:39:26</publishTime>
@@ -613,7 +613,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/22/2016 13:19:12</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>06/24/2016 13:36:17</publishTime>
+      <publishTime>08/03/2016 15:54:33</publishTime>
     </File>
   </ItemGroup>
 </Project>

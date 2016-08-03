@@ -4,10 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using System.Net;
+using System.Web.Security;
+
 
 namespace MVCtutorial.Controllers
 {
-    [Authorize(Roles = "Download")]
+    [Authorize(Roles = "Download,Admin")]
     public class DownloadController :Controller
     {
         public static String path = @"C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\Config\";
@@ -56,7 +58,13 @@ namespace MVCtutorial.Controllers
             db db = new db();
             string mask;
             List<string> masks = new List<string>();
-            List<object> objectList = db.multipleItemSelect("maskFile", "mask_directory", "bakeryId='" + Session["id"] + "'");
+            string[] roles = Roles.GetRolesForUser();
+            string someName = "maskRole='" + roles[0] + "'";
+            for (int i = 1;i<=(roles.Count()-1);i++) {
+                someName += " OR maskRole='" + roles[i] + "'";
+            }
+            string where = "bakeryId='" + Session["id"] + "'AND " + someName;
+            List<object> objectList = db.multipleItemSelect("maskFile", "mask_directory", where);
             foreach (object o in objectList)
             {
                 mask = o.ToString();
@@ -105,15 +113,11 @@ namespace MVCtutorial.Controllers
         public void downloadFile() {
                 WebClient client = new WebClient();
                 String absoultePathToFile = null;
-                String nameFile = Request.QueryString["nameFile"].ToString();
+                string nameFile = Request.QueryString["nameFile"].ToString();
                 string network_path = Session["pathdownloadplc"].ToString();
 
-                ViewBag.s = Session["absoulte_path"];
-                foreach (string path in ViewBag.s) {
-                    if (path.Contains(network_path + nameFile)) {
-                        absoultePathToFile = path;
-                    }
-                }
+                absoultePathToFile = network_path+nameFile;
+
                 Response.ContentType = "application/octet-stream";
 
 
@@ -147,6 +151,7 @@ namespace MVCtutorial.Controllers
         public ActionResult Index()
         {
             string network_path = Session["pathdownloadplc"].ToString();
+            int network_path_length = network_path.Length;
             List <string> filesToView = new List<string>();
             int i = 0;
             List<string> masks = new List<string>();
@@ -162,8 +167,9 @@ namespace MVCtutorial.Controllers
                 if (files.Count() != 0)
                 {
                     foreach (string file in files)
-                    {   
-                        filesToView.Add(file);
+                    {
+                        string fileToView = file.Substring(network_path_length); 
+                        filesToView.Add(fileToView);
                     }
                 }
                 else
