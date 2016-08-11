@@ -16,15 +16,39 @@ namespace MVCtutorial.Controllers
         {
             db db = new db();
             List<object> objects = new List<object>();
-            List<string> test = new List<string>();
-            objects = db.multipleItemSelect("Date,Author,Header,Text", "Articles", "bakeryId=" + Session["id"]);
+            List<object> objects_id = new List<object>();
+            List<string> strings = new List<string>();
+            List<int> ids = new List<int>();
+            objects = db.multipleItemSelect("Date,Author,Header,Text", "Articles", "bakeryId=" + Session["id"].ToString());
             foreach (object o in objects)
             {
-                test.Add(o.ToString());
+                strings.Add(o.ToString());
             }
-            ViewBag.data = test;
-            ViewBag.count = test.Count();
+            objects_id = db.multipleItemSelect("Id", "Articles", "bakeryId=" + Session["id"].ToString());
+            foreach (object o in objects_id)
+            {
+                ids.Add(int.Parse(o.ToString()));
+            }
+            if (Session["tempforview"] != null)
+            {
+                ViewBag.message = Session["tempforview"];
+                Session["tempforview"] = null;
+            }
+            ViewBag.Id = ids;
+            ViewBag.data = strings;
+            ViewBag.count = strings.Count();
             return View();
+        }
+        public ActionResult Delete()
+        {
+            if (User.IsInRole("programmer"))
+            {
+                string PostId = Request.QueryString["PostId"].ToString();
+                db db = new db();
+                db.singleItemDeleteAsync("Articles", "Id=" + PostId);
+            }
+            Session["tempforview"] = "Post has been deleted";
+            return RedirectToAction("Index", "CMS");
         }
         public ActionResult Add()
         {

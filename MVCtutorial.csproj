@@ -124,6 +124,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
       <Private>True</Private>
@@ -272,12 +273,14 @@
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\SchemeController.cs" />
     <Compile Include="Controllers\SecurityAttribute.cs" />
+    <Compile Include="Controllers\UploadController.cs" />
     <Compile Include="Controllers\XMLController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\UploadModels.cs" />
     <Compile Include="Models\CMSModels.cs" />
     <Compile Include="Models\AdminModels.cs" />
     <Compile Include="Models\FileViewModels.cs" />
@@ -358,6 +361,10 @@
     <Content Include="Views\XML\Index.cshtml" />
     <Content Include="Views\CMS\Index.cshtml" />
     <Content Include="Views\CMS\add.cshtml" />
+    <Content Include="Views\Upload\Index.cshtml" />
+    <Content Include="Views\Upload\Index3.aspx" />
+    <None Include="Views\Shared\master.master" />
+    <Content Include="Views\Upload\Upload.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
