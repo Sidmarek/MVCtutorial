@@ -62,22 +62,29 @@ namespace MVCtutorial.Controllers
         [HttpPost]
         public ActionResult AddArticle(AddProjectArticle model)
         {
-            int bakeryId;
-            if (model.bakeryId == null)
+            if (ModelState.IsValid)
             {
-                bakeryId = Int32.Parse(Session["id"].ToString());
+                int bakeryId;
+                if (model.bakeryId == null)
+                {
+                    bakeryId = Int32.Parse(Session["id"].ToString());
+                }
+                else
+                {
+                    bakeryId = Int32.Parse(model.bakeryId.ToString());
+                }
+                db db = new db();
+                string text = model.Text.ToString();
+                text = text.Replace("\r\n", "<br>");
+
+                db.singleItemInsertAsync("Articles", "bakeryId,Author,Header,Text", bakeryId + ",'" + User.Identity.Name.ToString() + "','" + model.Header + "','" + text + "'"); //TODO solve potential SQL injections
+                Session["tempforview"] = "Your status informations has been successfully added to bakery: " + model.bakeryId + ".";
+                return RedirectToAction("Add", "CMS");
             }
-            else
-            {
-                bakeryId = Int32.Parse(model.bakeryId.ToString());
+            else {
+                Session["tempforview"] = "Empty Subject or Project info status";
+                return RedirectToAction("Add", "CMS");
             }
-            db db = new db();
-            string text = model.Text.ToString();
-            text = text.Replace("\r\n", "<br>");
-            
-            db.singleItemInsertAsync("Articles", "bakeryId,Author,Header,Text", bakeryId + ",'" + User.Identity.Name.ToString() + "','" + model.Header + "','" + text + "'"); //TODO solve potential SQL injections
-            Session["tempforview"] = "Your status informations has been successfully added to bakery: " + model.bakeryId + ".";
-            return RedirectToAction("Add", "CMS");
         }
     }
 }

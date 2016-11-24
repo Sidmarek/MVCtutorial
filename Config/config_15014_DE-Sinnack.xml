@@ -30,14 +30,8 @@
 			<url>http://users.nordit.cz/ih/10320_Sinnack/__pic_sch_SF4_operation_DESIN_Bio1_DE__</url>
 		</scheme>
 		<graph name="Diagramme">
-			<width>1024</width>
-			<height>640</height>
-			<viewFile>/java/grafy_cfg_DESIN_Bio1.ini</viewFile>
-			<nameFile>/java/grafy_names_DESIN_Bio1.ini</nameFile>
-			<messageLevel>1</messageLevel>
-			<language>DE</language>
-			<langEnb>101</langEnb>
-			<timezone>CET</timezone>
+			<pathConfig>C:\0\00\grafy_cfg_CZROS_BF.ini</pathConfig>
+			<pathNames>C:\0\00\grafy_names_CZROS.ini</pathNames>
 		</graph>
 	</plc>
 	<plc name="Megaline L2000">			

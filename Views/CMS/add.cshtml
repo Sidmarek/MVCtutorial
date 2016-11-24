@@ -8,8 +8,6 @@
 @Html.Partial("~/Views/Menu/_Menu.cshtml")
 @using (Html.BeginForm("AddArticle", "CMS", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
-
-    <h4>Create a new account.</h4>
     <hr />
     @Html.ValidationSummary("", new { @class = "text-danger" })
     <div class="form-group">

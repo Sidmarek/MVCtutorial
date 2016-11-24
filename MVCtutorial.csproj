@@ -280,6 +280,7 @@
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\GraphModels.cs" />
     <Compile Include="Models\UploadModels.cs" />
     <Compile Include="Models\CMSModels.cs" />
     <Compile Include="Models\AdminModels.cs" />

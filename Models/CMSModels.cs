@@ -14,14 +14,14 @@ namespace MVCtutorial.CMS.Models
         [Display(Name = "For bakery (id - integer)")]
         public string bakeryId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Subject is required")]
         [DataType(DataType.Text)]
         [Display(Name = "Subject")]
         public string Header { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Project info is required")]
         [DataType(DataType.MultilineText)]
-        [Display(Name = "Please write what is on your mind...")]
+        [Display(Name = "Project info status")]
         public string Text { get; set; }
     }
 }
