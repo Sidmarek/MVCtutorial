@@ -5,15 +5,16 @@ using System;
 
 namespace MVCtutorial.Graph.Models
 {
-    public class TableDefefinition
+    public class TableDef
     {
         public string shortName;
         public int Idx;
         public string tabName;
     }
+
     public static class TableDefinition
     {
-        public static List<TableDefefinition> TableDefList;
+        public static List<TableDef> TableDefList;
         public static string shortName;
         // public static List 
         public static string Find(int ConnNo, string TabNAme)
@@ -22,41 +23,55 @@ namespace MVCtutorial.Graph.Models
             // else return null
             return null;
         }
-        public static void Add (int ConnNo, string TabName)
+        public static void Add(int ConnNo, string TabName)
         {
             int subscoreIdx;
             try {
                 subscoreIdx = TabName.LastIndexOf("_");
-            } catch (ArgumentNullException e ) {
-                throw new Exception (e.Message); 
+            } catch (ArgumentNullException e) {
+                throw new Exception(e.Message);
             }
             string shortedName = TabName.Substring(subscoreIdx);
-            TableDefList.Add(new TableDefefinition() { shortName = shortedName, Idx = ConnNo, tabName = TabName });
+            TableDefList.Add(new TableDef() { shortName = shortedName, Idx = ConnNo, tabName = TabName });
         }
     }
- 
+    public class TextListDef {
+        public string textlist;
+        public List<Values> values;
+    }
+    public class Values {
+        public int idx;
+        public List<string> textNames;
+    }
     public class Const
     {
         public static readonly string[]  Separ_Space = { " ", ".", ""};
     }
-
+    public class CSigMultitext
+    {
+        public string type = "multitext";
+        public string TableName;
+        public string Column;
+        public Color cColor;
+        public List<TextListDef> TextList;
+    }
     public class CSignal
     {
-        public string type;
+        public string type = "analog";
         public string SignalName;
-        public string table;
-        public int decimal;
-        public Color color;
+        public string TableName;
+        public int Decimal;
+        public Color Color;
         CSignal(string asSigName, string asTabDefName, int aiDecimal, Color aiColor)
         {
             SignalName = asSigName;
-            TabDefName = asTabDefName;
+            TableName = asTabDefName;
             Decimal = aiDecimal;
             Color = aiColor;
-
+            CField.AddSignal(this);
         }
 
-        static public CSignal FromIni(string[] separ_string)
+        public static CSignal FromIni(string[] separ_string)
         {
             int ConnectionStringNumber;
             string SignalName;
@@ -70,15 +85,14 @@ namespace MVCtutorial.Graph.Models
             ConnectionStringNumber =  int.Parse(separ_string[1]);
             SignalName = separ_string[2];
             TableName = separ_string[3];
-            TableDefName = TableDefefinition.Find(ConnectionStringNumber, TableName);
+            TableDefName = TableDefinition.Find(ConnectionStringNumber, TableName);
             if (TableDefName == null )
             {
                 TableDefinition.Add(ConnectionStringNumber, TableName);
-            }
-                
+            }   
             Decimal = int.Parse(separ_string[4]);
             cColor = Color.FromArgb(int.Parse(separ_string[5]), int.Parse(separ_string[6]), int.Parse(separ_string[7]));
-
+            
             return new CSignal(SignalName, TableDefName, Decimal, cColor);
         }
 
@@ -90,63 +104,69 @@ namespace MVCtutorial.Graph.Models
         public string ToJson()
         {
             // {"type":"analog", "table":"norm", "column":"diFlourHopper_Mass", "decimal":3, "color":#88FF00, "coef":0.001 }
+            return "Not Implemented yet";
         }
     }
-
+4
     public class CField
     {
-        public int minY;
-        //public CSignal[]   Sig;
-        public List<CSignal> SigList;
-
-        public static CField FromIni(string aCfgLine)
-        {
-            
-            return new CField();
+        public static readonly int minY = 0;
+        public int maxY;
+        public int relSize;
+        public static List<CSignal> SigList;
+        CField(int maximalY, int realSize) {
+            maxY = maximalY;
+            relSize = realSize;
+            CView.AddField(this);
         }
 
-        public bool AddSignal(CSignal aSig)
+        public static CField FromIni(string[] separ_string)
         {
+            int maximalY, realSize;
+            maximalY = int.Parse(separ_string[1]);
+            realSize = int.Parse(separ_string[2]);
+            return new CField(maximalY, realSize);
+        }
+
+        public static void AddSignal(CSignal aSig)
+        {            
             SigList.Add(aSig);
-            return true;
         }
 
     }
 
-    public class 
+    public class CView
+    {
+        public List<string> Names;
+        public static List<CField> FieldList;
+        CView(int minimalY, int maximalY, int realSize)
+        {
+            minY = minimalY;
+            maxY = maximalY;
+            relSize = realSize;
+            
+        }
+
+        public void FromIni(string[] separ_string)
+        {
+            minY = int.Parse(separ_string[1]);
+            maxY = int.Parse(separ_string[2]);
+
+        }
+
+        public static void AddField(CField CFieldInstatance)
+        {
+            FieldList.Add(CFieldInstatance);
+        }
+
+
+    }
 
 
     /// <summary>
     ///     CfgStructure defines Graph config cfg structure
     /// </summary>
-    public class CfgStructure
-    {
-        public List<View> ListOfView;
 
-        public int View {
-            get { return Viewer; }
-            set {
-                View s = new View(1);
-                ListOfView.Add()
-            } }
-        public int[] Field { get; set; }
-        public int[] Signal { get; set; }
-    }        
-   public struct View {
-        public int ViewIdx { get; set; }
-        public string ViewName { get; set; }
-        public struct Field {
-            public int Ratio { get; set; }
-            public struct Signal {
-                public int ConnectionStringNumber { get; set; }
-                public string SignalName { get; set; }
-                public string TableName { get; set; }
-                public int Decimal { get; set; }
-                public string Color { get; set; }
-            }
-        }
-   } 
-    /// <summary>
     ///     NamesStructure defines Graph config  names structure
     /// </summary>
     public class NamesStructure
