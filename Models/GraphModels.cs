@@ -5,6 +5,44 @@ using System;
 
 namespace MVCtutorial.Graph.Models
 {
+    public class LangDef
+    {
+        public string LangAbbreviation; //Abreviation = "shortcut" 
+    }
+
+    public static class LangDefinition
+    {
+        public static List<LangDef> LangDefList;
+        ///
+        public static string Find(string lang)
+        {
+            foreach (LangDef LangDef in LangDefList)
+            {
+                if (LangDef.LangAbbreviation.Contains(lang))
+                {
+                    return LangDef.LangAbbreviation;
+                }
+            }
+            return null;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="lang">lang which you want to add</param>
+        /// <param name="position">Optional parameter</param>
+        public static void Add(string lang, int position = 0)
+        {
+            if (position == 0)
+            {
+                LangDefList.Add(new LangDef() { LangAbbreviation = lang });
+            }
+            else
+            {
+                LangDefList.Insert(position, new LangDef() { LangAbbreviation = lang });
+            }
+        }
+    }
+
     public class TableDef
     {
         public string shortName;
@@ -15,12 +53,16 @@ namespace MVCtutorial.Graph.Models
     public static class TableDefinition
     {
         public static List<TableDef> TableDefList;
-        public static string shortName;
         // public static List 
-        public static string Find(int ConnNo, string TabNAme)
+        public static string Find(int ConnNo, string TabName)
         {
-            //return "norm";
-            // else return null
+            foreach (TableDef TableDef in TableDefList)
+            {
+                if (TableDef.Idx == ConnNo & TableDef.tabName.Contains(TabName))
+                {
+                    return TableDef.shortName;
+                }
+            }
             return null;
         }
         public static void Add(int ConnNo, string TabName)
@@ -35,26 +77,83 @@ namespace MVCtutorial.Graph.Models
             TableDefList.Add(new TableDef() { shortName = shortedName, Idx = ConnNo, tabName = TabName });
         }
     }
-    public class TextListDef {
+
+    public class TextlistDef
+    {
         public string textlist;
         public List<Values> values;
+        
     }
-    public class Values {
+
+    public static class TextlistDefinition
+    {
+        public static List<TextlistDef> TextlistDefList;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="textlist"></param>
+        /// <returns></returns>
+        public static string Find(string textlist)
+        {
+            foreach (TextlistDef TextlistDef in TextlistDefList) {
+                if (TextlistDef.textlist.Contains(textlist))
+                {
+                    return TextlistDef.textlist;
+                }
+            }
+            return null;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="textsArray"></param>
+        /// <param name="Idxs"></param>
+        /// <returns></returns>
+        public static TextlistDef Add(string name,string[][] textsArray, int[] Idxs)
+        {
+            List<Values> tempValues = new List<Values>();
+            int i = 0;
+            foreach (string[] text in textsArray)
+            {
+                tempValues.Add(new Values() { idx=Idxs[i], texts= new List<string>(text)});
+                i++;
+            }
+            return new TextlistDef() { textlist = name, values = tempValues };
+        }
+    }
+
+    public class Values
+    {
         public int idx;
-        public List<string> textNames;
+        public List<string> texts;
     }
+
     public class Const
     {
         public static readonly string[]  Separ_Space = { " ", ".", ""};
     }
+
     public class CSigMultitext
     {
         public string type = "multitext";
         public string TableName;
         public string Column;
-        public Color cColor;
-        public List<TextListDef> TextList;
+        public Color Color;
+        public TextlistDef textlist;
+        CSigMultitext(string asTabDefName, string asColumn, Color acColor, TextlistDef atTextListDef)
+        {
+            TableName = asTabDefName;
+            Column = asColumn;
+            Color = acColor;
+            textlist = atTextListDef;
+        }
+        public static CSigMultitext FromIni() {
+
+            return new CSigMultitext();
+         }
     }
+
     public class CSignal
     {
         public string type = "analog";
@@ -62,12 +161,12 @@ namespace MVCtutorial.Graph.Models
         public string TableName;
         public int Decimal;
         public Color Color;
-        CSignal(string asSigName, string asTabDefName, int aiDecimal, Color aiColor)
+        CSignal(string asSigName, string asTabDefName, int aiDecimal, Color acColor)
         {
             SignalName = asSigName;
             TableName = asTabDefName;
             Decimal = aiDecimal;
-            Color = aiColor;
+            Color = acColor;
             CField.AddSignal(this);
         }
 
@@ -78,7 +177,7 @@ namespace MVCtutorial.Graph.Models
             string TableName;
             string TableDefName;
             int Decimal;
-            Color cColor;         
+            Color Color;         
             // priklad:   Signal=3:iWMU_Temp  arBF_norm 1 255,0,0
             //            0      1 2          3         4 5   6 7
 
@@ -91,9 +190,9 @@ namespace MVCtutorial.Graph.Models
                 TableDefinition.Add(ConnectionStringNumber, TableName);
             }   
             Decimal = int.Parse(separ_string[4]);
-            cColor = Color.FromArgb(int.Parse(separ_string[5]), int.Parse(separ_string[6]), int.Parse(separ_string[7]));
+            Color = Color.FromArgb(int.Parse(separ_string[5]), int.Parse(separ_string[6]), int.Parse(separ_string[7]));
             
-            return new CSignal(SignalName, TableDefName, Decimal, cColor);
+            return new CSignal(SignalName, TableDefName, Decimal, Color);
         }
 
         static public CSignal FromJson(string sJson)
@@ -107,13 +206,14 @@ namespace MVCtutorial.Graph.Models
             return "Not Implemented yet";
         }
     }
-4
+
     public class CField
     {
         public static readonly int minY = 0;
         public int maxY;
         public int relSize;
         public static List<CSignal> SigList;
+        public static List<CSigMultitext> SigMultiList;
         CField(int maximalY, int realSize) {
             maxY = maximalY;
             relSize = realSize;
@@ -132,34 +232,32 @@ namespace MVCtutorial.Graph.Models
         {            
             SigList.Add(aSig);
         }
-
+        public static void AddSignalMultitext(CSigMultitext aSigMulti)
+        {
+            SigMultiList.Add(aSigMulti);
+        }
     }
 
     public class CView
     {
         public List<string> Names;
         public static List<CField> FieldList;
-        CView(int minimalY, int maximalY, int realSize)
-        {
-            minY = minimalY;
-            maxY = maximalY;
-            relSize = realSize;
-            
-        }
 
-        public void FromIni(string[] separ_string)
+        public CView FromIni(string[] separ_string)
         {
-            minY = int.Parse(separ_string[1]);
-            maxY = int.Parse(separ_string[2]);
-
+            string s;
+            //Cylcle starts on two beacause of skiping position of word View and number of view (ex. 3)
+            for (int i=2;i<separ_string.Length;i++) {
+                s = separ_string[i-1];
+                Names.Add(s);
+            }
+            return new CView();
         }
 
         public static void AddField(CField CFieldInstatance)
         {
             FieldList.Add(CFieldInstatance);
         }
-
-
     }
 
 
@@ -169,45 +267,4 @@ namespace MVCtutorial.Graph.Models
 
     ///     NamesStructure defines Graph config  names structure
     /// </summary>
-    public class NamesStructure
-    {
-        ///
-        public void write(int rowNumber, int NamesStructure_position, object toStructure)
-        {
-            switch (NamesStructure_position)
-            {
-                case 1:
-                    View[rowNumber] = toStructure.ToString();
-                    break;
-                case 2:
-                    Field[rowNumber] = int.Parse(toStructure.ToString());
-                    break;
-                case 3:
-                    Ratio[rowNumber] = int.Parse(toStructure.ToString());
-                    break;
-                case 4:
-                    Signal[rowNumber] = int.Parse(toStructure.ToString());
-                    break;
-                case 5:
-                    SignalName[rowNumber] = toStructure.ToString();
-                    break;
-                case 6:
-                    Decimal[rowNumber] = int.Parse(toStructure.ToString());
-                    break;
-                case 7:
-                    Color[rowNumber] = toStructure.ToString();
-                    break;
-                default:
-                    break;
-            }
-        }
-        public string[] View { get; private set; }
-        public int[] Field { get; private set; }
-        public int[] Ratio { get; private set; }
-        public int[] Signal { get; private set; }
-        public string[] SignalName { get; private set; }
-        public string[] TableName { get; private set; }
-        public int[] Decimal { get; private set; }
-        public string[] Color { get; private set; }
-    }
 }

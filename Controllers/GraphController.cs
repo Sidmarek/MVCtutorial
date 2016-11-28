@@ -96,42 +96,6 @@ namespace MVCtutorial.Controllers
             }
             return separated_lines;
         }
-        /// <summary>
-        /// Prepare config cfg structure for reading
-        /// </summary>
-        /// <param name="separated_string">One row of CfgFile</param>
-        /// <parem name="rowNumber">Number of row in config names file</parem>
-        /// <returns>Cfg Struture for reading</returns>
-        public CfgStructure prepareCfgStructure(string[] separated_string, int rowNumber)
-        {
-            CfgStructure cfg = new CfgStructure();
-            int i = 0;
-            foreach (string s in separated_string) {
-                i++;
-                foreach (var iterator in typeof(View).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
-                {
-                    string some = iterator.Name.ToString();
-                }
-            }
-            return cfg;
-        }
-        /// <summary>
-        /// Prepare config names structure for reading
-        /// </summary>
-        /// <param name="separated_string">One row of NamesFile</param>
-        /// <parem name="rowNumber">Number of row in config names file</parem>
-        /// <returns>Names Structure for reading</returns>
-        public NamesStructure prepareNamesStructure(string[] separated_string, int rowNumber)
-        {
-            NamesStructure names = new NamesStructure();
-            foreach (string s in separated_string)
-            {
-                for (int i = 0; i >= typeof(NamesStructure).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance).Count(); i++)
-                {
-                    names.write(rowNumber, i, s);
-                }
-            }
-            return names;
-        }
+
     }
 }
