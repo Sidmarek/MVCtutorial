@@ -2,7 +2,7 @@
 //using System.Web.UI.WebControls;
 using System.Drawing;
 using System;
-
+using MVCtutorial.Controllers;
 namespace MVCtutorial.Graph.Models
 {
     public class LangDef
@@ -65,7 +65,7 @@ namespace MVCtutorial.Graph.Models
             }
             return null;
         }
-        public static void Add(int ConnNo, string TabName)
+        public static string Add(int ConnNo, string TabName)
         {
             int subscoreIdx;
             try {
@@ -75,7 +75,14 @@ namespace MVCtutorial.Graph.Models
             }
             string shortedName = TabName.Substring(subscoreIdx);
             TableDefList.Add(new TableDef() { shortName = shortedName, Idx = ConnNo, tabName = TabName });
+            return shortedName;
         }
+    }
+
+    public class Values
+    {
+        public int idx;
+        public string[] texts;
     }
 
     public class TextlistDef
@@ -87,7 +94,7 @@ namespace MVCtutorial.Graph.Models
 
     public static class TextlistDefinition
     {
-        public static List<TextlistDef> TextlistDefList;
+        public static List<TextlistDef> TextlistDefList = new List<TextlistDef>();
         /// <summary>
         /// 
         /// </summary>
@@ -110,23 +117,43 @@ namespace MVCtutorial.Graph.Models
         /// <param name="textsArray"></param>
         /// <param name="Idxs"></param>
         /// <returns></returns>
-        public static TextlistDef Add(string name,string[][] textsArray, int[] Idxs)
+        public static string Add(string name,List<string[]> textsArray, List<int> Idxs)
         {
             List<Values> tempValues = new List<Values>();
-            int i = 0;
-            foreach (string[] text in textsArray)
+            
+            for (int i = 0;i<textsArray.Count;i++)//First row is name row - textlist name 
             {
-                tempValues.Add(new Values() { idx=Idxs[i], texts= new List<string>(text)});
-                i++;
+                tempValues.Add(new Values() { idx= Idxs[i], texts= textsArray[i]});
             }
-            return new TextlistDef() { textlist = name, values = tempValues };
+            TextlistDefList.Add(new TextlistDef() { textlist = name, values = tempValues });
+            return name;
         }
     }
+    public class NameDef {
+        public string table;
+        public string column;
+        public string[] fullNames;
+        public string[] units;
+    }
+    public class NameDefinition {
+        public static List<NameDef> NameDefList = new List<NameDef>();
+        public static string Find(string column)
+        {
+            foreach ( NameDef NameDef in NameDefList)
+            {
+                if (NameDef.column.Contains(column))
+                {
+                    return NameDef.column;
+                }
+            }
+            return null;
+        }
 
-    public class Values
-    {
-        public int idx;
-        public List<string> texts;
+        public static string Add(string astable, string ascolumn, string[] asfullNames, string[] asunits)
+        {         
+            NameDefList.Add(new NameDef() { table = astable, column = ascolumn, fullNames = asfullNames, units  = asunits});
+            return ascolumn;
+        }
     }
 
     public class Const
@@ -140,17 +167,41 @@ namespace MVCtutorial.Graph.Models
         public string TableName;
         public string Column;
         public Color Color;
-        public TextlistDef textlist;
-        CSigMultitext(string asTabDefName, string asColumn, Color acColor, TextlistDef atTextListDef)
+        public string textlist;
+        CSigMultitext(string asTabDefName, string asColumn, Color acColor, string asTextListDef)
         {
             TableName = asTabDefName;
             Column = asColumn;
             Color = acColor;
-            textlist = atTextListDef;
+            textlist = asTextListDef;
         }
-        public static CSigMultitext FromIni() {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="separ_names_string">First row of that </param>
+        /// <param name="separ_cfg_string"></param>
+        /// <returns></returns>
+        public static CSigMultitext FromIni(string[] separ_names_string, string[] separ_cfg_string) {
+            string TableDefName, Column, TableName, textlist;
+            int ConnectionStringNumber;
+            Color Color;
 
-            return new CSigMultitext();
+            ConnectionStringNumber = int.Parse(separ_cfg_string[1]);
+            Column = separ_cfg_string[2];
+            TableName = separ_cfg_string[3];
+            TableDefName = TableDefinition.Find(ConnectionStringNumber, TableName);
+            if (TableDefName == null)
+            {
+                TableDefinition.Add(ConnectionStringNumber, TableName);
+            }
+            Color = Color.FromArgb(int.Parse(separ_cfg_string[5]), int.Parse(separ_cfg_string[6]), int.Parse(separ_cfg_string[7]));
+
+            textlist = TextlistDefinition.Find(separ_names_string[2]);
+            if (textlist == null) {
+                
+            }
+
+            return new CSigMultitext(TableDefName, Column, Color, textlist);
          }
     }
 
@@ -170,27 +221,25 @@ namespace MVCtutorial.Graph.Models
             CField.AddSignal(this);
         }
 
-        public static CSignal FromIni(string[] separ_string)
+        public static CSignal FromIni(string[] separ_cfg_string)
         {
             int ConnectionStringNumber;
-            string SignalName;
-            string TableName;
-            string TableDefName;
+            string SignalName, TableName, TableDefName;
             int Decimal;
             Color Color;         
             // priklad:   Signal=3:iWMU_Temp  arBF_norm 1 255,0,0
             //            0      1 2          3         4 5   6 7
 
-            ConnectionStringNumber =  int.Parse(separ_string[1]);
-            SignalName = separ_string[2];
-            TableName = separ_string[3];
+            ConnectionStringNumber =  int.Parse(separ_cfg_string[1]);
+            SignalName = separ_cfg_string[2];
+            TableName = separ_cfg_string[3];
             TableDefName = TableDefinition.Find(ConnectionStringNumber, TableName);
             if (TableDefName == null )
             {
-                TableDefinition.Add(ConnectionStringNumber, TableName);
+                TableDefName = TableDefinition.Add(ConnectionStringNumber, TableName);
             }   
-            Decimal = int.Parse(separ_string[4]);
-            Color = Color.FromArgb(int.Parse(separ_string[5]), int.Parse(separ_string[6]), int.Parse(separ_string[7]));
+            Decimal = int.Parse(separ_cfg_string[4]);
+            Color = Color.FromArgb(int.Parse(separ_cfg_string[5]), int.Parse(separ_cfg_string[6]), int.Parse(separ_cfg_string[7]));
             
             return new CSignal(SignalName, TableDefName, Decimal, Color);
         }

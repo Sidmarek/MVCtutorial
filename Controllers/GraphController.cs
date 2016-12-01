@@ -44,7 +44,8 @@ namespace MVCtutorial.Controllers
                     ViewData["pathNames"] = Session[key];
                 }
             }
-            IniConfig ini = new IniConfig(ViewData["pathConfig"].ToString());
+            Iniparser ini = new Iniparser(ViewData["pathConfig"].ToString(), ViewData["pathNames"].ToString());
+            ini.ParseNames(Const.Separ_Space, );
             /*
             IniFile MyIni = new IniFile(ViewData["pathConfig"].ToString());
             if (System.IO.File.Exists(ViewData["pathConfig"].ToString()))
@@ -63,18 +64,95 @@ namespace MVCtutorial.Controllers
 
     }
 
+    public class Const
+    {
+        public static readonly string[] Separ_Space = {":", "=", "  ", "             ", ";;", "\n"};
+        public static readonly string[] Separ_equate = { "=" };
+    }
+
+
     /// <summary>
     /// Class for parsing .ini configs using reading all lines. -- Bad written ini files (without sections)
     /// </summary>
-    class IniConfig
+    class Iniparser
     {
-        private string path;
-        public IniConfig(string path) {
-
+        private static string Path;
+        private static string NamePath;
+        public Iniparser(string apath, string aNamePath) {
+            Path = apath;
+            NamePath = aNamePath;
         }
-        public void writeAllLinesCfg()
+        public void ParseNames (string[] separators)
         {
+            string[] lines = System.IO.File.ReadAllLines(NamePath);
 
+            string[] separeted_string = null ;
+            string[] multitext_line = null, line_with_id = null;
+            List<string[]> multitext_lines = new List<string[]>();
+
+            string multitext_name = null;
+            string line_without_id = null;
+            string name_line = null;
+            string name_help_line = null;
+
+            List<int> Idxs = new List<int>();
+            int i = 0;
+            int position;
+            
+
+            foreach (string line in lines)
+            {
+                separeted_string = line.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+                if (!(separeted_string.Length==0))
+                {
+                    switch (separeted_string[0])
+                    {
+                        case "DefineMultitext":
+                           multitext_name = separeted_string[1];
+                            for (int j=(i+1); j < lines.Length; j++)
+                            {
+                                if (lines[j].Length == 0)
+                                {
+                                    j = lines.Length;
+                                    TextlistDefinition.Add(multitext_name,multitext_lines, Idxs);
+                                }
+                                else
+                                {
+                                    line_with_id = lines[j].Split(separators, StringSplitOptions.RemoveEmptyEntries);
+                                    Idxs.Add(int.Parse(line_with_id[0]));
+                                    position = lines[j].LastIndexOf(';');
+                                    line_without_id = lines[j].Substring(position+1);
+                                    multitext_line = line_without_id.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+                                    multitext_lines.Add(multitext_line);
+                                }
+                            }
+                        break;
+                        case "# =":
+                            for (int k = i; k < lines.Length; k++)
+                                if (!(lines[k].Length == 0))
+                                {
+                                    name_line = lines[k].Split(Const.Separ_equate, StringSplitOptions.RemoveEmptyEntries);
+                                }
+                        break;
+                    }
+                }               
+                i++;
+            }
+        }
+
+        public string[][] ParseCfgNames(string[] separators)
+        {
+            string[] lines = System.IO.File.ReadAllLines(Path);
+            string[] separated_string = null;
+            string[][] separated_lines = null;
+            int i = 0;
+            foreach (string line in lines)
+            {
+                separated_string = line.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+                separated_lines[i] = separated_string;
+                i++;
+            }
+            return separated_lines;
         }
 
         /// <summary>
@@ -84,7 +162,7 @@ namespace MVCtutorial.Controllers
         /// <returns> Two dimensional Array where first diemension is for structure of config and second for rows</returns>
         public string[][] readAllLines(string[] separators)
         {
-            string[] lines = System.IO.File.ReadAllLines(path);
+            string[] lines = System.IO.File.ReadAllLines(Path);
             string[] separated_string = null;
             string[][] separated_lines = null;
             int i = 0;
