@@ -45,7 +45,7 @@ namespace MVCtutorial.Controllers
                 }
             }
             Iniparser ini = new Iniparser(ViewData["pathConfig"].ToString(), ViewData["pathNames"].ToString());
-            ini.ParseNames(Const.Separ_Space, );
+            ini.ParseNames(Const.separators);
             /*
             IniFile MyIni = new IniFile(ViewData["pathConfig"].ToString());
             if (System.IO.File.Exists(ViewData["pathConfig"].ToString()))
@@ -66,8 +66,10 @@ namespace MVCtutorial.Controllers
 
     public class Const
     {
-        public static readonly string[] Separ_Space = {":", "=", "  ", "             ", ";;", "\n"};
-        public static readonly string[] Separ_equate = { "=" };
+        public static readonly string[] separators = { ":", "=", "  ", "             ", ";;", "\n" };
+        public static readonly string[] separ_equate = {"="};
+        public static readonly string[] separ_dollar = { "$"};
+        public static readonly string[] separ_names = { "$", "             ", ";" };
     }
 
 
@@ -84,56 +86,63 @@ namespace MVCtutorial.Controllers
         }
         public void ParseNames (string[] separators)
         {
-            string[] lines = System.IO.File.ReadAllLines(NamePath);
-
-            string[] separeted_string = null ;
-            string[] multitext_line = null, line_with_id = null;
+            
+            string[] separeted_string = null, multitext_line = null, line_with_id = null, nameLine = null, nameLineFirstPart = null, nameLineLangMutate = null;
             List<string[]> multitext_lines = new List<string[]>();
+            List<string> units = new List<string>();
+            List<string> langs = new List<string>();
 
-            string multitext_name = null;
-            string line_without_id = null;
-            string name_line = null;
-            string name_help_line = null;
+            string multitext_name = null, line_without_id = null, tableName = null;
 
             List<int> Idxs = new List<int>();
-            int i = 0;
-            int position;
-            
+            int position, result;
 
-            foreach (string line in lines)
+
+            string[] lines = System.IO.File.ReadAllLines(NamePath);
+
+            for (int i=0;i<lines.Length;i++)
             {
-                separeted_string = line.Split(separators, StringSplitOptions.RemoveEmptyEntries);
-                if (!(separeted_string.Length==0))
+                separeted_string = lines[i].Split(separators, StringSplitOptions.RemoveEmptyEntries);
+                if (!(separeted_string.Length == 0))
                 {
-                    switch (separeted_string[0])
-                    {
-                        case "DefineMultitext":
-                           multitext_name = separeted_string[1];
-                            for (int j=(i+1); j < lines.Length; j++)
+                    if (separeted_string[0].Contains("DefineMultitext")) {
+                        multitext_name = separeted_string[1];
+                            if (lines[i].Length == 0)
                             {
-                                if (lines[j].Length == 0)
-                                {
-                                    j = lines.Length;
-                                    TextlistDefinition.Add(multitext_name,multitext_lines, Idxs);
-                                }
-                                else
-                                {
-                                    line_with_id = lines[j].Split(separators, StringSplitOptions.RemoveEmptyEntries);
-                                    Idxs.Add(int.Parse(line_with_id[0]));
-                                    position = lines[j].LastIndexOf(';');
-                                    line_without_id = lines[j].Substring(position+1);
-                                    multitext_line = line_without_id.Split(separators, StringSplitOptions.RemoveEmptyEntries);
-                                    multitext_lines.Add(multitext_line);
-                                }
+                                i = lines.Length;
+                                TextlistDefinition.Add(multitext_name, multitext_lines, Idxs);
                             }
-                        break;
-                        case "# =":
-                            for (int k = i; k < lines.Length; k++)
-                                if (!(lines[k].Length == 0))
-                                {
-                                    name_line = lines[k].Split(Const.Separ_equate, StringSplitOptions.RemoveEmptyEntries);
+                            else
+                            {
+                                line_with_id = lines[i].Split(separators, StringSplitOptions.RemoveEmptyEntries);
+                                Idxs.Add(int.Parse(line_with_id[0]));
+                                position = lines[i].LastIndexOf(';');
+                                line_without_id = lines[i].Substring(position + 1);
+                                multitext_line = line_without_id.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+                                multitext_lines.Add(multitext_line);
+                            }
+                        }
+                    }
+                    
+                    if (int.TryParse(separeted_string[0], out result)==true) { 
+                        for (int k = i; k < lines.Length; k++)
+                        {
+                            if (!(lines[k].Length == 0) && !(lines[k].Contains("#")))
+                            {
+                                nameLine = lines[k].Split(Const.separ_equate, StringSplitOptions.RemoveEmptyEntries);
+                                nameLineFirstPart = nameLine[0].Split(separators, StringSplitOptions.RemoveEmptyEntries);
+                                nameLineLangMutate = nameLine[1].Split(Const.separ_names, StringSplitOptions.RemoveEmptyEntries);
+                                for (int idx = 0; idx < nameLineLangMutate.Length; idx = idx + 2) {
+                                    units.Add(nameLineLangMutate[idx]);
+                                    langs.Add(nameLineLangMutate[idx + 1]);
                                 }
-                        break;
+                                tableName = TableDefinition.Find(int.Parse(nameLineFirstPart[0]), nameLineFirstPart[1]);
+                                if (tableName == null) {
+                                    TableDefinition.Add(int.Parse(nameLineFirstPart[0]), nameLineFirstPart[1]);
+                                }
+                                NameDefinition.Add(tableName, nameLineFirstPart[1], langs, units);
+                            }
+                        }
                     }
                 }               
                 i++;

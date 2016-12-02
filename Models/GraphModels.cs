@@ -132,8 +132,8 @@ namespace MVCtutorial.Graph.Models
     public class NameDef {
         public string table;
         public string column;
-        public string[] fullNames;
-        public string[] units;
+        public List<string> fullNames;
+        public List<string> units;
     }
     public class NameDefinition {
         public static List<NameDef> NameDefList = new List<NameDef>();
@@ -149,7 +149,7 @@ namespace MVCtutorial.Graph.Models
             return null;
         }
 
-        public static string Add(string astable, string ascolumn, string[] asfullNames, string[] asunits)
+        public static string Add(string astable, string ascolumn, List<string> asfullNames, List<string> asunits)
         {         
             NameDefList.Add(new NameDef() { table = astable, column = ascolumn, fullNames = asfullNames, units  = asunits});
             return ascolumn;
