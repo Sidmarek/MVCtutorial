@@ -3,6 +3,8 @@
 using System.Drawing;
 using System;
 using MVCtutorial.Controllers;
+using System.Reflection;
+
 namespace MVCtutorial.Graph.Models
 {
     public class LangDef
@@ -52,7 +54,7 @@ namespace MVCtutorial.Graph.Models
 
     public static class TableDefinition
     {
-        public static List<TableDef> TableDefList;
+        public static List<TableDef> TableDefList = new List<TableDef>();
         // public static List 
         public static string Find(int ConnNo, string TabName)
         {
@@ -73,7 +75,7 @@ namespace MVCtutorial.Graph.Models
             } catch (ArgumentNullException e) {
                 throw new Exception(e.Message);
             }
-            string shortedName = TabName.Substring(subscoreIdx);
+            string shortedName = TabName.Substring(subscoreIdx+1);
             TableDefList.Add(new TableDef() { shortName = shortedName, Idx = ConnNo, tabName = TabName });
             return shortedName;
         }
@@ -82,14 +84,13 @@ namespace MVCtutorial.Graph.Models
     public class Values
     {
         public int idx;
-        public string[] texts;
+        public string[] langTexts;
     }
 
     public class TextlistDef
     {
         public string textlist;
-        public List<Values> values;
-        
+        public List<Values> values;   
     }
 
     public static class TextlistDefinition
@@ -123,10 +124,56 @@ namespace MVCtutorial.Graph.Models
             
             for (int i = 0;i<textsArray.Count;i++)//First row is name row - textlist name 
             {
-                tempValues.Add(new Values() { idx= Idxs[i], texts= textsArray[i]});
+                tempValues.Add(new Values() { idx= Idxs[i], langTexts= textsArray[i]});
             }
             TextlistDefList.Add(new TextlistDef() { textlist = name, values = tempValues });
             return name;
+        }
+        public static bool  UpdateName(string oldName, string newName) {
+            foreach (TextlistDef TextlistDef in TextlistDefList)
+            {
+                if (TextlistDef.textlist.Contains(oldName))
+                {
+                    TextlistDef.textlist = newName;
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
+    public class ColumnTextlist {
+        public string column;
+        public string TextlistName;
+    }
+
+    public class ColumnTextlistDefine {
+        public static List<ColumnTextlist> ColumnTextlistList = new List<ColumnTextlist>();
+
+        public static string FindtextlistName(string column)
+        {
+            foreach (ColumnTextlist ColumntextlistInstance in ColumnTextlistList)
+            {
+                if (ColumntextlistInstance.column.Contains(column))
+                {
+                    return ColumntextlistInstance.TextlistName;
+                }
+            }
+            return null;
+        }
+        public static string Findcolumn(string TextlistName)
+        {
+            foreach (ColumnTextlist ColumntextlistInstance in ColumnTextlistList)
+            {
+                if (ColumntextlistInstance.TextlistName.Contains(TextlistName))
+                {
+                    return ColumntextlistInstance.column;
+                }
+            }
+            return null;
+        }
+        public static void Add(string column, string TextlistName) {
+            ColumnTextlistList.Add(new ColumnTextlist() { column = column, TextlistName = TextlistName });
         }
     }
     public class NameDef {
@@ -149,7 +196,7 @@ namespace MVCtutorial.Graph.Models
             return null;
         }
 
-        public static string Add(string astable, string ascolumn, List<string> asfullNames, List<string> asunits)
+        public static string Add(string ascolumn, List<string> asfullNames, List<string> asunits, string astable = null)
         {         
             NameDefList.Add(new NameDef() { table = astable, column = ascolumn, fullNames = asfullNames, units  = asunits});
             return ascolumn;
@@ -181,7 +228,7 @@ namespace MVCtutorial.Graph.Models
         /// <param name="separ_names_string">First row of that </param>
         /// <param name="separ_cfg_string"></param>
         /// <returns></returns>
-        public static CSigMultitext FromIni(string[] separ_names_string, string[] separ_cfg_string) {
+        public static CSigMultitext FromIni(string[] separ_cfg_string) {
             string TableDefName, Column, TableName, textlist;
             int ConnectionStringNumber;
             Color Color;
@@ -196,9 +243,9 @@ namespace MVCtutorial.Graph.Models
             }
             Color = Color.FromArgb(int.Parse(separ_cfg_string[5]), int.Parse(separ_cfg_string[6]), int.Parse(separ_cfg_string[7]));
 
-            textlist = TextlistDefinition.Find(separ_names_string[2]);
+            textlist = ColumnTextlistDefine.FindtextlistName(separ_cfg_string[2]);
             if (textlist == null) {
-                
+
             }
 
             return new CSigMultitext(TableDefName, Column, Color, textlist);
@@ -251,7 +298,29 @@ namespace MVCtutorial.Graph.Models
 
         public string ToJson()
         {
+            int i = 0;
+            int position = 0;
+            string[] paramNames = new string[typeof(CSignal).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance).Length];
+            string[] paramValues = new string[typeof(CSignal).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance).Length];
             // {"type":"analog", "table":"norm", "column":"diFlourHopper_Mass", "decimal":3, "color":#88FF00, "coef":0.001 }
+            foreach (FieldInfo FI in typeof(CSignal).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
+            {                
+                string param = FI.Name.ToLower();
+                object obj = FI.GetValue(this);
+                string paramValue = obj.ToString();
+                paramNames[i] = param;
+                paramValues[i] = paramValue;
+                i++;
+            }
+            string json = "";
+            i = 0;
+            foreach (string s in paramNames)
+            {
+                json.Insert(position, s);
+                json.Insert(position+1, ":");
+                position += s.Length+1;
+                i++;
+            }           
             return "Not Implemented yet";
         }
     }
@@ -261,8 +330,8 @@ namespace MVCtutorial.Graph.Models
         public static readonly int minY = 0;
         public int maxY;
         public int relSize;
-        public static List<CSignal> SigList;
-        public static List<CSigMultitext> SigMultiList;
+        public static List<CSignal> SigList = new List<CSignal>();
+        public static List<CSigMultitext> SigMultiList = new List<CSigMultitext>();
         CField(int maximalY, int realSize) {
             maxY = maximalY;
             relSize = realSize;
@@ -289,10 +358,10 @@ namespace MVCtutorial.Graph.Models
 
     public class CView
     {
-        public List<string> Names;
-        public static List<CField> FieldList;
+        public static List<string> Names;
+        public static List<CField> FieldList = new List<CField>();
 
-        public CView FromIni(string[] separ_string)
+        public static CView FromIni(string[] separ_string)
         {
             string s;
             //Cylcle starts on two beacause of skiping position of word View and number of view (ex. 3)
@@ -309,6 +378,13 @@ namespace MVCtutorial.Graph.Models
         }
     }
 
+    public class CIniFile {
+        public static List<CView> ViewList = new List<CView>();
+        public static void AddView(CView CViewInstance)
+        {
+            ViewList.Add(CViewInstance);
+        }
+    }
 
     /// <summary>
     ///     CfgStructure defines Graph config cfg structure
