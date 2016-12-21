@@ -51,25 +51,21 @@ namespace MVCtutorial.Controllers
         private void parseSigMultitext(string[] separeted_string)
         {
             CSigMultitext SigMultitext = CSigMultitext.FromIni(separeted_string);
-            CField.AddSignalMultitext(SigMultitext);
         }
 
         private void parseSignal(string[] separeted_string)
         {
-            CSignal Signal = CSignal.FromIni(separeted_string);
-            CField.AddSignal(Signal);
+            CSignal.FromIni(separeted_string);
         }
 
         private void parseField(string[] separeted_string)
         {
-            CField Field = CField.FromIni(separeted_string);
-            CView.AddField(Field);
+            CField.FromIni(separeted_string);
         }
 
         private void parseView(string[] separeted_string)
         {
-            CView View = CView.FromIni(separeted_string);
-            CIniFile.AddView(View);
+            CView.FromIni(separeted_string);
         }
 
         public void ParseNames(string[] separators)
@@ -182,7 +178,7 @@ namespace MVCtutorial.Controllers
             }
             return 0;
         }
-        public void multitextInline (string tableName, string nameLineSecondPart) {
+        private void multitextInline (string tableName, string nameLineSecondPart) {
             List<string[]> textListValues = new List<string[]>();
             List<int> Idxs = new List<int>();
             string[] separatedFromDollars = nameLineSecondPart.Split(Const.separ_dollar, StringSplitOptions.RemoveEmptyEntries);
@@ -199,26 +195,5 @@ namespace MVCtutorial.Controllers
                 TextlistDefinition.Add(tableName, textListValues, Idxs);
             }
         }
-
-        /// <summary>
-        /// Reads all lines from config files and gives them to array (2D)
-        /// </summary>
-        /// <param name="separators">Parameter defines seperators as '=', '#', '$' etc.</param>
-        /// <returns> Two dimensional Array where first diemension is for structure of config and second for rows</returns>
-        public string[][] readAllLines(string[] separators)
-        {
-            string[] lines = System.IO.File.ReadAllLines(CfgPath);
-            string[] separated_string = null;
-            string[][] separated_lines = null;
-            int i = 0;
-            foreach (string line in lines)
-            {
-                separated_string = line.Split(separators, StringSplitOptions.RemoveEmptyEntries);
-                separated_lines[i] = separated_string;
-                i++;
-            }
-            return separated_lines;
-        }
-
     }
 }

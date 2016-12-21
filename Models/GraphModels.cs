@@ -4,6 +4,7 @@ using System.Drawing;
 using System;
 using MVCtutorial.Controllers;
 using System.Reflection;
+using System.Text;
 
 namespace MVCtutorial.Graph.Models
 {
@@ -205,7 +206,12 @@ namespace MVCtutorial.Graph.Models
 
     public class Const
     {
-        public static readonly string[]  Separ_Space = { " ", ".", ""};
+        public static readonly string[] separators = { ":", "=", "  ", "             ", ";;", "\n" };
+        public static readonly string[] separators_signal = { ":", "=", " ", ",", "  ", "             ", ";;", "\n" };
+        public static readonly string[] separ_equate = { "=" };
+        public static readonly string[] separ_dollar = { "$" };
+        public static readonly string[] separ_names = { "$", "             ", ";" };
+        public static readonly string[] separ_backslash = { @"\", "$", "             ", ";" };
     }
 
     public class CSigMultitext
@@ -221,6 +227,11 @@ namespace MVCtutorial.Graph.Models
             Column = asColumn;
             Color = acColor;
             textlist = asTextListDef;
+            int lastView = CIniFile.ViewList.Count - 1;
+            CView curentView = CIniFile.ViewList[lastView];
+            int lastField = curentView.FieldList.Count - 1;
+            CField currentField = curentView.FieldList[lastField];
+            currentField.AddSignalMultitext(this);
         }
         /// <summary>
         /// 
@@ -265,7 +276,11 @@ namespace MVCtutorial.Graph.Models
             TableName = asTabDefName;
             Decimal = aiDecimal;
             Color = acColor;
-            CField.AddSignal(this);
+            int lastView = CIniFile.ViewList.Count - 1;
+            CView curentView = CIniFile.ViewList[lastView];
+            int lastField = curentView.FieldList.Count - 1;
+            CField currentField = curentView.FieldList[lastField]; 
+            currentField.AddSignal(this);
         }
 
         public static CSignal FromIni(string[] separ_cfg_string)
@@ -286,7 +301,7 @@ namespace MVCtutorial.Graph.Models
                 TableDefName = TableDefinition.Add(ConnectionStringNumber, TableName);
             }   
             Decimal = int.Parse(separ_cfg_string[4]);
-            Color = Color.FromArgb(int.Parse(separ_cfg_string[5]), int.Parse(separ_cfg_string[6]), int.Parse(separ_cfg_string[7]));
+            Color = Color.FromArgb(int.Parse(separ_cfg_string[5]), int.Parse(separ_cfg_string[6]), int.Parse(separ_cfg_string[7]));          
             
             return new CSignal(SignalName, TableDefName, Decimal, Color);
         }
@@ -295,33 +310,40 @@ namespace MVCtutorial.Graph.Models
         {
             return null;
         }
-
-        public string ToJson()
+        public string ToJson<T>()
         {
             int i = 0;
-            int position = 0;
-            string[] paramNames = new string[typeof(CSignal).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance).Length];
-            string[] paramValues = new string[typeof(CSignal).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance).Length];
+            string[] paramNames = new string[typeof(T).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance).Length];
+            string[] paramValues = new string[typeof(T).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance).Length];
             // {"type":"analog", "table":"norm", "column":"diFlourHopper_Mass", "decimal":3, "color":#88FF00, "coef":0.001 }
-            foreach (FieldInfo FI in typeof(CSignal).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
-            {                
+            string json = "{";
+            foreach (FieldInfo FI in typeof(T).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
+            {
                 string param = FI.Name.ToLower();
                 object obj = FI.GetValue(this);
                 string paramValue = obj.ToString();
                 paramNames[i] = param;
                 paramValues[i] = paramValue;
+                json += "\"" + paramNames[i] + "\":";
+                string FIType = FI.FieldType.Name.ToString();
+                switch (FIType)
+                {
+                    case "String":
+                        json += "\"" + paramValues[i] + "\", ";
+                        break;
+                    case "Color":
+                        json += ColorTranslator.ToHtml(Color).ToString() + ", ";
+                        break;
+                    default:
+                        json += paramValues[i] + ", ";
+                        break;
+                }
                 i++;
             }
-            string json = "";
-            i = 0;
-            foreach (string s in paramNames)
-            {
-                json.Insert(position, s);
-                json.Insert(position+1, ":");
-                position += s.Length+1;
-                i++;
-            }           
-            return "Not Implemented yet";
+            json = json.Remove(json.LastIndexOf(", "), 2);
+            json += "}";
+
+            return json;
         }
     }
 
@@ -330,12 +352,14 @@ namespace MVCtutorial.Graph.Models
         public static readonly int minY = 0;
         public int maxY;
         public int relSize;
-        public static List<CSignal> SigList = new List<CSignal>();
-        public static List<CSigMultitext> SigMultiList = new List<CSigMultitext>();
+        public List<CSignal> SigList = new List<CSignal>();
+        public List<CSigMultitext> SigMultiList = new List<CSigMultitext>();
         CField(int maximalY, int realSize) {
             maxY = maximalY;
             relSize = realSize;
-            CView.AddField(this);
+            int last = CIniFile.ViewList.Count-1;
+            CView View = CIniFile.ViewList[last];
+            View.AddField(this);
         }
 
         public static CField FromIni(string[] separ_string)
@@ -346,33 +370,38 @@ namespace MVCtutorial.Graph.Models
             return new CField(maximalY, realSize);
         }
 
-        public static void AddSignal(CSignal aSig)
+        public void AddSignal(CSignal aSig)
         {            
             SigList.Add(aSig);
         }
-        public static void AddSignalMultitext(CSigMultitext aSigMulti)
+        public void AddSignalMultitext(CSigMultitext aSigMulti)
         {
             SigMultiList.Add(aSigMulti);
         }
+
     }
 
     public class CView
     {
-        public static List<string> Names;
-        public static List<CField> FieldList = new List<CField>();
-
+        public List<string> Names;
+        public List<CField> FieldList = new List<CField>();
+        CView(List<string> anames) {
+            Names = anames;
+            CIniFile.AddView(this);
+        }
         public static CView FromIni(string[] separ_string)
         {
+            List<string> tempNames = new List<string>();
             string s;
             //Cylcle starts on two beacause of skiping position of word View and number of view (ex. 3)
             for (int i=2;i<separ_string.Length;i++) {
                 s = separ_string[i-1];
-                Names.Add(s);
+                tempNames.Add(s);
             }
-            return new CView();
+            return new CView(tempNames);
         }
 
-        public static void AddField(CField CFieldInstatance)
+        public void AddField(CField CFieldInstatance)
         {
             FieldList.Add(CFieldInstatance);
         }

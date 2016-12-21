@@ -47,27 +47,26 @@ namespace MVCtutorial.Controllers
             Iniparser ini = new Iniparser(ViewData["pathConfig"].ToString(), ViewData["pathNames"].ToString());
             ini.ParseNames(Const.separators);
             ini.ParseCfg(Const.separators);
+            CIniFile iniFile = new CIniFile();
+            for(int i = 0; i < CIniFile.ViewList.Count; i++) {
+                CView view = CIniFile.ViewList[i];
+                for (int j = 0; j < view.FieldList.Count; j++)
+                {
+                    CField field = view.FieldList[j];
 
-            ViewData["tableDef"] = TableDefinition.TableDefList;
-            ViewData["views"] = CIniFile.ViewList;
-            ViewData["fields"] = CView.FieldList;
-            ViewData["signal"] = CField.SigList;
-            ViewData["sigMultitext"] = CField.SigMultiList;
-            CField.SigList[0].ToJson();
-
+                    for (int k = 0; k < field.SigList.Count; k++)
+                    {
+                        ViewData["json"] = field.SigList[k].ToJson<CSignal>();
+                    }
+                    for (int l = 0; l < field.SigMultiList.Count; l++)
+                    {
+                        //ViewData["jsonMul"] = field.SigMultiList[l]
+                    }
+                }
+            }
 
             return View();
         }
 
-    }
-
-    public class Const
-    {
-        public static readonly string[] separators = { ":", "=", "  ", "             ", ";;", "\n" };
-        public static readonly string[] separators_signal = { ":", "=", " ", ",", "  ", "             ", ";;", "\n" };
-        public static readonly string[] separ_equate = { "=" };
-        public static readonly string[] separ_dollar = { "$" };
-        public static readonly string[] separ_names = { "$", "             ", ";" };
-        public static readonly string[] separ_backslash = {@"\", "$", "             ", ";" };
     }
 }

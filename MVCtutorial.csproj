@@ -274,6 +274,7 @@
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\SchemeController.cs" />
     <Compile Include="Controllers\SecurityAttribute.cs" />
+    <Compile Include="Controllers\ToJSON.cs" />
     <Compile Include="Controllers\UploadController.cs" />
     <Compile Include="Controllers\XMLController.cs" />
     <Compile Include="Global.asax.cs">
