@@ -30,6 +30,7 @@ namespace MVCtutorial.Controllers
                     switch (separeted_string[0])
                     {
                         case "View":
+                            separeted_string = lines[i].Split(Const.separators_view, StringSplitOptions.RemoveEmptyEntries);
                             parseView(separeted_string);
                             break;
                         case "Field":
@@ -120,9 +121,9 @@ namespace MVCtutorial.Controllers
                 {
                     line_with_id = lines[i].Split(separators, StringSplitOptions.RemoveEmptyEntries);
                     Idxs.Add(int.Parse(line_with_id[0]));
-                    position = lines[i].LastIndexOf(';');
-                    line_without_id = lines[i].Substring(position + 1);
-                    multitext_line = line_without_id.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+                    position = lines[i].IndexOf(';');
+                    line_without_id = lines[i].Substring(position+1); // Because of spliting this string. Before semicolon is first index
+                    multitext_line = line_without_id.Split(separators, StringSplitOptions.None);
                     multitext_lines.Add(multitext_line);
                 }
             }

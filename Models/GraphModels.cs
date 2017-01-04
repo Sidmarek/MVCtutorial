@@ -5,6 +5,7 @@ using System;
 using MVCtutorial.Controllers;
 using System.Reflection;
 using System.Text;
+using MVCtutorial.Graph.Models;
 
 namespace MVCtutorial.Graph.Models
 {
@@ -13,20 +14,19 @@ namespace MVCtutorial.Graph.Models
         public string LangAbbreviation; //Abreviation = "shortcut" 
     }
 
-    public static class LangDefinition
+    public class LangDefinition
     {
-        public static List<LangDef> LangDefList;
-        ///
-        public static string Find(string lang)
+        public static List<LangDef> LangDefList = new List<LangDef>() { new LangDef() { LangAbbreviation = "EN" }, new LangDef() { LangAbbreviation = "CZ" }, new LangDef() { LangAbbreviation = "DE" } , new LangDef() { LangAbbreviation = "PL" } };
+        public static int Find(string lang)
         {
             foreach (LangDef LangDef in LangDefList)
             {
                 if (LangDef.LangAbbreviation.Contains(lang))
                 {
-                    return LangDef.LangAbbreviation;
+                    return LangDefList.IndexOf(LangDef);
                 }
             }
-            return null;
+            return 0;
         }
         /// <summary>
         /// 
@@ -44,12 +44,22 @@ namespace MVCtutorial.Graph.Models
                 LangDefList.Insert(position, new LangDef() { LangAbbreviation = lang });
             }
         }
+        public static string toJSON()
+        {
+            string json = "\"LangDef\": [";
+            foreach (LangDef LangDef in LangDefList) {
+                json += "\"" + LangDef.LangAbbreviation + "\",";
+            }
+            json = json.Substring(0, json.Length - 1);
+            json += "]";
+            return json;
+        }
     }
 
     public class TableDef
     {
         public string shortName;
-        public int Idx;
+        public int dbIdx;
         public string tabName;
     }
 
@@ -61,7 +71,7 @@ namespace MVCtutorial.Graph.Models
         {
             foreach (TableDef TableDef in TableDefList)
             {
-                if (TableDef.Idx == ConnNo & TableDef.tabName.Contains(TabName))
+                if (TableDef.dbIdx == ConnNo & TableDef.tabName.Contains(TabName))
                 {
                     return TableDef.shortName;
                 }
@@ -77,8 +87,24 @@ namespace MVCtutorial.Graph.Models
                 throw new Exception(e.Message);
             }
             string shortedName = TabName.Substring(subscoreIdx+1);
-            TableDefList.Add(new TableDef() { shortName = shortedName, Idx = ConnNo, tabName = TabName });
+            TableDefList.Add(new TableDef() { shortName = shortedName, dbIdx = ConnNo, tabName = TabName });
             return shortedName;
+        }
+
+        public static string toJSON()
+        {
+            string json = "\"TableDef\": [ ";
+            foreach (TableDef TableDef in TableDefList)
+            {
+                json += "{";
+                json += "\"shortName\":\"" + TableDef.shortName + "\",";
+                json += "\"dbIdx\":" + TableDef.dbIdx + ",";
+                json += "\"tabName\":\"" + TableDef.shortName + "\"";
+                json += "},";
+            }
+            json = json.Substring(0, json.Length - 1);
+            json += "]";
+            return json;
         }
     }
 
@@ -141,6 +167,31 @@ namespace MVCtutorial.Graph.Models
             }
             return false;
         }
+
+        public static string toJSON() {
+            string json = "\"TextlistDef\": [";
+            foreach (TextlistDef TextlistDef in TextlistDefList)
+            {
+                json += "{\"textlist\": \"" + TextlistDef.textlist + "\",";
+                json += "\"values\": [";
+                foreach (Values Values in TextlistDef.values)
+                {
+                    json += "{\"idx\":" + Values.idx + ",";
+                    for (int i=0;i<Values.langTexts.Length; i++)
+                    {
+                        LangDef LangDef = LangDefinition.LangDefList[i];
+                        json += "\"text_" + LangDef.LangAbbreviation + "\":\"" + Values.langTexts[i] + "\",";
+                    }
+                    json = json.Substring(0, json.Length - 1);
+                    json += "},";
+                }
+                json = json.Substring(0, json.Length - 1);
+                json += "]},";
+            }
+            json = json.Substring(0, json.Length - 1);
+            json += "]";
+            return json;
+        }
     }
 
     public class ColumnTextlist {
@@ -187,7 +238,7 @@ namespace MVCtutorial.Graph.Models
         public static List<NameDef> NameDefList = new List<NameDef>();
         public static string Find(string column)
         {
-            foreach ( NameDef NameDef in NameDefList)
+            foreach (NameDef NameDef in NameDefList)
             {
                 if (NameDef.column.Contains(column))
                 {
@@ -198,16 +249,41 @@ namespace MVCtutorial.Graph.Models
         }
 
         public static string Add(string ascolumn, List<string> asfullNames, List<string> asunits, string astable = null)
-        {         
-            NameDefList.Add(new NameDef() { table = astable, column = ascolumn, fullNames = asfullNames, units  = asunits});
+        {
+            NameDefList.Add(new NameDef() { table = astable, column = ascolumn, fullNames = asfullNames, units = asunits });
             return ascolumn;
+        }
+
+        public static string toJSON() {
+            string json = "\"NameDef\": [";
+            foreach (NameDef NameDef in NameDefList)
+            {
+                json += "{";
+                json += "\"table\":\"" + NameDef.table + "\", \"column\":\"" + NameDef.column +"\",";
+                for (int i = 0; i < NameDef.fullNames.Count; i++)
+                {
+                    LangDef LangDef = LangDefinition.LangDefList[i];
+                    json += "\"fullName_" + LangDef.LangAbbreviation + "\":\"" + NameDef.fullNames[i] + "\",";
+                }
+                for (int i = 0; i < NameDef.units.Count; i++)
+                {
+                    LangDef LangDef = LangDefinition.LangDefList[i];
+                    json += "\"unit_" + LangDef.LangAbbreviation + "\":\"" + NameDef.units[i] + "\",";
+                }
+                json = json.Substring(0, json.Length - 1);
+                json += "},";
+            }
+            json = json.Substring(0, json.Length - 1);
+            json += "]";
+            return json;
         }
     }
 
     public class Const
     {
-        public static readonly string[] separators = { ":", "=", "  ", "             ", ";;", "\n" };
+        public static readonly string[] separators = {":", "=", "  ", "             ", ";", "\n" };
         public static readonly string[] separators_signal = { ":", "=", " ", ",", "  ", "             ", ";;", "\n" };
+        public static readonly string[] separators_view = { "$", ",", ":", "=", "  ", "             ", ";;", "\n" };
         public static readonly string[] separ_equate = { "=" };
         public static readonly string[] separ_dollar = { "$" };
         public static readonly string[] separ_names = { "$", "             ", ";" };
@@ -217,13 +293,13 @@ namespace MVCtutorial.Graph.Models
     public class CSigMultitext
     {
         public string type = "multitext";
-        public string TableName;
+        public string Table;
         public string Column;
         public Color Color;
         public string textlist;
         CSigMultitext(string asTabDefName, string asColumn, Color acColor, string asTextListDef)
         {
-            TableName = asTabDefName;
+            Table = asTabDefName;
             Column = asColumn;
             Color = acColor;
             textlist = asTextListDef;
@@ -260,20 +336,31 @@ namespace MVCtutorial.Graph.Models
             }
 
             return new CSigMultitext(TableDefName, Column, Color, textlist);
-         }
+        }
+
+        public string toJSON(CSigMultitext SigMultitext) {
+            string json = @"{";
+
+            json += "\"type\": \"" + SigMultitext.type + "\", ";
+            json += "\"table\": \"" + SigMultitext.Table + "\", ";
+            json += "\"color\": \"" + ColorTranslator.ToHtml(SigMultitext.Color).ToString() + "\", ";
+            json += "\"textlist\":\"" + SigMultitext.textlist + "\"},";
+
+            return json;
+        }
     }
 
     public class CSignal
     {
         public string type = "analog";
-        public string SignalName;
-        public string TableName;
-        public int Decimal;
+        public string table;
+        public string column;//column 
         public Color Color;
+        public int Decimal;
         CSignal(string asSigName, string asTabDefName, int aiDecimal, Color acColor)
         {
-            SignalName = asSigName;
-            TableName = asTabDefName;
+            column = asSigName;
+            table = asTabDefName;
             Decimal = aiDecimal;
             Color = acColor;
             int lastView = CIniFile.ViewList.Count - 1;
@@ -310,38 +397,15 @@ namespace MVCtutorial.Graph.Models
         {
             return null;
         }
-        public string ToJson<T>()
+
+        public  string toJSON(CSignal signal)
         {
-            int i = 0;
-            string[] paramNames = new string[typeof(T).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance).Length];
-            string[] paramValues = new string[typeof(T).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance).Length];
-            // {"type":"analog", "table":"norm", "column":"diFlourHopper_Mass", "decimal":3, "color":#88FF00, "coef":0.001 }
-            string json = "{";
-            foreach (FieldInfo FI in typeof(T).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
-            {
-                string param = FI.Name.ToLower();
-                object obj = FI.GetValue(this);
-                string paramValue = obj.ToString();
-                paramNames[i] = param;
-                paramValues[i] = paramValue;
-                json += "\"" + paramNames[i] + "\":";
-                string FIType = FI.FieldType.Name.ToString();
-                switch (FIType)
-                {
-                    case "String":
-                        json += "\"" + paramValues[i] + "\", ";
-                        break;
-                    case "Color":
-                        json += ColorTranslator.ToHtml(Color).ToString() + ", ";
-                        break;
-                    default:
-                        json += paramValues[i] + ", ";
-                        break;
-                }
-                i++;
-            }
-            json = json.Remove(json.LastIndexOf(", "), 2);
-            json += "}";
+            string json =  @"{";
+
+            json += "\"type\": \"" + signal.type + "\", ";
+            json += "\"table\": \"" + signal.table + "\", ";
+            json += "\"color\": \"" + ColorTranslator.ToHtml(signal.Color).ToString() + "\", ";
+            json += "\"decimal\":" + signal.Decimal + "},";
 
             return json;
         }
@@ -349,7 +413,7 @@ namespace MVCtutorial.Graph.Models
 
     public class CField
     {
-        public static readonly int minY = 0;
+        public readonly int minY = 0;
         public int maxY;
         public int relSize;
         public List<CSignal> SigList = new List<CSignal>();
@@ -379,22 +443,55 @@ namespace MVCtutorial.Graph.Models
             SigMultiList.Add(aSigMulti);
         }
 
+        public string toJSON(CField field)
+        {
+            string json = "{";
+            json += "\"minY\":" + field.minY + ", ";
+            json += "\"maxY\":" + field.maxY + ", ";
+            //json += "\"unit\":" + field.unit + ", ";
+            json += "\"relSize\":" + field.relSize + ", ";
+            json += "\"signal\":[";
+            if (SigList.Count != 0)
+            {
+                
+                foreach (CSignal signal in SigList)
+                {
+                    string signalJSON = signal.toJSON(signal);
+                    json += signalJSON;
+                }
+            }
+            if (SigMultiList.Count != 0)
+            {
+                foreach (CSigMultitext SigMultitext in SigMultiList)
+                {
+                    string sigMultitextJSON = SigMultitext.toJSON(SigMultitext);
+                    json += sigMultitextJSON;
+                }
+            }
+            json = json.Substring(0, json.Length - 1);
+            json += "]";
+            json += "},";
+            return json;
+        }
+
     }
 
     public class CView
     {
         public List<string> Names;
+        public string defLang;
         public List<CField> FieldList = new List<CField>();
         CView(List<string> anames) {
             Names = anames;
+            defLang = LangDefinition.LangDefList[0].LangAbbreviation;
             CIniFile.AddView(this);
         }
         public static CView FromIni(string[] separ_string)
         {
             List<string> tempNames = new List<string>();
             string s;
-            //Cylcle starts on two beacause of skiping position of word View and number of view (ex. 3)
-            for (int i=2;i<separ_string.Length;i++) {
+            //Cycle starts on two beacause of skiping position of word View and number of view (ex. 3)
+            for (int i=3;i<=separ_string.Length;i++) {
                 s = separ_string[i-1];
                 tempNames.Add(s);
             }
@@ -405,6 +502,34 @@ namespace MVCtutorial.Graph.Models
         {
             FieldList.Add(CFieldInstatance);
         }
+        public string toJSON(CView view)
+        {
+            string json = "{";
+            int pos = 0;
+            foreach (LangDef LangDef in  LangDefinition.LangDefList)
+            {
+                if (pos < view.Names.Count) {
+                    json += "\"name_" + LangDef.LangAbbreviation + "\":\""+ view.Names[pos] +"\", ";
+                }
+                pos++;
+            }
+            json += "\"defLang\": \"" + view.defLang + "\", ";
+            if (FieldList.Count != 0) {
+                json += "\"field\":[";
+                foreach (CField field in FieldList)
+                {
+                    string fieldJSON = field.toJSON(field);
+                    json += fieldJSON;
+                }
+                json = json.Substring(0, json.Length - 1);
+                json += "]";
+            }
+            else {
+                json = json.Substring(0, json.Length - 1);
+            }
+            json += "},";
+            return json;
+        }
     }
 
     public class CIniFile {
@@ -413,8 +538,34 @@ namespace MVCtutorial.Graph.Models
         {
             ViewList.Add(CViewInstance);
         }
-    }
 
+        public string toJSON(CIniFile IniFile)
+        {
+            string json = "{\"Config\":";
+            json += "[{";
+            json += LangDefinition.toJSON();
+            json += "},";
+            json += "{";
+            json += TableDefinition.toJSON();
+            json += "},";
+            json += "{";
+            json += NameDefinition.toJSON();
+            json += "},";
+            json += "{";
+            json += TextlistDefinition.toJSON();
+            json += "},";
+            json += "{";
+            json += "\"View\":[";
+            foreach (CView view in ViewList)
+            {
+                json += view.toJSON(view);
+            }
+            json = json.Substring(0, json.Length - 1);
+            json += "]";
+            json += "}]}";
+            return json;
+        }
+    }
     /// <summary>
     ///     CfgStructure defines Graph config cfg structure
     /// </summary>
