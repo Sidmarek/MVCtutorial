@@ -16,14 +16,14 @@ namespace MVCtutorial.Graph.Models
 
     public class LangDefinition
     {
-        public static List<LangDef> LangDefList = new List<LangDef>() { new LangDef() { LangAbbreviation = "EN" }, new LangDef() { LangAbbreviation = "CZ" }, new LangDef() { LangAbbreviation = "DE" } , new LangDef() { LangAbbreviation = "PL" } };
-        public static int Find(string lang)
+        public static List<LangDef> LangDefList = new List<LangDef>() { new LangDef() { LangAbbreviation = "EN" }, new LangDef() { LangAbbreviation = "CZ" }, new LangDef() { LangAbbreviation = "DE" }, new LangDef() { LangAbbreviation = "PL" } };
+        public int Find(CIniFile config, string lang)
         {
-            foreach (LangDef LangDef in LangDefList)
+            foreach (LangDef LangDef in config.LangDefList)
             {
                 if (LangDef.LangAbbreviation.Contains(lang))
                 {
-                    return LangDefList.IndexOf(LangDef);
+                    return config.LangDefList.IndexOf(LangDef);
                 }
             }
             return 0;
@@ -33,21 +33,21 @@ namespace MVCtutorial.Graph.Models
         /// </summary>
         /// <param name="lang">lang which you want to add</param>
         /// <param name="position">Optional parameter</param>
-        public static void Add(string lang, int position = 0)
+        public static void Add(CIniFile config, string lang, int position = 0)
         {
             if (position == 0)
             {
-                LangDefList.Add(new LangDef() { LangAbbreviation = lang });
+                config.LangDefList.Add(new LangDef() { LangAbbreviation = lang });
             }
             else
             {
-                LangDefList.Insert(position, new LangDef() { LangAbbreviation = lang });
+                config.LangDefList.Insert(position, new LangDef() { LangAbbreviation = lang });
             }
         }
-        public static string toJSON()
+        public static string toJSON(CIniFile config)
         {
             string json = "\"LangDef\": [";
-            foreach (LangDef LangDef in LangDefList) {
+            foreach (LangDef LangDef in config.LangDefList) {
                 json += "\"" + LangDef.LangAbbreviation + "\",";
             }
             json = json.Substring(0, json.Length - 1);
@@ -63,13 +63,13 @@ namespace MVCtutorial.Graph.Models
         public string tabName;
     }
 
-    public static class TableDefinition
+    public class TableDefinition
     {
-        public static List<TableDef> TableDefList = new List<TableDef>();
+        
         // public static List 
-        public static string Find(int ConnNo, string TabName)
+        public static string Find(CIniFile config, int ConnNo, string TabName)
         {
-            foreach (TableDef TableDef in TableDefList)
+            foreach (TableDef TableDef in config.TableDefList)
             {
                 if (TableDef.dbIdx == ConnNo & TableDef.tabName.Contains(TabName))
                 {
@@ -78,7 +78,7 @@ namespace MVCtutorial.Graph.Models
             }
             return null;
         }
-        public static string Add(int ConnNo, string TabName)
+        public static string Add(CIniFile config, int ConnNo, string TabName)
         {
             int subscoreIdx;
             try {
@@ -87,14 +87,14 @@ namespace MVCtutorial.Graph.Models
                 throw new Exception(e.Message);
             }
             string shortedName = TabName.Substring(subscoreIdx+1);
-            TableDefList.Add(new TableDef() { shortName = shortedName, dbIdx = ConnNo, tabName = TabName });
+            config.TableDefList.Add(new TableDef() { shortName = shortedName, dbIdx = ConnNo, tabName = TabName });
             return shortedName;
         }
 
-        public static string toJSON()
+        public static string toJSON(CIniFile config)
         {
             string json = "\"TableDef\": [ ";
-            foreach (TableDef TableDef in TableDefList)
+            foreach (TableDef TableDef in config.TableDefList)
             {
                 json += "{";
                 json += "\"shortName\":\"" + TableDef.shortName + "\",";
@@ -120,17 +120,16 @@ namespace MVCtutorial.Graph.Models
         public List<Values> values;   
     }
 
-    public static class TextlistDefinition
+    public class TextlistDefinition
     {
-        public static List<TextlistDef> TextlistDefList = new List<TextlistDef>();
         /// <summary>
         /// 
         /// </summary>
         /// <param name="textlist"></param>
         /// <returns></returns>
-        public static string Find(string textlist)
+        public static string Find(CIniFile config,string textlist)
         {
-            foreach (TextlistDef TextlistDef in TextlistDefList) {
+            foreach (TextlistDef TextlistDef in config.TextlistDefList) {
                 if (TextlistDef.textlist.Contains(textlist))
                 {
                     return TextlistDef.textlist;
@@ -145,7 +144,7 @@ namespace MVCtutorial.Graph.Models
         /// <param name="textsArray"></param>
         /// <param name="Idxs"></param>
         /// <returns></returns>
-        public static string Add(string name,List<string[]> textsArray, List<int> Idxs)
+        public static string Add(CIniFile config,string name,List<string[]> textsArray, List<int> Idxs)
         {
             List<Values> tempValues = new List<Values>();
             
@@ -153,11 +152,11 @@ namespace MVCtutorial.Graph.Models
             {
                 tempValues.Add(new Values() { idx= Idxs[i], langTexts= textsArray[i]});
             }
-            TextlistDefList.Add(new TextlistDef() { textlist = name, values = tempValues });
+            config.TextlistDefList.Add(new TextlistDef() { textlist = name, values = tempValues });
             return name;
         }
-        public static bool  UpdateName(string oldName, string newName) {
-            foreach (TextlistDef TextlistDef in TextlistDefList)
+        public  static bool  UpdateName(CIniFile config, string oldName, string newName) {
+            foreach (TextlistDef TextlistDef in config.TextlistDefList)
             {
                 if (TextlistDef.textlist.Contains(oldName))
                 {
@@ -168,9 +167,9 @@ namespace MVCtutorial.Graph.Models
             return false;
         }
 
-        public static string toJSON() {
+        public static string toJSON(CIniFile config) {
             string json = "\"TextlistDef\": [";
-            foreach (TextlistDef TextlistDef in TextlistDefList)
+            foreach (TextlistDef TextlistDef in config.TextlistDefList)
             {
                 json += "{\"textlist\": \"" + TextlistDef.textlist + "\",";
                 json += "\"values\": [";
@@ -179,7 +178,7 @@ namespace MVCtutorial.Graph.Models
                     json += "{\"idx\":" + Values.idx + ",";
                     for (int i=0;i<Values.langTexts.Length; i++)
                     {
-                        LangDef LangDef = LangDefinition.LangDefList[i];
+                        LangDef LangDef = config.LangDefList[i];
                         json += "\"text_" + LangDef.LangAbbreviation + "\":\"" + Values.langTexts[i] + "\",";
                     }
                     json = json.Substring(0, json.Length - 1);
@@ -235,10 +234,10 @@ namespace MVCtutorial.Graph.Models
         public List<string> units;
     }
     public class NameDefinition {
-        public static List<NameDef> NameDefList = new List<NameDef>();
-        public static string Find(string column)
+        
+        public static string Find(CIniFile config, string column)
         {
-            foreach (NameDef NameDef in NameDefList)
+            foreach (NameDef NameDef in config.NameDefList)
             {
                 if (NameDef.column.Contains(column))
                 {
@@ -247,27 +246,26 @@ namespace MVCtutorial.Graph.Models
             }
             return null;
         }
-
-        public static string Add(string ascolumn, List<string> asfullNames, List<string> asunits, string astable = null)
+        public static string Add(CIniFile config, string ascolumn, List<string> asfullNames, List<string> asunits, string astable = null)
         {
-            NameDefList.Add(new NameDef() { table = astable, column = ascolumn, fullNames = asfullNames, units = asunits });
+            config.NameDefList.Add(new NameDef() { table = astable, column = ascolumn, fullNames = asfullNames, units = asunits });
             return ascolumn;
         }
 
-        public static string toJSON() {
+        public static string toJSON(CIniFile config) {
             string json = "\"NameDef\": [";
-            foreach (NameDef NameDef in NameDefList)
+            foreach (NameDef NameDef in config.NameDefList)
             {
                 json += "{";
                 json += "\"table\":\"" + NameDef.table + "\", \"column\":\"" + NameDef.column +"\",";
                 for (int i = 0; i < NameDef.fullNames.Count; i++)
                 {
-                    LangDef LangDef = LangDefinition.LangDefList[i];
+                    LangDef LangDef = config.LangDefList[i];
                     json += "\"fullName_" + LangDef.LangAbbreviation + "\":\"" + NameDef.fullNames[i] + "\",";
                 }
                 for (int i = 0; i < NameDef.units.Count; i++)
                 {
-                    LangDef LangDef = LangDefinition.LangDefList[i];
+                    LangDef LangDef = config.LangDefList[i];
                     json += "\"unit_" + LangDef.LangAbbreviation + "\":\"" + NameDef.units[i] + "\",";
                 }
                 json = json.Substring(0, json.Length - 1);
@@ -303,11 +301,6 @@ namespace MVCtutorial.Graph.Models
             Column = asColumn;
             Color = acColor;
             textlist = asTextListDef;
-            int lastView = CIniFile.ViewList.Count - 1;
-            CView curentView = CIniFile.ViewList[lastView];
-            int lastField = curentView.FieldList.Count - 1;
-            CField currentField = curentView.FieldList[lastField];
-            currentField.AddSignalMultitext(this);
         }
         /// <summary>
         /// 
@@ -315,7 +308,7 @@ namespace MVCtutorial.Graph.Models
         /// <param name="separ_names_string">First row of that </param>
         /// <param name="separ_cfg_string"></param>
         /// <returns></returns>
-        public static CSigMultitext FromIni(string[] separ_cfg_string) {
+        public static CSigMultitext FromIni(CIniFile config, string[] separ_cfg_string) {
             string TableDefName, Column, TableName, textlist;
             int ConnectionStringNumber;
             Color Color;
@@ -323,10 +316,10 @@ namespace MVCtutorial.Graph.Models
             ConnectionStringNumber = int.Parse(separ_cfg_string[1]);
             Column = separ_cfg_string[2];
             TableName = separ_cfg_string[3];
-            TableDefName = TableDefinition.Find(ConnectionStringNumber, TableName);
+            TableDefName = TableDefinition.Find(config, ConnectionStringNumber, TableName);
             if (TableDefName == null)
             {
-                TableDefinition.Add(ConnectionStringNumber, TableName);
+                TableDefinition.Add(config, ConnectionStringNumber, TableName);
             }
             Color = Color.FromArgb(int.Parse(separ_cfg_string[5]), int.Parse(separ_cfg_string[6]), int.Parse(separ_cfg_string[7]));
 
@@ -363,14 +356,9 @@ namespace MVCtutorial.Graph.Models
             table = asTabDefName;
             Decimal = aiDecimal;
             Color = acColor;
-            int lastView = CIniFile.ViewList.Count - 1;
-            CView curentView = CIniFile.ViewList[lastView];
-            int lastField = curentView.FieldList.Count - 1;
-            CField currentField = curentView.FieldList[lastField]; 
-            currentField.AddSignal(this);
         }
 
-        public static CSignal FromIni(string[] separ_cfg_string)
+        public static CSignal FromIni(CIniFile config, string[] separ_cfg_string)
         {
             int ConnectionStringNumber;
             string SignalName, TableName, TableDefName;
@@ -382,10 +370,10 @@ namespace MVCtutorial.Graph.Models
             ConnectionStringNumber =  int.Parse(separ_cfg_string[1]);
             SignalName = separ_cfg_string[2];
             TableName = separ_cfg_string[3];
-            TableDefName = TableDefinition.Find(ConnectionStringNumber, TableName);
+            TableDefName = TableDefinition.Find(config, ConnectionStringNumber, TableName);
             if (TableDefName == null )
             {
-                TableDefName = TableDefinition.Add(ConnectionStringNumber, TableName);
+                TableDefName = TableDefinition.Add(config, ConnectionStringNumber, TableName);
             }   
             Decimal = int.Parse(separ_cfg_string[4]);
             Color = Color.FromArgb(int.Parse(separ_cfg_string[5]), int.Parse(separ_cfg_string[6]), int.Parse(separ_cfg_string[7]));          
@@ -421,9 +409,6 @@ namespace MVCtutorial.Graph.Models
         CField(int maximalY, int realSize) {
             maxY = maximalY;
             relSize = realSize;
-            int last = CIniFile.ViewList.Count-1;
-            CView View = CIniFile.ViewList[last];
-            View.AddField(this);
         }
 
         public static CField FromIni(string[] separ_string)
@@ -483,8 +468,7 @@ namespace MVCtutorial.Graph.Models
         public List<CField> FieldList = new List<CField>();
         CView(List<string> anames) {
             Names = anames;
-            defLang = LangDefinition.LangDefList[0].LangAbbreviation;
-            CIniFile.AddView(this);
+            defLang = LangDefinition.LangDefList[0].LangAbbreviation; // first index is default lang
         }
         public static CView FromIni(string[] separ_string)
         {
@@ -533,8 +517,12 @@ namespace MVCtutorial.Graph.Models
     }
 
     public class CIniFile {
-        public static List<CView> ViewList = new List<CView>();
-        public static void AddView(CView CViewInstance)
+        public List<CView> ViewList = new List<CView>();
+        public List<NameDef> NameDefList = new List<NameDef>();
+        public List<TextlistDef> TextlistDefList = new List<TextlistDef>();
+        public List<TableDef> TableDefList = new List<TableDef>();
+        public List<LangDef> LangDefList = new List<LangDef>() { new LangDef() { LangAbbreviation = "EN" }, new LangDef() { LangAbbreviation = "CZ" }, new LangDef() { LangAbbreviation = "DE" }, new LangDef() { LangAbbreviation = "PL" } };
+        public void AddView(CView CViewInstance)
         {
             ViewList.Add(CViewInstance);
         }
@@ -543,16 +531,16 @@ namespace MVCtutorial.Graph.Models
         {
             string json = "{\"Config\":";
             json += "[{";
-            json += LangDefinition.toJSON();
+            json += LangDefinition.toJSON(this);
             json += "},";
             json += "{";
-            json += TableDefinition.toJSON();
+            json += TableDefinition.toJSON(this);
             json += "},";
             json += "{";
-            json += NameDefinition.toJSON();
+            json += NameDefinition.toJSON(this);
             json += "},";
             json += "{";
-            json += TextlistDefinition.toJSON();
+            json += TextlistDefinition.toJSON(this);
             json += "},";
             json += "{";
             json += "\"View\":[";

@@ -17,9 +17,15 @@ namespace MVCtutorial.Controllers
             NamePath = aNamePath;
         }
 
-        public void ParseCfg(string[] separators)
+        public void ParseCfg(CIniFile config, string[] separators, CIniFile iniFileInstance)
         {
             string[] separeted_string = null;
+
+            CView lastView = null;
+            CField lastField = null;
+            CSignal lastSignal = null;
+            CSigMultitext lastSigMultitext = null;
+            System.Text.UTF32Encoding encoding = new System.Text.UTF32Encoding();
 
             string[] lines = System.IO.File.ReadAllLines(CfgPath);
             for (int i = 0; i < lines.Length; i++)
@@ -31,51 +37,60 @@ namespace MVCtutorial.Controllers
                     {
                         case "View":
                             separeted_string = lines[i].Split(Const.separators_view, StringSplitOptions.RemoveEmptyEntries);
-                            parseView(separeted_string);
+                            lastView = parseView(config, separeted_string);
+                            iniFileInstance.AddView(lastView);
                             break;
                         case "Field":
-                            parseField(separeted_string);
+                            lastField = parseField(config, separeted_string);
+                            lastView.AddField(lastField);
                             break;
                         case "Signal":
                             separeted_string = lines[i].Split(Const.separators_signal, StringSplitOptions.RemoveEmptyEntries);
-                            parseSignal(separeted_string);
+                            lastSignal = parseSignal(config, separeted_string);
+                            lastField.AddSignal(lastSignal);
                             break;
                         case "SigMultitext":
                             separeted_string = lines[i].Split(Const.separators_signal, StringSplitOptions.RemoveEmptyEntries);
-                            parseSigMultitext(separeted_string);
+                            lastSigMultitext = parseSigMultitext(config, separeted_string);
+                            lastField.AddSignalMultitext(lastSigMultitext);
                             break;
                     }
                 }
             }
         }
 
-        private void parseSigMultitext(string[] separeted_string)
+        private CSigMultitext parseSigMultitext(CIniFile config,string[] separeted_string)
         {
-            CSigMultitext SigMultitext = CSigMultitext.FromIni(separeted_string);
+            CSigMultitext sigMultitext = CSigMultitext.FromIni(config, separeted_string);
+            return sigMultitext;
         }
 
-        private void parseSignal(string[] separeted_string)
+        private CSignal parseSignal(CIniFile config, string[] separeted_string)
         {
-            CSignal.FromIni(separeted_string);
+           CSignal signal =  CSignal.FromIni(config, separeted_string);
+           return signal;
         }
 
-        private void parseField(string[] separeted_string)
+        private CField parseField(CIniFile config, string[] separeted_string)
         {
-            CField.FromIni(separeted_string);
+            CField field = CField.FromIni(separeted_string);
+            return field;
         }
 
-        private void parseView(string[] separeted_string)
+        private CView parseView(CIniFile config, string[] separeted_string)
         {
-            CView.FromIni(separeted_string);
+            CView view =CView.FromIni(separeted_string);
+            return view;
         }
 
-        public void ParseNames(string[] separators)
+        public void ParseNames(CIniFile config, string[] separators)
         {
 
             string[] separeted_string = null;
             int result, rowNumber = 0;
+            System.Text.UTF32Encoding encoding = new System.Text.UTF32Encoding();
 
-            string[] lines = System.IO.File.ReadAllLines(NamePath);
+            string[] lines = System.IO.File.ReadAllLines(NamePath, encoding);
 
             for (int i = 0; i < lines.Length; i++)
             {
@@ -84,12 +99,12 @@ namespace MVCtutorial.Controllers
                 {
                     if (separeted_string[0].Contains("DefineMultitext"))
                     {
-                        rowNumber = parseTextListDefinition(separators, lines, separeted_string, i);
+                        rowNumber = parseTextListDefinition(config, separators, lines, separeted_string, i);
                     }
 
                     if (int.TryParse(separeted_string[0], out result) == true)
                     {
-                        rowNumber = parseNameDefinition(separators, lines, i);
+                        rowNumber = parseNameDefinition(config, separators, lines, i);
                     }
                 }
                 if (rowNumber != 0)
@@ -100,7 +115,7 @@ namespace MVCtutorial.Controllers
                 }
             }
         }
-        private int parseTextListDefinition(string[] separators, string[] lines, string[] separeted_string, int startLineIdx)
+        private int parseTextListDefinition(CIniFile config, string[] separators, string[] lines, string[] separeted_string, int startLineIdx)
         {
             string[] multitext_line = null, line_with_id = null;
             string multitext_name = null, line_without_id = null;
@@ -114,7 +129,7 @@ namespace MVCtutorial.Controllers
             {
                 if (lines[i].Length == 0)
                 {
-                    TextlistDefinition.Add(multitext_name, multitext_lines, Idxs);
+                    TextlistDefinition.Add(config, multitext_name, multitext_lines, Idxs);
                     return i;
                 }
                 else
@@ -130,7 +145,7 @@ namespace MVCtutorial.Controllers
             return 0;
         }
 
-        private int parseNameDefinition(string[] separators, string[] lines, int startLineIdx)
+        private int parseNameDefinition(CIniFile config, string[] separators, string[] lines, int startLineIdx)
         {
             string[] nameLine = null, nameLineFirstPart = null, nameLineLangMutate = null;
             string tableName = null;
@@ -159,7 +174,7 @@ namespace MVCtutorial.Controllers
                             langs.Insert(j, nameLineLangMutate[idx]);
                             if (!(nameLineLangMutate[idx + 1].Contains("multitext:")))
                             {
-                                multitextInline(tableName, nameLine[1]);
+                                multitextInline(config, tableName, nameLine[1]);
                                 idx = nameLineLangMutate.Length;
                             }
                             else
@@ -170,7 +185,7 @@ namespace MVCtutorial.Controllers
                             }
                         }
                     }
-                    NameDefinition.Add(nameLineFirstPart[1], langs, units);
+                    NameDefinition.Add(config, nameLineFirstPart[1], langs, units);
                 }
                 else
                 {
@@ -179,7 +194,7 @@ namespace MVCtutorial.Controllers
             }
             return 0;
         }
-        private void multitextInline (string tableName, string nameLineSecondPart) {
+        private void multitextInline (CIniFile config,string tableName, string nameLineSecondPart) {
             List<string[]> textListValues = new List<string[]>();
             List<int> Idxs = new List<int>();
             string[] separatedFromDollars = nameLineSecondPart.Split(Const.separ_dollar, StringSplitOptions.RemoveEmptyEntries);
@@ -193,7 +208,7 @@ namespace MVCtutorial.Controllers
                 }
                 textListValues.Add(langs);
                 Idxs.Add(i - 1);
-                TextlistDefinition.Add(tableName, textListValues, Idxs);
+                TextlistDefinition.Add(config, tableName, textListValues, Idxs);
             }
         }
     }
