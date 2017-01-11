@@ -6,8 +6,13 @@
     <title>@ViewBag.Title - Users on ASP.NET</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
+    <script type="application/json">
+        @ViewBag.json
+    </script> 
 </head>
+@{
+    ViewBag.error = Session["tempforview"];
+}
 <body onload="autoreload()">
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
@@ -24,9 +29,8 @@
                 {
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Alarms", "Index", "Alarm")</li>
-                    <li>@Html.ActionLink("File", "Index", "File")</li>
-                    <li>@Html.ActionLink("Menu", "Index", "Menu")</li>
+                    <li>@Html.ActionLink("CMS", "Index", "CMS")</li>
+                    <li>@Html.ActionLink("XML", "Index", "XML")</li>
                 </ul>
                 }
                 @Html.Partial("_LoginPartial")
@@ -35,9 +39,13 @@
         </div>
     </div>
     <div class="container body-content">
+        <div class="message">@ViewBag.error<br></div>
         @RenderBody()
     </div>
     <hr />
+    @{ 
+        Session["tempforview"] = null;
+    }
     <footer>
         <p>&copy; @DateTime.Now.Year - Marek Novak ASP.NET MVC Application</p>
     </footer>

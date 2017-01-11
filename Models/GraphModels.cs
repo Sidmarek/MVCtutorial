@@ -99,7 +99,7 @@ namespace MVCtutorial.Graph.Models
                 json += "{";
                 json += "\"shortName\":\"" + TableDef.shortName + "\",";
                 json += "\"dbIdx\":" + TableDef.dbIdx + ",";
-                json += "\"tabName\":\"" + TableDef.shortName + "\"";
+                json += "\"tabName\":\"" + TableDef.tabName + "\"";
                 json += "},";
             }
             json = json.Substring(0, json.Length - 1);
@@ -335,6 +335,7 @@ namespace MVCtutorial.Graph.Models
             string json = @"{";
 
             json += "\"type\": \"" + SigMultitext.type + "\", ";
+            json += "\"column\": \"" + SigMultitext.Column + "\", ";
             json += "\"table\": \"" + SigMultitext.Table + "\", ";
             json += "\"color\": \"" + ColorTranslator.ToHtml(SigMultitext.Color).ToString() + "\", ";
             json += "\"textlist\":\"" + SigMultitext.textlist + "\"},";
@@ -392,6 +393,7 @@ namespace MVCtutorial.Graph.Models
 
             json += "\"type\": \"" + signal.type + "\", ";
             json += "\"table\": \"" + signal.table + "\", ";
+            json += "\"table\": \"" + signal.column + "\", ";
             json += "\"color\": \"" + ColorTranslator.ToHtml(signal.Color).ToString() + "\", ";
             json += "\"decimal\":" + signal.Decimal + "},";
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Npgsql;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
@@ -11,13 +12,14 @@ namespace MVCtutorial.Controllers
     public class db
     {
         //Only shared connection
-        public SqlConnection conn;
+        private SqlConnection conn;
+        private NpgsqlConnection connection;
 
         /*
          * @param paramless, @result void
          *  Method to inicialize dbConnection
          */
-        public void dbConnection()
+        private void dbConnection()
         {
             string ConnStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
             conn = new SqlConnection(ConnStr);
@@ -216,6 +218,47 @@ namespace MVCtutorial.Controllers
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 await cmd.ExecuteNonQueryAsync();
             }
+        }
+        /// <summary>
+        /// Method to establish db connection on PostgreSQL database
+        /// </summary>
+        /// <param name="adb">database name</param>
+        private void dbConnectionPostgres(string aDB) {
+            string db = aDB;
+            string connString = string.Format("Server={0};Port={1};User Id={2};Password={3};Database={4};", "192.168.2.12", 5432, "postgres", "Nordit0276", db);
+            NpgsqlConnection connection = new NpgsqlConnection(connString);
+        }
+
+        public object singleItemSelectPostgres(string database, string column, string table, string where = null)
+        {
+            dbConnectionPostgres(database);
+            connection.Open();
+            object result = new object();
+
+            if (where == null)
+            {
+                //SqlCommand cmd = new SqlCommand("SELECT " + column + " FROM "+ table, conn);
+                string sql = string.Format("SELECT {0} FROM {1}", column, table);
+                NpgsqlCommand cmd = new NpgsqlCommand(sql, connection);
+                NpgsqlDataReader r = cmd.ExecuteReader();
+                while (r.Read())
+                {
+                    result = r.GetValue(0);
+                }
+            }
+            else
+            {
+                //SqlCommand cmd = new SqlCommand("SELECT " + column + " FROM "+ table +" WHERE " + where, conn);
+                string sql = string.Format("SELECT {0} FROM {1} WHERE {2}", column, table, where);
+                NpgsqlCommand cmd = new NpgsqlCommand(sql, connection);
+                NpgsqlDataReader r = cmd.ExecuteReader();
+                while (r.Read())
+                {
+                    result = r.GetValue(0);
+                }
+            }
+
+            return result;
         }
     }
 }

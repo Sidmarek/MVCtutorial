@@ -1,0 +1,52 @@
+﻿@model MVCtutorial.Admin.Models.AdminAddMaskModel
+@{
+    ViewBag.Title = "Add Mask of file";
+}
+
+<h2>Add Mask of file</h2>
+
+<div class="message">
+    @ViewBag.message
+    <b>Masks for current bakery:</b><br>
+    @foreach (string mask in ViewBag.masks)
+    {
+        @mask<br>
+    }
+    <b>All roles in the system:</b><br>
+    @foreach (string role in ViewBag.roles)
+    {
+        @role<br>
+    }
+</div>
+@using (Html.BeginForm("AddMaskForm", "Admin", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.bakeryId, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.bakeryId, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.maskName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.maskName, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.maskRole, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.maskRole, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Mask, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Mask, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Send" class="btn btn-default" />
+        </div>
+    </div>
+}

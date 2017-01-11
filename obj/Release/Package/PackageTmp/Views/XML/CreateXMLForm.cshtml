@@ -1,0 +1,131 @@
+﻿@model MVCtutorial.File.Models.FileFormModel
+@{
+    ViewBag.Title = "CreateXMLForm";
+}
+
+<h2>CreateXMLForm</h2>
+@using (Html.BeginForm("CreateXML", "XML", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    <div class="form-big-group" style="border-style:solid; border-width: 1px; margin-bottom: 5px; padding-top: 5px; padding-left: 5px;">
+        <div class="form-group">
+            @Html.LabelFor(m => m.id, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.id, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.prefix, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.prefix, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.country, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.country, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.name, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.name, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.description, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.description, new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+
+    for (int i = 1; i <= ViewBag.i; i++)
+    {
+        <div class="form-group">
+            <div class="col-md-10">
+                Alarm DB @i
+                <input type="text" name="alarmDbName_@i" class="form-control" />
+            </div>
+        </div>
+    }
+    for (int j = 1; j <= ViewBag.j; j++)
+    {
+        <div class="form-group">
+            <div class="col-md-10">
+                Graph Width @j
+                <input type="text" name="graphWidth_@j" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                Graph Height @j
+                <input type="text" name="graphHeight_@j" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                Graph ViewFile @j
+                <input type="text" name="graphViewFile_@j" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                Graph NameFile @j
+                <input type="text" name="graphNameFile_@j" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                Graph MessageLevel @j
+                <input type="text" name="graphMessageLevel_@j" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                Graph Language @j
+                <input type="text" name="graphLanguage_@j" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                Graph LangEnb @j
+                <input type="text" name="graphLangEnb_@j" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                Graph Timezone @j
+                <input type="text" name="graphTimezone_@j" class="form-control" />
+            </div>
+        </div>
+    }
+    for (int k = 1; k <= ViewBag.k; k++)
+    {
+        <div class="form-group">
+            <div class="col-md-10">
+                Scheme URL @k
+                <input type="text" name="schemeURL_@k"  class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                Scheme group name @k
+                <input type="text" name="schemeGroupName_@k" class="form-control" />
+            </div>
+        </div>
+    }
+    for (int l = 1; l <= ViewBag.l; l++)
+    {
+        <div class="form-group">
+            <div class="col-md-10">
+                Report URL @l
+                <input type="text" name="reportURL_@l"  class="form-control" />
+            </div>
+        </div>
+    }
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create XML" class="btn btn-default" />
+        </div>
+    </div>
+}

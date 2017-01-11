@@ -25,9 +25,8 @@ namespace MVCtutorial.Controllers
             CField lastField = null;
             CSignal lastSignal = null;
             CSigMultitext lastSigMultitext = null;
-            System.Text.UTF32Encoding encoding = new System.Text.UTF32Encoding();
+            string[] lines = System.IO.File.ReadAllLines(CfgPath, System.Text.Encoding.Default);
 
-            string[] lines = System.IO.File.ReadAllLines(CfgPath);
             for (int i = 0; i < lines.Length; i++)
             {
                 separeted_string = lines[i].Split(separators, StringSplitOptions.RemoveEmptyEntries);
@@ -88,9 +87,8 @@ namespace MVCtutorial.Controllers
 
             string[] separeted_string = null;
             int result, rowNumber = 0;
-            System.Text.UTF32Encoding encoding = new System.Text.UTF32Encoding();
-
-            string[] lines = System.IO.File.ReadAllLines(NamePath, encoding);
+            
+            string[] lines = System.IO.File.ReadAllLines(NamePath, System.Text.Encoding.Default);
 
             for (int i = 0; i < lines.Length; i++)
             {
@@ -160,7 +158,15 @@ namespace MVCtutorial.Controllers
                     nameLine = lines[i].Split(Const.separ_equate, StringSplitOptions.RemoveEmptyEntries);
                     nameLineFirstPart = nameLine[0].Split(separators, StringSplitOptions.RemoveEmptyEntries);
                     nameLineLangMutate = nameLine[1].Split(Const.separ_names, StringSplitOptions.RemoveEmptyEntries);
-
+                    foreach (CView view in config.ViewList) {
+                        foreach (CField field in view.FieldList) {
+                            foreach (CSignal signal in field.SigList) {
+                                if (signal.column.Contains(nameLineFirstPart[1])) {
+                                    tableName = signal.table;
+                                }
+                            }
+                        }
+                    }
                     int j = 0;
                     for (int idx = 0; idx < nameLineLangMutate.Length; idx = idx + 2)
                     {
@@ -185,7 +191,7 @@ namespace MVCtutorial.Controllers
                             }
                         }
                     }
-                    NameDefinition.Add(config, nameLineFirstPart[1], langs, units);
+                    NameDefinition.Add(config, nameLineFirstPart[1], langs, units, tableName);
                 }
                 else
                 {

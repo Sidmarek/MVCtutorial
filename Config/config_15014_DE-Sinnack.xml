@@ -57,8 +57,8 @@
 			<url>http://users.nordit.cz/ih/10320_Sinnack/__pic_sch_SF4_operation_DESIN_Bio2_DE__</url>
 		</scheme>
 		<graph>
-			<pathConfig>C:\0\grafy\configy\stare\grafy_cfg_TRGID_WF.ini</pathConfig>
-			<pathNames>C:\0\grafy\configy\stare\grafy_names_TRGID.ini</pathNames>
+			<pathConfig>C:\0\00\grafy_cfg_DESIN_Bio2.ini</pathConfig>
+			<pathNames>C:\0\00\grafy_names_DESIN_Bio2.ini</pathNames>
 		</graph>
 		<Download>
 			<path>\\192.168.2.20\Public\Zakazky\0_New\15_rok\15014_DE_Sinnack\</path>
