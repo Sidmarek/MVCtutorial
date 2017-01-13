@@ -5,6 +5,8 @@ using Newtonsoft.Json;
 using System.Web.UI.WebControls;
 using System.Net.Http;
 using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace MVCtutorial.Controllers
 {
@@ -59,16 +61,24 @@ namespace MVCtutorial.Controllers
             ini.ParseNames(config, Const.separators);
             ini.ParseCfg(config, Const.separators, config);
             ini.ParseCfg(config, Const.separators, config);
+            string json = config.toJSON(config);
             Config(config);
+            getData("Gida");
+
             return View();
         }
-        
+
+        public void getData(string database)
+        {
+            db db = new db(database);
+            //return Json(data, "application/json", JsonRequestBehavior.AllowGet);
+        }
+
         public JsonResult Config(CIniFile config)
         {
             object data = new object();
             data = config;
-            return Json(data, "application/json", JsonRequestBehavior.DenyGet);
+            return Json(data, "application/json", JsonRequestBehavior.AllowGet);
         }
-
     }
 }

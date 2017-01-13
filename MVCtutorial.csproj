@@ -319,6 +319,11 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Views\Graph\css\jquerry.css" />
+    <Content Include="Views\Graph\css\style_01.css" />
+    <Content Include="Views\Graph\img\signal_visible.png" />
+    <Content Include="Views\Graph\js\jquery-latest.js" />
+    <Content Include="Views\Graph\lib\pktime.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -366,6 +371,8 @@
     <Content Include="Views\CMS\add.cshtml" />
     <Content Include="Views\Upload\Index.cshtml" />
     <Content Include="Views\Upload\Index3.aspx" />
+    <Content Include="Views\Graph\java\grafy_cfg_CZJHR_BF.ini" />
+    <Content Include="Views\Graph\java\grafy_names_CZJHR.ini" />
     <None Include="Views\Shared\master.master" />
     <Content Include="Views\Upload\Upload.aspx" />
   </ItemGroup>

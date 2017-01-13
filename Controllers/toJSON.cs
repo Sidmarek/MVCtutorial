@@ -18,7 +18,9 @@ namespace MVCtutorial.Controllers {
             // {"type":"analog", "table":"norm", "column":"diFlourHopper_Mass", "decimal":3, "color":#88FF00, "coef":0.001 }
             string json = "{";
             switch (Instance.GetType().FullName)
+#pragma warning disable CS1522 // Empty switch block
             {
+#pragma warning restore CS1522 // Empty switch block
 
             }
             foreach (FieldInfo FI in typeof(T).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
