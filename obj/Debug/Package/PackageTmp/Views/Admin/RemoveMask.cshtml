@@ -1,0 +1,34 @@
+﻿@model MVCtutorial.Admin.Models.AdminRemoveMaskModel
+@{
+    ViewBag.Title = "RemoveUser";
+}
+
+<h2>Remove Mask</h2>
+
+<div class="message">
+    <b>Masks for current bakery:</b><br>
+    @foreach (string mask in ViewBag.masks) {
+        @mask<br>
+    }
+    @ViewBag.message
+</div>
+@using (Html.BeginForm("RemoveMaskForm", "Admin", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.bakeryId, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.bakeryId, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Mask, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Mask, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Send" class="btn btn-default" />
+        </div>
+    </div>
+}

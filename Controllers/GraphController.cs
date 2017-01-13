@@ -13,28 +13,25 @@ namespace MVCtutorial.Controllers
     [Authorize(Roles = "View")]
     public class GraphController : Controller
     {
-
         // GET: Graph
+        private CIniFile config = new CIniFile();
+
+        [HttpPost]
         public void getConfig()
         {
-
-            ViewData["pathConfig"] = Session["pathConfig"];
-            ViewData["pathNames"] = Session["pathNames"];
-            Iniparser ini = new Iniparser(ViewData["pathConfig"].ToString(), ViewData["pathNames"].ToString());
-            ToJSON ToJSON = new ToJSON();
-            CIniFile config = new CIniFile();
-            ini.ParseNames(config, Const.separators);
-            ini.ParseCfg(config, Const.separators, config);
-            ini.ParseCfg(config, Const.separators, config);
-            
+            if (config == null)
+            {
+                ViewData["pathConfig"] = Session["pathConfig"];
+                ViewData["pathNames"] = Session["pathNames"];
+                Iniparser ini = new Iniparser(ViewData["pathConfig"].ToString(), ViewData["pathNames"].ToString());
+                ini.ParseNames(config, Const.separators);
+                ini.ParseCfg(config, Const.separators, config);
+                ini.ParseCfg(config, Const.separators, config);
+            }
             string json = config.toJSON(config);
-
-            //string jsonSerialized = JsonConvert.SerializeObject(config);
+            
             Response.ContentType= "application/json";
-            Response.Write(json);
-            RedirectToAction("Index");
-            //CIniFile deserializedIniFile = JsonConvert.DeserializeObject<CIniFile>(json);
-            //return Content(json, "application/json", System.Text.Encoding.Default);
+            Response.Write(json);            
         }
 
         public ActionResult Index()
@@ -56,21 +53,19 @@ namespace MVCtutorial.Controllers
             Session.Add("pathNames", pathNames);
             //ContentResult Configjson = getConfig();
             Iniparser ini = new Iniparser(pathConfig.ToString(), pathNames.ToString());
-            ToJSON ToJSON = new ToJSON();
-            CIniFile config = new CIniFile();
             ini.ParseNames(config, Const.separators);
             ini.ParseCfg(config, Const.separators, config);
             ini.ParseCfg(config, Const.separators, config);
             string json = config.toJSON(config);
             Config(config);
-            getData("Gida");
+            getData();
 
             return View();
         }
 
-        public void getData(string database)
+        public void getData()
         {
-            db db = new db(database);
+            //db db = new db(database);
             //return Json(data, "application/json", JsonRequestBehavior.AllowGet);
         }
 

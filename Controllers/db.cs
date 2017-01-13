@@ -204,10 +204,12 @@ namespace MVCtutorial.Controllers
             }
         }
 
-        /* Async method
-        * @param string table, string where, @result void
-        * Method to delete selected item(s)
-        */
+        /// <summary>
+        /// Async method
+        /// Method to delete selected item(s)
+        /// </summary>
+        /// <param name="table">table SQL to delete</param>
+        /// <param name="where">string where condition</param>
         public async void singleItemDeleteAsync(string table, string where)
         {
             await conn.OpenAsync();
@@ -215,10 +217,13 @@ namespace MVCtutorial.Controllers
             await cmd.ExecuteNonQueryAsync();
         }
 
-        /* Async method
-         * @param string table, string set, string where(optional), @result void
-         * Method to update one single element
-         */
+        /// <summary>
+        /// Async method
+        /// Method to update one single element
+        /// </summary>
+        /// <param name="table">table SQL to update</param>
+        /// <param name="set">values to set</param>
+        /// <param name="where">string where condition</param>
         public async void singleItemUpdateAsync(string table, string set, string where=null) {
             await conn.OpenAsync();
             if (where==null) {
@@ -447,16 +452,16 @@ namespace MVCtutorial.Controllers
             }
             return result;
         }
-        
+
         /// <summary>
         /// Async method
         /// Method to select multiple items from postrgres db
         /// </summary>
-        /// <param name="column"></param>
-        /// <param name="table"></param>
-        /// <param name="whereMultiple"></param>
-        /// <param name="groupBy"></param>
-        /// <param name="order"></param>
+        /// <param name="column">columnn SQL to select</param>
+        /// <param name="table">table SQL to select</param>
+        /// <param name="whereMultiple">string where condition - function result</param>
+        /// <param name="groupBy">string groupBy condition - function result</param>
+        /// <param name="order">string orderBy condition - function result</param>
         /// <returns></returns>
         public async Task<List<object>> multipleItemSelectPostgresAsync(string column, string table, string whereMultiple = null, string groupBy = null, string order = null)
         {

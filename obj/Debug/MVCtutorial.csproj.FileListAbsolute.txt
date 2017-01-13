@@ -210,5 +210,4 @@ C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin
 C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\ru\System.Spatial.resources.dll
 C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\zh-Hans\System.Spatial.resources.dll
 C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\zh-Hant\System.Spatial.resources.dll
-C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\MVCtutorial.dll.CodeAnalysisLog.xml
-C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\bin\MVCtutorial.dll.lastcodeanalysissucceeded
+C:\Users\ADMIN\documents\visual studio 2015\Projects\MVCtutorial\MVCtutorial\obj\Debug\MVCtutorial.csprojResolveAssemblyReference.cache
