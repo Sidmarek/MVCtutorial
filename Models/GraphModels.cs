@@ -9,6 +9,23 @@ using MVCtutorial.Graph.Models;
 
 namespace MVCtutorial.Graph.Models
 {
+    public class DatabaseDef {
+        public int dbIdx;
+        public string database;
+        public int dataserverNumber;
+    }
+    public class DataRequest {
+        public long beginTime; //in pkTime
+        public long timeAxisLength; //in pkTime
+        //public int viewLength;
+        public List<Tag> tags { get; set; }
+    }
+    public class Tag {
+        public string table;
+        public string column;
+        public int period;
+        public string[] vals; 
+    }
     public class LangDef
     {
         public string LangAbbreviation; //Abreviation = "shortcut" 
@@ -74,6 +91,18 @@ namespace MVCtutorial.Graph.Models
                 if (TableDef.dbIdx == ConnNo & TableDef.tabName.Contains(TabName))
                 {
                     return TableDef.shortName;
+                }
+            }
+            return null;
+        }
+
+        public static TableDef FindTable(CIniFile config, string shortName)
+        {
+            foreach (TableDef TableDef in config.TableDefList)
+            {
+                if (TableDef.tabName.Contains(shortName))
+                {
+                    return TableDef;
                 }
             }
             return null;

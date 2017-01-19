@@ -12,6 +12,8 @@ namespace MVCtutorial.Controllers
     //Class for MSSQL db
     public class db
     {
+        // Reference to db on which is open connection
+        public int dbIdx;
         //Only shared connection
         private SqlConnection conn;
         public NpgsqlConnection connection;
@@ -26,14 +28,13 @@ namespace MVCtutorial.Controllers
         /// Constructor to establish db connection on PostgreSQL database
         /// </summary>
         /// <param name="adb">database name</param>
-        public db(string aDB)
+        public db(string aDB, int dataserverNumber, int dbIndex)
         {
             string db = aDB;
+            dbIdx = dbIndex;
             string connstring = String.Format("Server={0};Port={1};User Id={2};Password={3};Database={4};",
-              "192.168.2.12", 5432, "postgres", "Nordit0276", db);
-            this.connection = new NpgsqlConnection(connstring);
-            connection.Open();
-
+              "192.168.2." + dataserverNumber, 5432, "postgres", "Nordit0276", db);
+            connection = new NpgsqlConnection(connstring);
         }
 
         /// <summary>
@@ -389,29 +390,32 @@ namespace MVCtutorial.Controllers
         public List<object> multipleItemSelectPostgres(string column, string table, string whereMultiple = null, string groupBy = null, string order = null) {
             string sql = null;
             List<object> result = new List<object>();
-
+            if (connection.FullState == System.Data.ConnectionState.Closed)
+            {
+                connection.Open();
+            }
             if (whereMultiple == null)
             {
                 if (groupBy == null)
                 {
                     if (order == null)
                     {
-                        sql = string.Format("SELECT {0},  FROM {1}", column, table);
+                        sql = string.Format("SELECT {0}  FROM {1}", column, table);
                     }
                     else
                     {
-                        sql = string.Format("SELECT {0},  FROM {1} {2}", column, table, order);
+                        sql = string.Format("SELECT {0}  FROM {1} {2}", column, table, order);
                     }
                 }
                 else
                 {
                     if (order == null)
                     {
-                        sql = string.Format("SELECT {0},  FROM {1} {2}", column, table, groupBy);
+                        sql = string.Format("SELECT {0}  FROM {1} {2}", column, table, groupBy);
                     }
                     else
                     {
-                        sql = string.Format("SELECT {0},  FROM {1} {2} {3}", column, table, groupBy, order);
+                        sql = string.Format("SELECT {0}  FROM {1} {2} {3}", column, table, groupBy, order);
                     }
                 }
             }
@@ -421,28 +425,28 @@ namespace MVCtutorial.Controllers
                 {
                     if (order == null)
                     {
-                        sql = string.Format("SELECT {0},  FROM {1} WHERE {2}", column, table, whereMultiple);
+                        sql = string.Format("SELECT {0}  FROM {1} WHERE {2}", column, table, whereMultiple);
                     }
                     else
                     {
-                        sql = string.Format("SELECT {0},  FROM {1} WHERE {2} {3}", column, table, whereMultiple, order);
+                        sql = string.Format("SELECT {0}  FROM {1} WHERE {2} {3}", column, table, whereMultiple, order);
                     }
                 }
                 else
                 {
                     if (order == null)
                     {
-                        sql = string.Format("SELECT {0},  FROM {1} WHERE {2} {3}", column, table, whereMultiple, groupBy);
+                        sql = string.Format("SELECT {0}  FROM {1} WHERE {2} {3}", column, table, whereMultiple, groupBy);
                     }
                     else
                     {
-                        sql = string.Format("SELECT {0},  FROM {1} WHERE {2} {3} {4}", column, table, whereMultiple, groupBy, order);
+                        sql = string.Format("SELECT {0}  FROM {1} WHERE {2} {3} {4}", column, table, whereMultiple, groupBy, order);
                     }
                 }
             }
 
-            SqlCommand cmd = new SqlCommand(sql, conn);
-            SqlDataReader r = cmd.ExecuteReader();
+            NpgsqlCommand cmd = new NpgsqlCommand(sql, connection);
+            NpgsqlDataReader r = cmd.ExecuteReader();
             while (r.Read())
             {
                 for (int i = 0; i < r.FieldCount; i++)
@@ -450,6 +454,8 @@ namespace MVCtutorial.Controllers
                     result.Add(r[i]);
                 }
             }
+            r.Close();
+            cmd.Dispose();
             return result;
         }
 
@@ -463,33 +469,36 @@ namespace MVCtutorial.Controllers
         /// <param name="groupBy">string groupBy condition - function result</param>
         /// <param name="order">string orderBy condition - function result</param>
         /// <returns></returns>
-        public async Task<List<object>> multipleItemSelectPostgresAsync(string column, string table, string whereMultiple = null, string groupBy = null, string order = null)
+        public async Task<List<object[]>> multipleItemSelectPostgresAsync(string column, string table, string whereMultiple = null, string groupBy = null, string order = null)
         {
             string sql = null;
-            List<object> result = new List<object>();
-
+            List<object[]> result = new List<object[]>();
+            if (connection.FullState == System.Data.ConnectionState.Closed)
+            {
+                connection.Open();
+            }
             if (whereMultiple == null)
             {
                 if (groupBy == null)
                 {
                     if (order == null)
                     {
-                        sql = string.Format("SELECT {0},  FROM {1}", column, table);
+                        sql = string.Format("SELECT {0}  FROM {1}", column, table);
                     }
                     else
                     {
-                        sql = string.Format("SELECT {0},  FROM {1} {2}", column, table, order);
+                        sql = string.Format("SELECT {0}  FROM {1} {2}", column, table, order);
                     }
                 }
                 else
                 {
                     if (order == null)
                     {
-                        sql = string.Format("SELECT {0},  FROM {1} {2}", column, table, groupBy);
+                        sql = string.Format("SELECT {0}  FROM {1} {2}", column, table, groupBy);
                     }
                     else
                     {
-                        sql = string.Format("SELECT {0},  FROM {1} {2} {3}", column, table, groupBy, order);
+                        sql = string.Format("SELECT {0}  FROM {1} {2} {3}", column, table, groupBy, order);
                     }
                 }
             }
@@ -499,45 +508,55 @@ namespace MVCtutorial.Controllers
                 {
                     if (order == null)
                     {
-                        sql = string.Format("SELECT {0},  FROM {1} WHERE {2}", column, table, whereMultiple);
+                        sql = string.Format("SELECT {0}  FROM {1} WHERE {2}", column, table, whereMultiple);
                     }
                     else
                     {
-                        sql = string.Format("SELECT {0},  FROM {1} WHERE {2} {3}", column, table, whereMultiple, order);
+                        sql = string.Format("SELECT {0}  FROM {1} WHERE {2} {3}", column, table, whereMultiple, order);
                     }
                 }
                 else
                 {
                     if (order == null)
                     {
-                        sql = string.Format("SELECT {0},  FROM {1} WHERE {2} {3}", column, table, whereMultiple, groupBy);
+                        sql = string.Format("SELECT {0}  FROM {1} WHERE {2} {3}", column, table, whereMultiple, groupBy);
                     }
                     else
                     {
-                        sql = string.Format("SELECT {0},  FROM {1} WHERE {2} {3} {4}", column, table, whereMultiple, groupBy, order);
+                        sql = string.Format("SELECT {0}  FROM {1} WHERE {2} {3} {4}", column, table, whereMultiple, groupBy, order);
                     }
                 }
             }
 
-            SqlCommand cmd = new SqlCommand(sql, conn);
-            SqlDataReader r = await cmd.ExecuteReaderAsync();
+            NpgsqlCommand cmd = new NpgsqlCommand(sql, connection);
+            NpgsqlDataReader r = cmd.ExecuteReader();
+            object[] tmpObjectArray = new object[r.FieldCount];            
             while (await r.ReadAsync())
             {
-                for (int i = 0; i < r.FieldCount; i++)
-                {
-                    result.Add(r[i]);
+                for(int i = 0; i<(r.FieldCount);i++) {
+                    tmpObjectArray[i] = r[i];                    
                 }
+                result.Add(tmpObjectArray);
             }
+            r.Close();
+            cmd.Dispose();
             return result;
         }
 
         public static string where(string conditionVariable1, string Operator , string conditionVariable2) {
-            string whereSQL = null;
+            string whereSQL = conditionVariable1 + Operator + conditionVariable2;
             return whereSQL;
         }
         public static string whereMultiple (string[] conditionVariables1, string[] Operators, string[] conditionVariables2)
         {
             string whereSQL = null;
+            if (conditionVariables1.Length == conditionVariables2.Length && conditionVariables1.Length == Operators.Length && conditionVariables2.Length == Operators.Length) {
+                whereSQL = conditionVariables1[0] + Operators[0] + conditionVariables2[0];
+                for (int i=1;i<conditionVariables1.Length;i++)
+                {
+                    whereSQL += " AND " + conditionVariables1[i] + Operators[i] + conditionVariables2[i];
+                }
+            }
             return whereSQL;
         }
         public static string sum(string column, string newcolumn=null) {
