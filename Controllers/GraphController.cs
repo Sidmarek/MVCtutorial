@@ -1,9 +1,5 @@
 ﻿using System.Web.Mvc;
 using MVCtutorial.Graph.Models;
-using System.Net;
-using Newtonsoft.Json;
-using System.Web.UI.WebControls;
-using System.Net.Http;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -124,7 +120,7 @@ namespace MVCtutorial.Controllers
                     db opennedDbConn = openDbList.Find(x => x.dbIdx == tabledef.dbIdx);
                     string where = db.whereMultiple(conditions1, Operators, conditions2);
                     objects = await opennedDbConn.multipleItemSelectPostgresAsync("\"UTC\"," + columns, "\"" + tabledef.tabName  + "\"", where);
-                    readResponse(objects, dataRequest, tagsPos);
+                    readResponse(objects, dataRequest, tagsPos, tabledef);
                 }
                 columns = null;
                 tagsPos.Clear();
@@ -134,41 +130,50 @@ namespace MVCtutorial.Controllers
             }
         }
 
-        private void readResponse(List<object[]> rstObjects,DataRequest dataRequest, List<int> tagsPos) {
+        private void readResponse(List<object[]> rstObjects,DataRequest dataRequest, List<int> tagsPos, TableDef tabledef) {
             int rstPos = 0, buffPos = 0;
-            List <long> vals_agreg = new List<long>();
-            long time, startTime, endTime;            
+            List <double> vals_agreg = new List<double>();
+            long time, startTime, endTime, low_buff_time, high_buff_time;            
             startTime = dataRequest.beginTime;
             endTime = dataRequest.beginTime + dataRequest.timeAxisLength;
             
             for (int i = 1; i < rstObjects[0].Length; i++)
             {
-                string[] vals_buffer = new string[(dataRequest.timeAxisLength)/dataRequest.tags[tagsPos[i]].period]; //prepare values buffer
+                double[] vals_buffer = new double[(dataRequest.timeAxisLength)/dataRequest.tags[tagsPos[i]].period]; //prepare values buffer
                 foreach (object[] objectsArray in rstObjects) {
+                    low_buff_time = (startTime + (rstPos * dataRequest.tags[tagsPos[i]].period));
+                    high_buff_time = (startTime + ((rstPos + 1) * dataRequest.tags[tagsPos[i]].period));
                     time = utcToPkTime(objectsArray[0].ToString());
-                    if ((startTime + (rstPos * dataRequest.tags[tagsPos[i]].period)) < time && (startTime + ((rstPos + 1) * dataRequest.tags[tagsPos[i]].period)) > time)
+                    if (low_buff_time <= time && high_buff_time >= time)
                     {
-                        vals_agreg.Add(Convert.ToInt64(objectsArray[i]));
-                    }
-                    else {
-                        if (vals_agreg.Count != 0)
+                        vals_agreg.Add(Convert.ToDouble(objectsArray[i]));
+                        if ((time + tabledef.period) >= high_buff_time)
                         {
-                            vals_agreg.Reverse();
-                            vals_buffer[buffPos] = vals_agreg[0].ToString();
-                            buffPos++;
-                            rstPos++;
-                            vals_agreg.Clear();
-                        }
-                        else {
-                            if (buffPos < vals_buffer.Length)
+                            if (vals_agreg.Count != 0)
                             {
-                                vals_buffer[buffPos] = null;
+                                vals_agreg.Reverse();
+                                vals_buffer[buffPos] = vals_agreg[0];
                                 buffPos++;
-                                rstPos++;
+                                vals_agreg.Clear();
+                            }
+                            else
+                            {
+                                if (buffPos < vals_buffer.Length)
+                                {
+                                    vals_buffer[buffPos] = double.NaN;
+                                    buffPos++;
+                                }
                             }
                         }
                     }
+                    else {
+                        vals_buffer[buffPos] = double.NaN;
+                        buffPos++;
+                    }
+                    rstPos++;
                 }
+                rstPos = 0;
+                buffPos = 0; 
                 dataRequest.tags[i].vals = vals_buffer;
             }
         }

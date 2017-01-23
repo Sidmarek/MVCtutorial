@@ -527,16 +527,21 @@ namespace MVCtutorial.Controllers
                     }
                 }
             }
-
+            
             NpgsqlCommand cmd = new NpgsqlCommand(sql, connection);
             NpgsqlDataReader r = cmd.ExecuteReader();
-            object[] tmpObjectArray = new object[r.FieldCount];            
+                        
             while (await r.ReadAsync())
             {
-                for(int i = 0; i<(r.FieldCount);i++) {
+                object[] tmpObjectArray = new object[r.FieldCount];
+                for (int i = 0; i<(r.FieldCount);i++) {
                     tmpObjectArray[i] = r[i];                    
                 }
                 result.Add(tmpObjectArray);
+                //tmpObjectArray.c
+                //for (int i = 0; i < r.FieldCount; i++) {
+                //    tmpObjectArray[i] = null;
+                //}
             }
             r.Close();
             cmd.Dispose();

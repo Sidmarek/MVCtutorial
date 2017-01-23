@@ -24,7 +24,7 @@ namespace MVCtutorial.Graph.Models
         public string table;
         public string column;
         public int period;
-        public string[] vals; 
+        public double[] vals; 
     }
     public class LangDef
     {
@@ -78,6 +78,7 @@ namespace MVCtutorial.Graph.Models
         public string shortName;
         public int dbIdx;
         public string tabName;
+        public int period;
     }
 
     public class TableDefinition
@@ -109,14 +110,35 @@ namespace MVCtutorial.Graph.Models
         }
         public static string Add(CIniFile config, int ConnNo, string TabName)
         {
-            int subscoreIdx;
+            int subscoreIdx, iperiod;
             try {
                 subscoreIdx = TabName.LastIndexOf("_");
             } catch (ArgumentNullException e) {
                 throw new Exception(e.Message);
             }
             string shortedName = TabName.Substring(subscoreIdx+1);
-            config.TableDefList.Add(new TableDef() { shortName = shortedName, dbIdx = ConnNo, tabName = TabName });
+            
+            switch (shortedName) {
+                case "xslow":
+                    iperiod = 300;
+                    break;
+                case "slow":
+                    iperiod = 60;
+                    break;
+                case "norm":
+                    iperiod = 20;
+                    break;
+                case "sec10":
+                    iperiod = 10;
+                    break;
+                case "sec5":
+                    iperiod = 5;
+                    break;
+                default:
+                    iperiod = 20;
+                    break;
+            }
+            config.TableDefList.Add(new TableDef() { shortName = shortedName, dbIdx = ConnNo, tabName = TabName , period = iperiod});
             return shortedName;
         }
 
