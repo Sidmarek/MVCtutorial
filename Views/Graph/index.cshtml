@@ -11,7 +11,7 @@
 
     // pokus na�ten� konfigurace ze serveru
     function getConfig3() {
-    var url_1 = 'graph/getConfig';
+    var url_1 = 'graph/Config';
     console.log("Hello Config");
     var nameView = "name_" + "EN";
     $.ajax({
@@ -22,17 +22,31 @@
         success: function (data, textStatus) {
             console.log('get config3');
             console.log(data);
-            
-                console.log("baf");
+            console.log("end of end config");
             //saveConfig();
         }
     });
     };
+    function getResponse() {
+        var url_1 = 'graph/getData';
+        console.log("Hello Data");
+        $.ajax({
+            url: url_1,
+            async: false,
+            dataType: "json",
+            type: 'post',
+            success: function (data, textStatus) {
+                console.log('get data response');
+                console.log(data);
+                console.log("data from data response");
+            }
+        });
+    };
     function sendJSON() {
         getConfig3();
         var jsonArray = {
-            "beginTime": 528990048, "timeAxisLength": 86400,
-            "tags": [{ "table": "norm", "column": "iWMU_Temp", "period": 30 },
+            "beginTime": 536590799, "timeAxisLength": 86400,
+            "tags": [{ "table": "norm", "column": "MF1_Temp", "period": 30 },
                       { "table": "norm", "column": "iMF1_Temp", "period": 30 },
                       { "table": "norm", "column": "iMF2_Temp", "period": 30 },
                       { "table": "norm", "column": "diMF1_Weight", "period": 30 },
@@ -48,7 +62,14 @@
         xmlHttp.open("POST", url, true);
         console.log("112");
         xmlHttp.send(json);
-        console.log(json);
+        xmlHttp.onreadystatechange = function () {
+            if (xmlHttp.readyState == xmlHttp.DONE) {
+                var data = xmlHttp.responseText;
+                console.log(data);
+                console.log("juuuuuuuuuuuuuuu");
+            }
+            console.log("va");
+        }
     }
     </script>
 

@@ -387,9 +387,9 @@ namespace MVCtutorial.Controllers
         /// <param name="groupBy"></param>
         /// <param name="order"></param>
         /// <returns></returns>        
-        public List<object> multipleItemSelectPostgres(string column, string table, string whereMultiple = null, string groupBy = null, string order = null) {
+        public List<object[]> multipleItemSelectPostgres(string column, string table, string whereMultiple = null, string groupBy = null, string order = null) {
             string sql = null;
-            List<object> result = new List<object>();
+            List<object[]> result = new List<object[]>();
             if (connection.FullState == System.Data.ConnectionState.Closed)
             {
                 connection.Open();
@@ -449,10 +449,12 @@ namespace MVCtutorial.Controllers
             NpgsqlDataReader r = cmd.ExecuteReader();
             while (r.Read())
             {
-                for (int i = 0; i < r.FieldCount; i++)
+                object[] tmpObjectArray = new object[r.FieldCount];
+                for (int i = 0; i < (r.FieldCount); i++)
                 {
-                    result.Add(r[i]);
+                    tmpObjectArray[i] = r[i];
                 }
+                result.Add(tmpObjectArray);
             }
             r.Close();
             cmd.Dispose();

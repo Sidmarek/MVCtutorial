@@ -86,18 +86,33 @@ namespace MVCtutorial.Controllers
             return (long)utcTime;
         }
         [HttpPost]
-        public async Task<JsonResult> getData()
+        public JsonResult getData()
         {
             StreamReader stream = new StreamReader(Request.InputStream);
-            string json = await stream.ReadToEndAsync();
-            object data = new object();
-            DataRequest dataRequest = new JavaScriptSerializer().Deserialize<DataRequest>(json);
-            proceedSQLquery(dataRequest);
-            data = json;
-            
-            return Json(data, "application/json", JsonRequestBehavior.AllowGet);
+            string json = stream.ReadToEnd();
+            if (json != "")
+            {
+                object data = new object();
+                DataRequest dataRequest = new JavaScriptSerializer().Deserialize<DataRequest>(json);
+                try
+                {
+                    DataRequest dataResponse = proceedSQLquery(dataRequest);
+                    data = dataResponse;
+                    return Json(data, "application/json", JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception e)
+                {
+                    data = dataRequest;
+                    string k = e.Message.ToString(); // TODO to txt file
+                    return Json(data, "application/json", JsonRequestBehavior.AllowGet);
+                }
+            }
+            else
+            {
+                return null;
+            }
         }
-        private async void proceedSQLquery(DataRequest dataRequest) {
+        private DataRequest proceedSQLquery(DataRequest dataRequest) {
 
             getDbConfig();
             openDBconnections();
@@ -119,7 +134,8 @@ namespace MVCtutorial.Controllers
                     columns = columns.Substring(0, columns.Length - 1);
                     db opennedDbConn = openDbList.Find(x => x.dbIdx == tabledef.dbIdx);
                     string where = db.whereMultiple(conditions1, Operators, conditions2);
-                    objects = await opennedDbConn.multipleItemSelectPostgresAsync("\"UTC\"," + columns, "\"" + tabledef.tabName  + "\"", where);
+                    string order = db.order("\"UTC\"", "ASC");
+                    objects = opennedDbConn.multipleItemSelectPostgres("\"UTC\"," + columns, "\"" + tabledef.tabName  + "\"", where, null, order);
                     readResponse(objects, dataRequest, tagsPos, tabledef);
                 }
                 columns = null;
@@ -128,26 +144,48 @@ namespace MVCtutorial.Controllers
             foreach (db connection in openDbList) {
                 connection.connection.Close();
             }
+            return dataRequest;
         }
 
         private void readResponse(List<object[]> rstObjects,DataRequest dataRequest, List<int> tagsPos, TableDef tabledef) {
             int rstPos = 0, buffPos = 0;
             List <double> vals_agreg = new List<double>();
-            long time, startTime, endTime, low_buff_time, high_buff_time;            
+            long time, startTime, endTime, low_buff_time, high_buff_time;
             startTime = dataRequest.beginTime;
             endTime = dataRequest.beginTime + dataRequest.timeAxisLength;
-            
-            for (int i = 1; i < rstObjects[0].Length; i++)
-            {
-                double[] vals_buffer = new double[(dataRequest.timeAxisLength)/dataRequest.tags[tagsPos[i]].period]; //prepare values buffer
-                foreach (object[] objectsArray in rstObjects) {
-                    low_buff_time = (startTime + (rstPos * dataRequest.tags[tagsPos[i]].period));
-                    high_buff_time = (startTime + ((rstPos + 1) * dataRequest.tags[tagsPos[i]].period));
-                    time = utcToPkTime(objectsArray[0].ToString());
-                    if (low_buff_time <= time && high_buff_time >= time)
-                    {
-                        vals_agreg.Add(Convert.ToDouble(objectsArray[i]));
-                        if ((time + tabledef.period) >= high_buff_time)
+                
+                for (int i = 1; i < rstObjects[0].Length; i++)
+                {
+                    double[] vals_buffer = new double[(dataRequest.timeAxisLength)/dataRequest.tags[tagsPos[i-1]].period]; //prepare values buffer
+                    for (int j=0; j<rstObjects.Count; j++) {
+                        object[] objectsArray = rstObjects[j];
+                        low_buff_time = (startTime + (rstPos * dataRequest.tags[tagsPos[i-1]].period));
+                        high_buff_time = (startTime + ((rstPos + 1) * dataRequest.tags[tagsPos[i-1]].period));
+                        time = utcToPkTime(objectsArray[0].ToString());
+                        if (low_buff_time <= time && high_buff_time >= time)
+                        {
+                            vals_agreg.Add(Convert.ToDouble(objectsArray[i]));
+                            if ((time + tabledef.period) >= high_buff_time)
+                            {
+                                if (vals_agreg.Count != 0)
+                                {
+                                    vals_agreg.Reverse();
+                                    vals_buffer[buffPos] = vals_agreg[0];
+                                    buffPos++;
+                                    vals_agreg.Clear();
+                                }
+                                else
+                                {
+                                    if (buffPos < vals_buffer.Length)
+                                    {
+                                        vals_buffer[buffPos] = double.NaN;
+                                        buffPos++;
+                                    }
+                                }
+                            }
+                        rstPos++;
+                        }
+                        else
                         {
                             if (vals_agreg.Count != 0)
                             {
@@ -162,21 +200,19 @@ namespace MVCtutorial.Controllers
                                 {
                                     vals_buffer[buffPos] = double.NaN;
                                     buffPos++;
+                                    rstPos++;
+                                    j--;
                                 }
                             }
                         }
-                    }
-                    else {
-                        vals_buffer[buffPos] = double.NaN;
-                        buffPos++;
-                    }
-                    rstPos++;
                 }
-                rstPos = 0;
-                buffPos = 0; 
-                dataRequest.tags[i].vals = vals_buffer;
+
+                    rstPos = 0;
+                    buffPos = 0; 
+                    dataRequest.tags[tagsPos[i-1]].vals = vals_buffer;
+                }
+                
             }
-        }
         
         // WARNING: very fast to transform but not very secure way
         private void getDbConfig(){
