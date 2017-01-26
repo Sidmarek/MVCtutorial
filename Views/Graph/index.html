@@ -1,0 +1,47 @@
+﻿  <body id="body" onLoad="" scroll="no" style="overflow: hidden;">
+      <link href="./css/style_01.css" rel="stylesheet" type="text/css" />
+      <script src="./js/graphControler.js"></script>
+    <div id="menu">
+      <input style="height: 22px; width: 45px;" type="button" value="<--" onClick="backShift()"/>
+      <input style="height: 22px; width: 45px;" type="button" value="-->" onClick="fwdShift()"/>
+      <input style="height: 22px; width: 45px;" type="button" value="-><-" onClick="narrow()"/>
+      <input style="height: 22px; width: 45px;" type="button" value="<->" onClick="extend()"/>
+      <input style="height: 22px; width: 50px;" type="button" value="<-day" onClick="backDay()"/>
+      <input style="height: 22px; width: 50px;" type="button" value="day->" onClick="fwdDay()"/>
+      <input id="zoom" style="height: 22px; width: 50px;" type="button" value="zoom" onClick="zoomSignal(value)"/>
+      <input style="height: 22px; width: 50px;" type="button" value="date" onClick="calendar();"/>
+      <input id="reset" style="height: 22px; width: 50px;" type="button" value=">0<" onClick="resetValue(value)"/>    
+  
+      <input style="position: absolute; left: 605px; height: 22px; width: 60px;" type="button" value="refresh" onClick="reload()"/>
+      <select id="group" style="position: absolute; left: 670px; height: 22px; width: 210px;" onChange="changeGroup(value)" tabindex="1" method="get">        
+      </select>
+      <input id="lang" style="position: absolute; left: 885px; height: 22px; width: 75px;" type="button" value="lang:EN" onClick="changeLang()"/>
+      <input id="zone" style="text-align: left; position: absolute; left: 965px; height: 22px; width: 120px;" type="button" value="zone:CET" onClick="changeZone(value)"/>
+      <input style="position: absolute; left: 1090px; height: 22px; width: 50px;" type="button" value="mode" onClick="chartMode()"/>
+    </div>
+
+    <div id="calendar" style="position: absolute; top: 32px; left: 365px; background-color: #F0F0F0; z-index: 10; visibility: hidden">
+    </div>
+
+    <div id="content">
+      <canvas id="active_canvas" width="1920" height="1200" style="position: absolute; left:0px; top: 32px; z-index: 4;"></canvas>
+      <canvas id="front_canvas" width="1920" height="1200" style="position: absolute; left:0px; top: 32px; z-index: 3;"></canvas>    
+      <canvas id="signal_canvas" width="1920" height="1200" style="position: absolute; left:0px; top: 32px; z-index: 2;"></canvas>
+      <canvas id="back_canvas" width="1920" height="1200" style="position: absolute; left:0px; top: 32px; z-index: 1;"></canvas>   
+    </div>
+
+    <div id="sources">
+     <!-- graphicList -->
+     <img id="status" style="display: none;" src="/img/status.png" />
+     <!-- event icons -->
+     <img id="close" style="display: none;" src="/img/close.png" />
+     <img id="signal_visible" style="display: none;" src="/img/signal_visible.png" />     
+    </div>
+  
+    <script src="/js/jquery-latest.js"></script>
+    <!--[if lt IE 9]>
+      <script src="excanvas.js"></script>
+    <![endif]-->
+    <script src="/lib/pktime.js"></script>    
+  
+  </body>  
