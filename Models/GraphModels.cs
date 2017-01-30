@@ -444,7 +444,7 @@ namespace MVCtutorial.Graph.Models
 
             json += "\"type\": \"" + signal.type + "\", ";
             json += "\"table\": \"" + signal.table + "\", ";
-            json += "\"table\": \"" + signal.column + "\", ";
+            json += "\"column\": \"" + signal.column + "\", ";
             json += "\"color\": \"" + ColorTranslator.ToHtml(signal.Color).ToString() + "\", ";
             json += "\"decimal\":" + signal.Decimal + "},";
 
@@ -582,28 +582,23 @@ namespace MVCtutorial.Graph.Models
 
         public string toJSON(CIniFile IniFile)
         {
-            string json = "{\"Config\":";
-            json += "[{";
+            string json = "{";
             json += LangDefinition.toJSON(this);
-            json += "},";
-            json += "{";
+            json += ",";
+
             json += TableDefinition.toJSON(this);
-            json += "},";
-            json += "{";
+            json += ",";
             json += NameDefinition.toJSON(this);
-            json += "},";
-            json += "{";
+            json += ",";
             json += TextlistDefinition.toJSON(this);
-            json += "},";
-            json += "{";
+            json += ",";
             json += "\"View\":[";
             foreach (CView view in ViewList)
             {
                 json += view.toJSON(view);
             }
             json = json.Substring(0, json.Length - 1);
-            json += "]";
-            json += "}]}";
+            json += "]}";
             return json;
         }
     }

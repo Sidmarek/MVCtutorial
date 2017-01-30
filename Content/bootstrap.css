@@ -6834,14 +6834,15 @@ td.visible-print {
 
 /* The navigation menu links */
 .sidenav a {
+    max-width: 250px;
+    padding-left: 150px;
     padding: 8px 8px 8px 32px;
-    text-decoration: none;
+    text-decoration:none;
     font-size: 18px;
     color: #428bca;
     line-height:1;
-    margin-right: 50px;
     display: block;
-    transition: 0.3s
+    transition: 0.5s;
 }
 .plc {
     padding: 8px 8px 8px 32px;

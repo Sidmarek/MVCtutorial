@@ -13,7 +13,7 @@ namespace MVCtutorial.Controllers
     public class GraphController : Controller
     {
         // GET: Graph
-        private static CIniFile config = new CIniFile();
+        private CIniFile config = new CIniFile();
         private static List<db> openDbList = new List<db>();
         private static string dbConfigPath = @"C:\0\00\grafy.ini";
         private static List<DatabaseDef> dbDefList = new List<DatabaseDef>();
@@ -27,8 +27,7 @@ namespace MVCtutorial.Controllers
                 ViewData["pathNames"] = Session["pathNames"];
                 Iniparser ini = new Iniparser(ViewData["pathConfig"].ToString(), ViewData["pathNames"].ToString());
                 ini.ParseNames(config, Const.separators);
-                ini.ParseCfg(config, Const.separators, config);
-                ini.ParseCfg(config, Const.separators, config);
+                ini.ParseCfg(config, Const.separators);
             }
             string json = config.toJSON(config);
 
@@ -54,13 +53,13 @@ namespace MVCtutorial.Controllers
             }
             Session.Add("pathConfig", pathConfig);
             Session.Add("pathNames", pathNames);
-            
-            Iniparser ini = new Iniparser(pathConfig.ToString(), pathNames.ToString());
-            ini.ParseNames(config, Const.separators);
-            ini.ParseCfg(config, Const.separators, config);
-            ini.ParseCfg(config, Const.separators, config);
-            string json = config.toJSON(config);
-
+            if (config.ViewList.Count == 0)
+            {
+                Iniparser ini = new Iniparser(pathConfig.ToString(), pathNames.ToString());
+                ini.ParseNames(config, Const.separators);
+                ini.ParseCfg(config, Const.separators);
+                string json = config.toJSON(config);
+            }
             return View();
         }
         public string pkTimeToUTC(double time)
@@ -266,8 +265,7 @@ namespace MVCtutorial.Controllers
                 ViewData["pathNames"] = Session["pathNames"];
                 Iniparser ini = new Iniparser(ViewData["pathConfig"].ToString(), ViewData["pathNames"].ToString());
                 ini.ParseNames(config, Const.separators);
-                ini.ParseCfg(config, Const.separators, config);
-                ini.ParseCfg(config, Const.separators, config);
+                ini.ParseCfg(config, Const.separators);                
             }
             object data = new object();
             data = config;

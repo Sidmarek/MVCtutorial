@@ -17,7 +17,7 @@ namespace MVCtutorial.Controllers
             NamePath = aNamePath;
         }
 
-        public void ParseCfg(CIniFile config, string[] separators, CIniFile iniFileInstance)
+        public void ParseCfg(CIniFile config, string[] separators)
         {
             string[] separeted_string = null;
 
@@ -37,7 +37,7 @@ namespace MVCtutorial.Controllers
                         case "View":
                             separeted_string = lines[i].Split(Const.separators_view, StringSplitOptions.RemoveEmptyEntries);
                             lastView = parseView(config, separeted_string);
-                            iniFileInstance.AddView(lastView);
+                            config.AddView(lastView);
                             break;
                         case "Field":
                             lastField = parseField(config, separeted_string);
