@@ -213,3 +213,4 @@ C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin
 C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\bin\zh-Hant\System.Spatial.resources.dll
 C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\obj\Debug\MVCtutorial.dll
 C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\obj\Debug\MVCtutorial.pdb
+C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\obj\Debug\MVCtutorial.csprojResolveAssemblyReference.cache

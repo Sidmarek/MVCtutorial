@@ -375,12 +375,12 @@
     <Content Include="Views\CMS\add.cshtml" />
     <Content Include="Views\Upload\Index.cshtml" />
     <Content Include="Views\Upload\Index3.aspx" />
+    <Content Include="Views\Graph\index.cshtml" />
     <None Include="Views\Shared\master.master" />
     <Content Include="Views\Upload\Upload.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Graph\" />
     <Folder Include="Views\Security\" />
   </ItemGroup>
   <ItemGroup>

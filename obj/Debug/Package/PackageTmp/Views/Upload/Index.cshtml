@@ -1,0 +1,55 @@
+﻿@model MVCtutorial.Upload.Models.UploadFile
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index of Upload System</h2>
+@Html.Partial("~/Views/Menu/_Menu.cshtml")
+@ViewBag.message
+@using (Html.BeginForm("UploadFile", "Upload", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+{
+    <div class="form-group">
+        @Html.TextBoxFor(m => m.File, new { type = "file" })
+        <div class="col-md-10">
+            @Html.ValidationMessageFor(m => m.File)
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="Upload File" />
+        </div>
+    </div>
+}
+<script>
+    function show() {
+
+        //var filePath = document.getElementById("file2").file[0].fileName;
+        var file = document.getElementById("file2").value;
+        //document.getElementById("filePathToView2").innerHTML = filePath;
+        document.getElementById("filePathToView").innerHTML = file;
+}
+</script>
+<div id="filePathToView">
+</div>
+<div id="filePathToView2">
+</div>
+<h3>9_Public</h3>
+@{
+    int i = 0;
+}
+@foreach (string file in ViewBag.files)
+{
+        <div class="list-group-item-text">
+            @ViewBag.fileName[i]
+            <a href="/Download/downloadFile?nameFile=@file">Download</a>
+            @if (file.Contains(".pdf") || file.Contains(".txt"))
+            {
+                <a href="/Download/downloadFile?nameFile=@file&View=1">View</a><br>
+            }
+            else
+            {
+                <br>
+            }
+        </div>
+    i++;
+}

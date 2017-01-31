@@ -1,0 +1,40 @@
+﻿
+@using Microsoft.AspNet.Identity
+@{
+    ViewBag.Title = "Homepage";
+}
+<h2>Homepage</h2>
+<div class="jumbotron">
+    <p class="lead">Prepare yourself for stunning experience on new users.nordit.cz vizulization platform with NORDIT platform brand</p>
+    @if (!(Request.IsAuthenticated))
+    {
+        <p class="lead">This is welcome screen please @Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</p>
+    }
+    else
+    {
+        <p class="lead">If you wan to continue into your bakery please @Html.ActionLink("click here", "Homepage", "Home")</p>
+    }
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <h2>About</h2>
+        <p>
+            Here will be some news, what you can find on new users.nordit.cz vizulization platform
+        </p>
+        <p><a class="btn btn-default" href="http://192.168.2.26/">Also on my comptuter &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>News</h2>
+        <p>
+            In latest update have been add following features:<br>
+            After submit page of alarms from index alarm page you wont get 0 of alarms but always 20 of them.<br>
+            Menu of this page hase been changed to more  user-friendly platform.
+        </p>
+        <p><a class="btn btn-default" href="http://192.168.2.13/Home/News">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Link to old users.nordit.cz</h2>
+        <p>If you need old users click below</p>
+        <p><a class="btn btn-default" href="http://users.nordit.cz/">Bye &raquo;</a></p>
+    </div>
+</div>

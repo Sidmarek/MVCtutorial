@@ -13,7 +13,7 @@ namespace MVCtutorial.Controllers
     public class GraphController : Controller
     {
         // GET: Graph
-        private CIniFile config = new CIniFile();
+        private static CIniFile config = new CIniFile();
         private static List<db> openDbList = new List<db>();
         private static string dbConfigPath = @"C:\0\00\grafy.ini";
         private static List<DatabaseDef> dbDefList = new List<DatabaseDef>();
@@ -53,13 +53,14 @@ namespace MVCtutorial.Controllers
             }
             Session.Add("pathConfig", pathConfig);
             Session.Add("pathNames", pathNames);
+            /*
             if (config.ViewList.Count == 0)
             {
                 Iniparser ini = new Iniparser(pathConfig.ToString(), pathNames.ToString());
                 ini.ParseNames(config, Const.separators);
                 ini.ParseCfg(config, Const.separators);
                 string json = config.toJSON(config);
-            }
+            }*/
             return View();
         }
         public string pkTimeToUTC(double time)

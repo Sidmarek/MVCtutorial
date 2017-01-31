@@ -1,0 +1,38 @@
+﻿@model MVCtutorial.File.Models.FileFormModel
+@{ 
+    ViewBag.Title = "Downloads";
+    string fileName;
+    int iHelper;
+}
+@Html.Partial("~/Views/Menu/_Menu.cshtml")
+<h2>@ViewBag.Title</h2> 
+@foreach (string file in ViewBag.files)
+{
+    if (file.Contains(@"\"))
+    {
+        iHelper = file.LastIndexOf(@"\");
+        fileName = file.Substring(iHelper + 1);
+        ViewBag.fileName = fileName;
+        <div class="list-group-item-text">
+            @ViewBag.fileName
+            <a href="/Download/downloadFile?nameFile=@file">Download</a>
+            @if (file.Contains(".pdf") || file.Contains(".txt"))
+            {
+                <a href="/Download/downloadFile?nameFile=@file&View=1">View</a><br>
+            }
+            else
+            {
+                <br>
+            }
+        </div>
+    }
+    else
+    {
+    <div class="list-group-item-heading"><b>@file</b><br></div>
+    }
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
