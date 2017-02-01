@@ -632,11 +632,9 @@
     };
     
     // získání dat ze serveru ( při reloadu,změně view)
-    function getData(view,beginTime,timeAxisLength,dataJson) {
+    function getData(view,beginTime,timeAxisLength) {
     var dataRequest;
-    
-    // sestavení žádosti o data
-    
+
     dataRequest = "";
     
     dataRequest += '{"beginTime": ' + beginTime + ', "timeAxisLength": ' + timeAxisLength + ', "tags":[';
@@ -645,8 +643,7 @@
           signal = config.View[view].field[f].signal[s];          
           
           dataRequest += '{"table": "' + signal.table + '", "column": "' + signal.column + '"';
-          
-          optTimeStep = Math.floor(timeAxisLength/(2*chartWidth));
+          optTimeStep = (((timeAxisLength/(2*chartWidth))*10)%100)/10;
           
           switch (signal.table) {
             case "sec5" :
@@ -698,18 +695,20 @@
     dataRequest = dataRequest.substr(0,dataRequest.length-2);
     dataRequest += ']';
     dataRequest += '}';    
-    
+    console.log(dataRequest);
     var xmlHttp = new XMLHttpRequest();
     
     var url = '/graph/getData';
+      dataType: "json";
       xmlHttp.open("POST", url, true);        
       xmlHttp.send(dataRequest);
-      
+
       xmlHttp.onreadystatechange = function() {
         if (xmlHttp.readyState == xmlHttp.DONE) {
-          console.log(xmlHttp.responseText);        
-          data = xmlHttp.responseText;
-          console.log(data.tags);
+          data = JSON.parse(xmlHttp.responseText);
+          //data = JSON.parse(xmlHttp.responseText.replace(/NaN/g,'null'));
+          console.log(data);
+          setData();          
         };
       };
     };
@@ -727,8 +726,7 @@
 
       setMultitexts(lang);
       
-      getData(0,beginTime,timeAxisLength[timeAxisIdx]*3600, data);
-      setData();
+      getData(0,beginTime,timeAxisLength[timeAxisIdx]*3600);
       
       redrawScreen();      
       redrawTitle(view,lang);      
@@ -737,7 +735,7 @@
       redrawBeginTime(beginTime,lang);
       redrawMarkerTime(beginTime,lang);
       drawCursor(beginTime);
-      //redrawValues(view,markerTime,lang);
+      redrawValues(view,markerTime,lang);
       redrawLegend(view,lang);
       
     };
@@ -745,11 +743,16 @@
     function setData() {
       //přes všechny tagy
       for (var m=1;m<=data.tags.length;m++) {
-        chartDef[m]["id"] = (data.tags[m-1].table + '.' + data.tags[m-1].column);
-        for (var v=0;v<data.tags[m-1]["values"].length;v++) {
-          chartDef[m]["times"][v] = beginTime + Math.round(v*timeAxisLength[timeAxisIdx]*3600/(chartWidth));            
+        chartDef[m]["id"] = (data.tags[m-1].table + '.' + data.tags[m-1].column);        
+        if (data.tags[m-1]["vals"] =! "null") {
+          for (var v=0;v<data.tags[m-1]["vals"].length;v++) {
+            chartDef[m]["times"][v] = beginTime + Math.round(v*data.tags[m-1].period);            
+          };
+          chartDef[m]["values"] = data.tags[m-1]["vals"];
+        }
+        else {
+          console.log('missing data');
         };
-        chartDef[m]["values"] = data.tags[m-1]["values"];        
       };
     }; 
     
@@ -1450,6 +1453,7 @@
      view = $('#group').val();
      lang = getLang();          
      beginTime -= (timeAxisLength[timeAxisIdx]*3600)/2;
+     getData(view,beginTime,timeAxisLength[timeAxisIdx]*3600)
      redrawScreen();    
      redrawTitle(view,lang) 
      redrawChart(view,beginTime,markerTime,timeAxisIdx);
@@ -1462,6 +1466,7 @@
      view = $('#group').val();
      lang = getLang();     
      beginTime += (timeAxisLength[timeAxisIdx]*3600)/2;
+     getData(view,beginTime,timeAxisLength[timeAxisIdx]*3600)
      redrawScreen();
      redrawTitle(view,lang)
      redrawChart(view,beginTime,markerTime,timeAxisIdx);
@@ -1474,6 +1479,7 @@
      view = $('#group').val();
      lang = getLang();    
      timeAxisIdx = (timeAxisIdx >= 9) ? 9 : timeAxisIdx+1;
+     getData(view,beginTime,timeAxisLength[timeAxisIdx]*3600)
      redrawScreen();    
      redrawTitle(view,lang) 
      redrawChart(view,beginTime,markerTime,timeAxisIdx);
@@ -1486,6 +1492,7 @@
      view = $('#group').val();
      lang = getLang();
      timeAxisIdx = (timeAxisIdx <= 0) ? 0 : timeAxisIdx-1;
+     getData(view,beginTime,timeAxisLength[timeAxisIdx]*3600)
      redrawScreen();
      redrawTitle(view,lang)
      redrawChart(view,beginTime,markerTime,timeAxisIdx);
@@ -1498,6 +1505,7 @@
      view = $('#group').val();
      lang = getLang();
      beginTime -= 86400;
+     getData(view,beginTime,timeAxisLength[timeAxisIdx]*3600)
      redrawScreen();
      redrawTitle(view,lang)
      redrawChart(view,beginTime,markerTime,timeAxisIdx);
@@ -1510,6 +1518,7 @@
      view = $('#group').val();
      lang = getLang();
      beginTime += 86400;
+     getData(view,beginTime,timeAxisLength[timeAxisIdx]*3600)
      redrawScreen();
      redrawTitle(view,lang)
      redrawChart(view,beginTime,markerTime,timeAxisIdx);
@@ -1573,7 +1582,7 @@
       chartDef[m]["visibility"] = "true";         
      };
      
-     getData(view,beginTime,timeAxisLength[timeAxisIdx]*3600, data);
+     getData(view,beginTime,timeAxisLength[timeAxisIdx]*3600);
      
      lang = getLang();
      redrawScreen();

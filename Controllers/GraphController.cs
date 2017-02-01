@@ -213,7 +213,34 @@ namespace MVCtutorial.Controllers
                 }
                 
             }
-        
+        /// <summary>
+        /// Method to read response and prepare vals 
+        /// </summary>
+        /// <param name="rstObjects">result of SQL query</param>
+        /// <param name="period"></param>
+        private void readResponseforTable(List<object[]> rstObjects, int period, DataRequest dataRequest) {
+            int rstPos = 0, buffPos = 0;
+            double[][] vals_buffers = new double[(dataRequest.timeAxisLength/period)][];
+            long time, startTime, endTime, low_buff_time, high_buff_time;
+            startTime = dataRequest.beginTime;
+            endTime = dataRequest.beginTime + dataRequest.timeAxisLength;
+
+            for (int i = 0; i < rstObjects.Count; i++) {
+
+                object[] objectsArray = rstObjects[i];
+                low_buff_time = (startTime + (rstPos * period));
+                high_buff_time = (startTime + ((rstPos + 1) * period));
+                time = utcToPkTime(objectsArray[0].ToString());
+
+                if (low_buff_time < time && time < high_buff_time)
+                {
+
+                }
+                else {
+
+                }
+            }
+        }
         // WARNING: very fast to transform but not very secure way
         private void getDbConfig(){
             int i =0;
