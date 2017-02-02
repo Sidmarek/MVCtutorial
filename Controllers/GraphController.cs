@@ -117,6 +117,7 @@ namespace MVCtutorial.Controllers
             getDbConfig();
             openDBconnections();
 
+            int period = int.MinValue;
             string columns = null;
             string[] conditions1 = { "\"UTC\"", "\"UTC\"" };
             string[] Operators = { ">=", "<=" };
@@ -128,6 +129,7 @@ namespace MVCtutorial.Controllers
                     if (tabledef.shortName.Contains(tag.table)) {
                         columns += " \"" + tag.column + "\",";
                         tagsPos.Add(dataRequest.tags.IndexOf(tag));
+                        period = tag.period;
                     }
                 }
                 if (columns != null) {
@@ -136,7 +138,8 @@ namespace MVCtutorial.Controllers
                     string where = db.whereMultiple(conditions1, Operators, conditions2);
                     string order = db.order("\"UTC\"", "ASC");
                     objects = opennedDbConn.multipleItemSelectPostgres("\"UTC\"," + columns, "\"" + tabledef.tabName  + "\"", where, null, order);
-                    readResponse(objects, dataRequest, tagsPos, tabledef);
+                    //readResponse(objects, dataRequest, tagsPos, tabledef);
+                    readResponseforTable(objects, tagsPos, period, dataRequest);
                 }
                 columns = null;
                 tagsPos.Clear();
@@ -165,7 +168,7 @@ namespace MVCtutorial.Controllers
                         if (low_buff_time <= time && high_buff_time >= time)
                         {
                             vals_agreg.Add(Convert.ToDouble(objectsArray[i]));
-                            if ((time + tabledef.period) >= high_buff_time)
+                            if ((time + dataRequest.tags[tagsPos[i - 1]].period) >= high_buff_time)
                             {
                                 if (vals_agreg.Count != 0)
                                 {
@@ -203,51 +206,106 @@ namespace MVCtutorial.Controllers
                                     rstPos++;
                                     j--;
                                 }
-                            }
+                            } 
                         }
                 }
 
                     rstPos = 0;
                     buffPos = 0; 
-                    dataRequest.tags[tagsPos[i-1]].vals = vals_buffer;
+                //    dataRequest.tags[tagsPos[i-1]].vals = vals_buffer;
                 }
                 
             }
+
         /// <summary>
         /// Method to read response and prepare vals 
         /// </summary>
         /// <param name="rstObjects">result of SQL query</param>
-        /// <param name="period"></param>
-        private void readResponseforTable(List<object[]> rstObjects, int period, DataRequest dataRequest) {
+        /// <param name="period">Period of signals in table</param>
+        /// <param name="dataRequest">DataRequest</param>
+        private void readResponseforTable(List<object[]> rstObjects, List<int> tagsPos, int period, DataRequest dataRequest) {
             int rstPos = 0, buffPos = 0;
+            object[] objectsArray;
+            List<object[]> vals_agreg = new List<object[]>();
             double[][] vals_buffers = new double[(dataRequest.timeAxisLength/period)][];
             long time, startTime, endTime, low_buff_time, high_buff_time;
             startTime = dataRequest.beginTime;
             endTime = dataRequest.beginTime + dataRequest.timeAxisLength;
-
+            foreach (Tag tag in dataRequest.tags) {
+                tag.vals = new double[dataRequest.timeAxisLength/period];
+            }
             for (int i = 0; i < rstObjects.Count; i++) {
-
-                object[] objectsArray = rstObjects[i];
-                low_buff_time = (startTime + (rstPos * period));
-                high_buff_time = (startTime + ((rstPos + 1) * period));
+                objectsArray = rstObjects[i];
+                low_buff_time = (startTime + (i * period));
+                high_buff_time = (startTime + ((i + 1) * period));
                 time = utcToPkTime(objectsArray[0].ToString());
 
-                if (low_buff_time < time && time < high_buff_time)
+                if (low_buff_time <= time && time <= high_buff_time)
                 {
+                    vals_agreg.Add(objectsArray);
+                    if ((time + period) >= high_buff_time)
+                    {
+                        if (vals_agreg.Count != 0)
+                        {
+                            vals_agreg.Reverse();
+                            for (int j = 1; j < (objectsArray.Length - 1); j++)
+                            {
+                                double value = Convert.ToDouble(vals_agreg[0][j]);
+                                dataRequest.tags[tagsPos[j]].vals[buffPos] = value;
+                            }
+                            buffPos++;
 
+                            vals_agreg.Clear();
+                        }
+                        else
+                        {
+                            if (buffPos <= vals_buffers.Length)
+                            {
+                                for (int j=0;j<(objectsArray.Length - 1); j++)
+                                {
+                                    dataRequest.tags[tagsPos[j]].vals[buffPos] = double.NaN; // missing data adding NaN value to response
+                                }
+                                buffPos++;
+                            }
+                        }
+                    }
                 }
-                else {
-
+                else
+                {
+                    if (vals_agreg.Count != 0)
+                    {
+                        vals_agreg.Reverse();
+                        for (int j = 1; j < (objectsArray.Length - 1); j++)
+                        {
+                            double value = Convert.ToDouble(vals_agreg[0][j]);
+                            dataRequest.tags[tagsPos[j]].vals[buffPos] = value; //Adding value to response
+                        }
+                        buffPos++;
+                        vals_agreg.Clear();
+                    }
+                    else
+                    {
+                        if (buffPos < vals_buffers.Length)
+                        {
+                            for (int j = 1; j < (objectsArray.Length - 1); j++)
+                            {
+                                dataRequest.tags[tagsPos[j]].vals[buffPos] = double.NaN;// missing data adding NaN value to response
+                            }
+                            buffPos++;
+                            i--;
+                        }
+                    }
                 }
             }
         }
+        
         // WARNING: very fast to transform but not very secure way
         private void getDbConfig(){
-            int i =0;
+            int i = 0;
             int dataserverNumber, dbIndex;
             string databaseName = null;
             string[] separeted_string = null;
-            string[] separators = {"URL=",",jdbc", ".2.", ":5432/"}; 
+            string[] separators = {"URL=",",jdbc", ".2.", ":5432/"}; //possible problem
             string[] lines = System.IO.File.ReadAllLines(dbConfigPath, Encoding.Default);
             foreach (string line in lines)
             {

@@ -24,7 +24,7 @@ namespace MVCtutorial.Graph.Models
         public string table;
         public string column;
         public int period;
-        public double[] vals; 
+        public double[] vals;
     }
     public class LangDef
     {
