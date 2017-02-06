@@ -9,7 +9,7 @@
         posX = cOff,
         posY = cOff,        
         fieldBrake = 5,
-        fieldTopAdjust = 50,
+        fieldTopAdjust = 50,         
         fieldBottomAdjust = 50,        
         fieldLeftAdjust = 40,
         fieldRightAdjust = 20,
@@ -51,34 +51,7 @@
         daysDE1 = ["Mo","Di","Mi","Do","Fr","Sa","So"],
         daysPL1 = ["Po","Wt","Śro","Czw","Pią","So","Nie"],
         daysRU1 = ["пн","вт","ср","чт","пт","cб","вс"];
-        
-        /*
-        dataRequest = {"beginTime": 537962399, "timeAxisLength": 86400, "viewLength": 1440, "tags": [{"minTimeStep": 30, "table": "norm", "column": "iWMU_Temp"},
-                                                                                                     {"minTimeStep": 30, "table": "norm", "column": "iMF1_Temp"},
-                                                                                                     {"minTimeStep": 30, "table": "norm", "column": "iMF2_Temp"},
-                                                                                                     {"minTimeStep": 30, "table": "norm", "column": "diMF1_Weight"},
-                                                                                                     {"minTimeStep": 30, "table": "norm", "column": "diMF2_Weight"},
-                                                                                                     {"minTimeStep": 60, "table": "slow", "column": "iMF1_Status"},
-                                                                                                     {"minTimeStep": 60, "table": "slow", "column": "iMF2_Status"},
-                                                                                                     {"minTimeStep": 60, "table": "slow", "column": "iMF1_Step"},
-                                                                                                     {"minTimeStep": 60, "table": "slow", "column": "iMF2_Step"}
-                                                                                                    ]
-                      };
 
-        data = {"beginTime": 537962399, "timeAxisLength": 86400, "viewLength": 1440,
-                "tags" : [{"table": "norm", "column": "iWMU_Temp", "values": [28.2,28.2,27.9,27.5,27.3,null,null,25.2,24.0,26.2,26.1,25.6,20.6,16.6,16.4,16.4,16.4,16.2,16.2,16.2,20,20.1,20.2]},
-                          {"table": "norm", "column": "iMF1_Temp", "values": [18.2,18.2,17.9,17.5,17.3,17.0,16.7,15.2,14.0,16.2,16.1,15.6,10.6,6.6,6.4,6.4,6.4,6.2,6.2,6.2,10,10.1,10.2]},
-                          {"table": "norm", "column": "iMF2_Temp", "values": [8.2,8.2,7.9,7.5,7.3,7.0,6.7,5.2,4.0,6.2,6.1,5.6,2.6,2.6,2.4,2.4,2.4,2.2,2.2,2.2,6,6.1,5.2]},
-                          {"table": "norm", "column": "diMF1_Weight", "values": [1200,1205,1215,1260,1301,1308,1336,1501,1400,1600,1650,1680,1660,1620,1490,1450,1410,1290,1220,1210,1090,1080,1000]},
-                          {"table": "norm", "column": "diMF2_Weight", "values": [800,805,815,860,901,908,936,1001,1000,1000,1250,1280,1260,1220,1190,1150,1110,990,920,900,890,880,800]},
-                          {"table": "slow", "column": "iMF1_Status", "values": [0,0,0,1,1,1,1,1,1,1,2,3,3,3,5,4,6,6,6,6,6,4,4,4,2,2,2,0,0,0]},
-                          {"table": "slow", "column": "iMF2_Status", "values": [2,2,2,2,3,3,3,5,4,6,6,6,6,6,4,4,4,2,2,2,0,0,0,0,0,1,1,1,0,0]},
-                          {"table": "slow", "column": "iMF1_Step", "values": [2,2,2,2,3,3,3,4,4,5,5,6,6,6,7,7,7,8,8,8,9,9,9,0,0,0,0,1,1,2]},
-                          {"table": "slow", "column": "iMF2_Step", "values": [2,2,2,2,3,3,3,5,4,6,6,6,6,6,4,4,4,2,2,2,0,0,4,4,5,5,6,6,6,7]}
-                         ]
-               };
-    
-     */
     // limity
     var MAX_VIEWS = 30,
         MAX_FIELDS = 9,
@@ -180,17 +153,19 @@
       
       // přizpůsobení ploše
       iWidth = windowWidth() - $('.sidenav').width() - 15;                              
-      iHeight = windowHeight() - $('.navbar navbar-inverse navbar-fixed-top').height() - $('#top_menu').height() - $('.message').height() - $('footer').height() - 10;
+      iHeight = windowHeight() - $('.navbar').height() - $('#top_menu').height() - $('.message').height() - $('footer').height() - 10;
 
       chartWidth = iWidth-fieldLeftAdjust-fieldBreakVals-fieldValWidth-fieldRightAdjust;
       chartHeight = iHeight-fieldTopAdjust-fieldBottomAdjust;
       
-      $('#top_menu').css('width',iWidth);
+      $('#top_menu').css('width',iWidth);      
+      $('#calendar').css('left',$('.sidenav').width()+367);
       
-      $('#calendar').css('left',$('.sidenav').width()+365);
+      $('#graph_content').css('left',$('.sidenav').width()+7);
+      $('#graph_content').css('top',$('.navbar').height()+$('.message').height()+$('#top_menu').height()+6);
       
       $('#active_canvas').attr('width',iWidth+1);
-      $('#active_canvas').attr('height',iHeight+1);
+      $('#active_canvas').attr('height',iHeight+1);      
       
       $('#front_canvas').attr('width',iWidth+1);
       $('#front_canvas').attr('height',iHeight+1);
@@ -430,7 +405,7 @@
               
               // přepočet počátku grafu dle kroku nové mřížky           
               beginTime = zoomStartTime - (zoomStartTime%(stepGridTime[timeAxisIdx]*60));
-              
+              getData(view,beginTime,timeAxisLength[timeAxisIdx]*3600);
               // marker umístíme na konec zoom oblasti
               markerTime = beginTime + timeAxisLength[timeAxisIdx]*3600;
 
@@ -474,10 +449,10 @@
       
       for (var i=1;i<=MAX_CLICKMAPS;i++) {        
         if ((canX  > chartDef[i]["coords"][0]) && (canX < chartDef[i]["coords"][2]) && (canY > chartDef[i]["coords"][1]) && (canY < chartDef[i]["coords"][3])) {          
-          document.getElementById("body").style.cursor = "pointer";
+          document.getElementById("graph").style.cursor = "pointer";
         }
         else {
-          document.getElementById("body").style.cursor = "auto";
+          document.getElementById("graph").style.cursor = "auto";
         };
       };  
     };
@@ -633,7 +608,8 @@
     
     // získání dat ze serveru ( při reloadu,změně view)
     function getData(view,beginTime,timeAxisLength) {
-    var dataRequest;
+    var dataRequest,
+        tmpVal;
 
     dataRequest = "";
     
@@ -643,7 +619,9 @@
           signal = config.View[view].field[f].signal[s];          
           
           dataRequest += '{"table": "' + signal.table + '", "column": "' + signal.column + '"';
-          optTimeStep = (((timeAxisLength/(2*chartWidth))*10)%100)/10;
+
+          tmpVal = timeAxisLength/(2*chartWidth)/10;
+          optTimeStep = Math.floor(tmpVal)*10;
           
           switch (signal.table) {
             case "sec5" :
@@ -694,8 +672,8 @@
       };
     dataRequest = dataRequest.substr(0,dataRequest.length-2);
     dataRequest += ']';
-    dataRequest += '}';    
-    console.log(dataRequest);
+    dataRequest += '}';
+    
     var xmlHttp = new XMLHttpRequest();
     
     var url = '/graph/getData';
@@ -705,10 +683,10 @@
 
       xmlHttp.onreadystatechange = function() {
         if (xmlHttp.readyState == xmlHttp.DONE) {
-          data = JSON.parse(xmlHttp.responseText);
-          //data = JSON.parse(xmlHttp.responseText.replace(/NaN/g,'null'));
-          console.log(data);
-          setData();          
+          data = JSON.parse(xmlHttp.responseText.replace(/NaN/g,'null'));
+          setData();
+          redrawChart(view,beginTime,markerTime,timeAxisIdx);
+          redrawValues(view,markerTime,lang);          
         };
       };
     };
@@ -716,8 +694,7 @@
     // základní view
     function setupLayout() {
     var lang;
-      lang = config.LangDef[0];
-    
+      lang = config.LangDef[0];      
       //nastavení tlačítka lang na defaultní jazyk      
       setLang(lang);                                
       
@@ -735,24 +712,25 @@
       redrawBeginTime(beginTime,lang);
       redrawMarkerTime(beginTime,lang);
       drawCursor(beginTime);
-      redrawValues(view,markerTime,lang);
+      redrawValues(view,beginTime,lang);
       redrawLegend(view,lang);
       
     };
 
     function setData() {
+      console.log('setData');
       //přes všechny tagy
-      for (var m=1;m<=data.tags.length;m++) {
-        chartDef[m]["id"] = (data.tags[m-1].table + '.' + data.tags[m-1].column);        
-        if (data.tags[m-1]["vals"] =! "null") {
-          for (var v=0;v<data.tags[m-1]["vals"].length;v++) {
-            chartDef[m]["times"][v] = beginTime + Math.round(v*data.tags[m-1].period);            
+      for (var m=0;m<data.tags.length;m++) {
+        chartDef[m+1]["id"] = (data.tags[m].table + '.' + data.tags[m].column);                        
+        //if (data.tags[m]["vals"] =! "null") {
+          for (var v=0;v<data.tags[m]["vals"].length;v++) {
+            chartDef[m+1]["times"][v] = beginTime + Math.round(v*data.tags[m].period);            
           };
-          chartDef[m]["values"] = data.tags[m-1]["vals"];
-        }
-        else {
-          console.log('missing data');
-        };
+          chartDef[m+1]["values"] = data.tags[m]["vals"];
+        //}
+        //else {
+        //  console.log('missing data');
+        //};
       };
     }; 
     
@@ -1040,7 +1018,7 @@
         stepVertGrid = 0,
         realStep = 0,
         fieldSigHeight = 0,
-        chartHeightLoc = 0;      
+        chartHeightLoc = 0;
       
       // fields
       viewInfo = getViewInfo(view);      
@@ -1139,23 +1117,22 @@
 
           signalIdCfg = signals[x].table + "." + signals[x].column;                    
 
-          signalCanvas.fillStyle = signals[x].color;
+          signalCanvas.fillStyle = signals[x].color;          
 
           for (var i=1;i<=MAX_CLICKMAPS;i++) {
-            if (chartDef[i]["id"] == signalIdCfg) {            
+            if (chartDef[i]["id"] == signalIdCfg) {
               if  (chartDef[i]["visibility"] == "true") {
-              
-                // vykreslení průběhů                           
+
+                // vykreslení průběhů
                 signalCanvas.strokeStyle = signals[x].color;
                 signalCanvas.setLineDash([0,0]);
-                signalCanvas.lineWidth = 1;   
-                               
+                signalCanvas.lineWidth = 1;
+
                 for (var v=0;v<chartDef[i]["values"].length;v++) {
-  
-                  if (timeAxisLength[timeAxisIdx] != 0) {    //ochrana před dělením nulou                  
-                    dataX = fieldLeftAdjust + ((chartDef[i]["times"][v] - beginTime)/3600)*(chartWidth/timeAxisLength[timeAxisIdx]);
+                  if (timeAxisLength[timeAxisIdx] != 0) {    //ochrana před dělením nulou
+                    dataX = fieldLeftAdjust + ((chartDef[i]["times"][v] - beginTime)/3600)*(chartWidth/timeAxisLength[timeAxisIdx-1]);
                   };
-                  
+
                   dataY = posY+fieldTopAdjust+FieldPosY+fieldSigHeight-chartDef[i]["values"][v]*(fieldSigHeight/fieldRange);
   
                   if (v == 0) {
@@ -1164,7 +1141,7 @@
                   };
   
                   signalCanvas.beginPath();
-  
+                  
                     if ((dataX > chartDef[0]["coords"][0]) && (dataX < chartDef[0]["coords"][2])) {
                       if (chartDef[i]["values"][v]*(fieldSigHeight/fieldRange) > fieldSigHeight) {
                         signalCanvas.fillStyle = signals[x].color;
@@ -1603,8 +1580,9 @@
      view = $('#group').val();
      lang = getLang();
      redrawTitle(view,lang);
-     redrawChart(view,beginTime,markerTime,timeAxisIdx);     
+     redrawChart(view,beginTime,markerTime,timeAxisIdx);
      redrawLegend(view,lang);
+     redrawTimeAxis(view,lang);
      redrawValues(view,markerTime,lang);     
      redrawBeginTime(beginTime,lang);
      redrawMarkerTime(markerTime,lang);

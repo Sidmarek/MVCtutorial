@@ -1,8 +1,8 @@
 @Html.Partial("~/Views/Menu/_Menu.cshtml") 
- <div id="body" onLoad="init()" scroll="no" style="overflow: hidden;">
+ <div id="graph" onLoad="init()" scroll="no" style="overflow: hidden;">
       <link href="./css/style_01.css" rel="stylesheet" type="text/css" />
       <script src="./js/graphControler.js"></script>
-    <div id="top_menu" width="1600">
+    <div id="top_menu">
       <input style="height: 22px; width: 45px;" type="button" value="<--" onClick="backShift()"/>
       <input style="height: 22px; width: 45px;" type="button" value="-->" onClick="fwdShift()"/>
       <input style="height: 22px; width: 45px;" type="button" value="-><-" onClick="narrow()"/>
@@ -21,14 +21,14 @@
       <input style="height: 22px; width: 50px;" type="button" value="mode" onClick="chartMode()"/>
     </div>
 
-    <div id="calendar" style="position: absolute; top: 105px; left: 35%; background-color: #F0F0F0; z-index: 0; visibility: hidden">
+    <div id="calendar" style="position: absolute; top: 105px; left: 350px; background-color: #F0F0F0; z-index: 0; visibility: hidden">
     </div>
 
-    <div id="graph_content">
-      <canvas id="active_canvas" width="1600" height="900" style="position: absolute; left:20px; top: 15px; z-index: -1;"></canvas>
-      <canvas id="front_canvas" width="1600" height="900" style="position: absolute; left:20px; top: 15px; z-index: -2;"></canvas>    
-      <canvas id="signal_canvas" width="1600" height="900" style="position: absolute; left:20px; top: 15px; z-index: -3;"></canvas>
-      <canvas id="back_canvas" width="1600" height="900" style="position: absolute; left:20px; top: 15px; z-index: -4;"></canvas>   
+    <div id="graph_content" style="position: absolute;">
+      <canvas id="active_canvas" width="1600" height="900" style="position: absolute; z-index: -1;"></canvas>
+      <canvas id="front_canvas" width="1600" height="900" style="position: absolute; z-index: -2;"></canvas>    
+      <canvas id="signal_canvas" width="1600" height="900" style="position: absolute; z-index: -3;"></canvas>
+      <canvas id="back_canvas" width="1600" height="900" style="position: absolute; z-index: -4;"></canvas>   
     </div>
 
     <div id="sources">

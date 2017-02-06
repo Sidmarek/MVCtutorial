@@ -66,27 +66,38 @@ namespace MVCtutorial.Controllers
         public string pkTimeToUTC(double time)
         {
             double utcTime = (time / 86400) + 2451544.5;
+            string utc = utcTime.ToString();
+            if (utc.Contains(",")) {
+                utc = utc.Replace(",", ".");
+            }
             return Convert.ToString(utcTime);
         }
 
         public long utcToPkTime(string time)
         {
-            double utcTime;
-            //time = time.Replace(".", ",");
-
-            //zakrácení času v utc na fixní délku 'od ":" až do konce odmažeme'
-            if (time.IndexOf(":") >= 0)
+            try
             {
-                int idx = time.IndexOf(":");
-                time = time.Substring(0, idx - 1);
-            }
+                double utcTime;
+                //time = time.Replace(".", ",");
 
-            utcTime = double.Parse(time);
-            utcTime = Math.Round((utcTime - (24515445E-1)) * 86400);
-            return (long)utcTime;
+                //zakrácení času v utc na fixní délku 'od ":" až do konce odmažeme'
+                if (time.IndexOf(":") >= 0)
+                {
+                    int idx = time.IndexOf(":");
+                    time = time.Substring(0, idx - 1);
+                }
+                //fjikosdjfgdk
+                utcTime = double.Parse(time);
+                utcTime = Math.Round((utcTime - (24515445E-1)) * 86400);
+                return (long)utcTime;
+            }
+            catch (Exception e) {
+                string k = e.Message.ToString(); // TODO to txt file
+                return 0;
+            }
         }
         [HttpPost]
-        public JsonResult getData()
+        public async Task<JsonResult> getData()
         {
             StreamReader stream = new StreamReader(Request.InputStream);
             string json = stream.ReadToEnd();
@@ -96,7 +107,7 @@ namespace MVCtutorial.Controllers
                 DataRequest dataRequest = new JavaScriptSerializer().Deserialize<DataRequest>(json);
                 try
                 {
-                    DataRequest dataResponse = proceedSQLquery(dataRequest);
+                    DataRequest dataResponse = await proceedSQLquery(dataRequest);
                     data = dataResponse;
                     return Json(data, "application/json", JsonRequestBehavior.AllowGet);
                 }
@@ -112,7 +123,7 @@ namespace MVCtutorial.Controllers
                 return null;
             }
         }
-        private DataRequest proceedSQLquery(DataRequest dataRequest) {
+        private async Task<DataRequest> proceedSQLquery(DataRequest dataRequest) {
 
             getDbConfig();
             openDBconnections();
@@ -137,9 +148,8 @@ namespace MVCtutorial.Controllers
                     db opennedDbConn = openDbList.Find(x => x.dbIdx == tabledef.dbIdx);
                     string where = db.whereMultiple(conditions1, Operators, conditions2);
                     string order = db.order("\"UTC\"", "ASC");
-                    objects = opennedDbConn.multipleItemSelectPostgres("\"UTC\"," + columns, "\"" + tabledef.tabName  + "\"", where, null, order);
-                    //readResponse(objects, dataRequest, tagsPos, tabledef);
-                    readResponseforTable(objects, tagsPos, period, dataRequest);
+                    objects = await opennedDbConn.multipleItemSelectPostgresAsync("\"UTC\"," + columns, "\"" + tabledef.tabName  + "\"", where, null, order);
+                    readResponseforTable(objects, tagsPos, period, dataRequest, tabledef);
                 }
                 columns = null;
                 tagsPos.Clear();
@@ -223,18 +233,21 @@ namespace MVCtutorial.Controllers
         /// <param name="rstObjects">result of SQL query</param>
         /// <param name="period">Period of signals in table</param>
         /// <param name="dataRequest">DataRequest</param>
-        private void readResponseforTable(List<object[]> rstObjects, List<int> tagsPos, int period, DataRequest dataRequest) {
+        private void readResponseforTable(List<object[]> rstObjects, List<int> tagsPos, int period, DataRequest dataRequest, TableDef tabledef)
+        {
             int rstPos = 0, buffPos = 0;
             object[] objectsArray;
             List<object[]> vals_agreg = new List<object[]>();
-            double[][] vals_buffers = new double[(dataRequest.timeAxisLength/period)][];
+            double[][] vals_buffers = new double[(dataRequest.timeAxisLength / period)][];
             long time, startTime, endTime, low_buff_time, high_buff_time;
             startTime = dataRequest.beginTime;
             endTime = dataRequest.beginTime + dataRequest.timeAxisLength;
-            foreach (Tag tag in dataRequest.tags) {
-                tag.vals = new double[dataRequest.timeAxisLength/period];
+            foreach (Tag tag in dataRequest.tags)
+            {
+                tag.vals = new double[dataRequest.timeAxisLength / period];
             }
-            for (int i = 0; i < rstObjects.Count; i++) {
+            for (int i = 0; i < rstObjects.Count; i++)
+            {
                 objectsArray = rstObjects[i];
                 low_buff_time = (startTime + (i * period));
                 high_buff_time = (startTime + ((i + 1) * period));
@@ -243,7 +256,7 @@ namespace MVCtutorial.Controllers
                 if (low_buff_time <= time && time <= high_buff_time)
                 {
                     vals_agreg.Add(objectsArray);
-                    if ((time + period) >= high_buff_time)
+                    if ((time + tabledef.period) >= high_buff_time)
                     {
                         if (vals_agreg.Count != 0)
                         {
@@ -251,7 +264,7 @@ namespace MVCtutorial.Controllers
                             for (int j = 1; j < (objectsArray.Length - 1); j++)
                             {
                                 double value = Convert.ToDouble(vals_agreg[0][j]);
-                                dataRequest.tags[tagsPos[j]].vals[buffPos] = value;
+                                dataRequest.tags[tagsPos[j - 1]].vals[buffPos] = value;
                             }
                             buffPos++;
 
@@ -261,9 +274,9 @@ namespace MVCtutorial.Controllers
                         {
                             if (buffPos <= vals_buffers.Length)
                             {
-                                for (int j=0;j<(objectsArray.Length - 1); j++)
+                                for (int j = 1; j < (objectsArray.Length - 1); j++)
                                 {
-                                    dataRequest.tags[tagsPos[j]].vals[buffPos] = double.NaN; // missing data adding NaN value to response
+                                    dataRequest.tags[tagsPos[j - 1]].vals[buffPos] = double.NaN; // missing data adding NaN value to response
                                 }
                                 buffPos++;
                             }
@@ -278,7 +291,7 @@ namespace MVCtutorial.Controllers
                         for (int j = 1; j < (objectsArray.Length - 1); j++)
                         {
                             double value = Convert.ToDouble(vals_agreg[0][j]);
-                            dataRequest.tags[tagsPos[j]].vals[buffPos] = value; //Adding value to response
+                            dataRequest.tags[tagsPos[j - 1]].vals[buffPos] = value; //Adding value to response
                         }
                         buffPos++;
                         vals_agreg.Clear();
@@ -289,7 +302,7 @@ namespace MVCtutorial.Controllers
                         {
                             for (int j = 1; j < (objectsArray.Length - 1); j++)
                             {
-                                dataRequest.tags[tagsPos[j]].vals[buffPos] = double.NaN;// missing data adding NaN value to response
+                                dataRequest.tags[tagsPos[j - 1]].vals[buffPos] = double.NaN;// missing data adding NaN value to response
                             }
                             buffPos++;
                             i--;
@@ -298,7 +311,7 @@ namespace MVCtutorial.Controllers
                 }
             }
         }
-        
+
         // WARNING: very fast to transform but not very secure way
         private void getDbConfig(){
             int i = 0;
