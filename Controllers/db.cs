@@ -45,8 +45,10 @@ namespace MVCtutorial.Controllers
         /// <param name="where">where statement to specify select</param>
         /// <returns>Data in object</returns>
         public object singleItemSelect(string column, string table, string where=null) {
-            conn.Open();
-
+            if (conn.State.ToString().Contains("Closed"))
+            {
+                conn.Open();
+            }
             object result = new object();
 
             if (where == null)
@@ -84,7 +86,10 @@ namespace MVCtutorial.Controllers
         /// <returns>Data in list of objects</returns>
         public List<object> multipleItemSelect(string column, string table, string where = null)
         {
-            conn.Open();
+            if (conn.State.ToString().Contains("Closed"))
+            {
+                conn.Open();
+            }
             List<object> result = new List<object>();
 
             if (where == null)
@@ -128,7 +133,10 @@ namespace MVCtutorial.Controllers
         /// <param name="set">values to set</param>
         /// <param name="where">where statement to specify select</param>
         public void singleItemUpdate(string table, string set, string where=null) {
-            conn.Open();
+            if (conn.State.ToString().Contains("Closed"))
+            {
+                conn.Open();
+            }
             if (where == null)
             {
                 string sql = string.Format("UPDATE {0} SET {1} WHERE {2}", table, set, where);
@@ -156,7 +164,10 @@ namespace MVCtutorial.Controllers
         /// <param name="where">where statement to specify select</param>
         public void singleItemInsert(string table, string column, string value, string where = null)
         {
-            conn.Open();
+            if (conn.State.ToString().Contains("Closed"))
+            {
+                conn.Open();
+            }
             if (where == null)
             {
                 string sql = string.Format("INSERT INTO {0} ({1}) VALUES {2} WHERE {3}", table, column, value, where);
@@ -185,7 +196,10 @@ namespace MVCtutorial.Controllers
         /// <param name="where">string where condition</param>
         public async void singleItemInsertAsync(string table, string column, string value, string where = null)
         {
-            await conn.OpenAsync();
+            if (conn.State.ToString().Contains("Closed"))
+            {
+                await conn.OpenAsync();
+            }
             string tableSQL = string.Format(@"{0}", table);
             string columnSQL = string.Format(@"{0}", column);
             string valueSQL = string.Format(@"{0}", value);
@@ -213,7 +227,10 @@ namespace MVCtutorial.Controllers
         /// <param name="where">string where condition</param>
         public async void singleItemDeleteAsync(string table, string where)
         {
-            await conn.OpenAsync();
+            if (conn.State.ToString().Contains("Closed"))
+            {
+                await conn.OpenAsync();
+            }
             SqlCommand cmd = new SqlCommand("DELETE FROM " + table + " WHERE " + where, conn);
             await cmd.ExecuteNonQueryAsync();
         }
@@ -226,7 +243,10 @@ namespace MVCtutorial.Controllers
         /// <param name="set">values to set</param>
         /// <param name="where">string where condition</param>
         public async void singleItemUpdateAsync(string table, string set, string where=null) {
-            await conn.OpenAsync();
+            if (conn.State.ToString().Contains("Closed"))
+            {
+                await conn.OpenAsync();
+            }
             if (where==null) {
                 //SqlCommand cmd = new SqlCommand("UPDATE " + table + " SET "+ set, conn);
                 string sql = string.Format("UPDATE {0} SET {1}", table, set);

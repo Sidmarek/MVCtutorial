@@ -6821,17 +6821,17 @@ td.visible-print {
 /* The side navigation menu */
 .sidenav {
     height: 100%; /* 100% Full-height */
-    /*width: 11%;*/
     position: fixed; /* Stay in place */
     top: 0;
     left: 0;
     background-color: #222222; /* Black*/
-    padding-top: 30px; /* Place content 60px from the top */
+    padding-top: 55; /* Place content 60px from the top */
     transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
 }
 
-/* The navigation menu links */
+/* The side navigation menu */
 .sidenav a {
+    width: 11%;
     max-width: 250px;
     padding-left: 150px;
     padding: 8px 8px 8px 32px;
@@ -6841,6 +6841,7 @@ td.visible-print {
     line-height:1;
     display: block;
 }
+
 .plc {
     padding: 8px 8px 8px 32px;
     text-decoration: none;

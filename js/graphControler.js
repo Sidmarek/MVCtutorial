@@ -176,6 +176,9 @@
       $('#back_canvas').attr('width',iWidth+1);
       $('#back_canvas').attr('height',iHeight+1);     
       
+      $('footer').css('position','absolute');
+      $('footer').css('top',$('.navbar').height()+$('.message').height()+$('#top_menu').height()+iHeight+15);      
+      
       // index nula vyhrazen pro oblast grafu
       // 1 - 35 pro viditelnost signálu
       chartDef = {0: {"id": ["chart"], "coords": [posX+fieldLeftAdjust,posY+fieldTopAdjust,posX+fieldLeftAdjust+chartWidth,posY+fieldTopAdjust+chartHeight], "offset": 0, "times": [], "values": []},
@@ -673,7 +676,7 @@
     dataRequest = dataRequest.substr(0,dataRequest.length-2);
     dataRequest += ']';
     dataRequest += '}';
-    
+    console.log(dataRequest);
     var xmlHttp = new XMLHttpRequest();
     
     var url = '/graph/getData';
@@ -1049,7 +1052,7 @@
 
         // y-osa
         fieldRange = config.View[view]["field"][field-1].maxY;                
-        realStep = (fieldRange/6);
+        realStep = (fieldRange/7);
 
         for (var r=12;r>=0;r--) {
           if (stepGridY[r] > realStep) {
@@ -1130,7 +1133,7 @@
 
                 for (var v=0;v<chartDef[i]["values"].length;v++) {
                   if (timeAxisLength[timeAxisIdx] != 0) {    //ochrana před dělením nulou
-                    dataX = fieldLeftAdjust + ((chartDef[i]["times"][v] - beginTime)/3600)*(chartWidth/timeAxisLength[timeAxisIdx-1]);
+                    dataX = fieldLeftAdjust + ((chartDef[i]["times"][v] - beginTime)/3600)*(chartWidth/timeAxisLength[timeAxisIdx]);
                   };
 
                   dataY = posY+fieldTopAdjust+FieldPosY+fieldSigHeight-chartDef[i]["values"][v]*(fieldSigHeight/fieldRange);
@@ -1241,8 +1244,8 @@
           frontCanvas.font = fontAxis;
                                                                  
           datetime = (getFormatedDateTime(beginTime+k*stepHorzGrid*3600+utcBias,lang));
-          
-          date = datetime.slice(datetime.length-19,datetime.length-14);
+
+          date = datetime.slice(datetime.length-20,datetime.length-14);
           time = datetime.slice(datetime.length-8,datetime.length-3);              
           
           if ((stepGridTime[timeAxisIdx]) >= 1440) {
@@ -1456,7 +1459,7 @@
      view = $('#group').val();
      lang = getLang();    
      timeAxisIdx = (timeAxisIdx >= 9) ? 9 : timeAxisIdx+1;
-     getData(view,beginTime,timeAxisLength[timeAxisIdx]*3600)
+     getData(view,beginTime,timeAxisLength[timeAxisIdx]*3600);
      redrawScreen();    
      redrawTitle(view,lang) 
      redrawChart(view,beginTime,markerTime,timeAxisIdx);
@@ -1469,7 +1472,7 @@
      view = $('#group').val();
      lang = getLang();
      timeAxisIdx = (timeAxisIdx <= 0) ? 0 : timeAxisIdx-1;
-     getData(view,beginTime,timeAxisLength[timeAxisIdx]*3600)
+     getData(view,beginTime,timeAxisLength[timeAxisIdx]*3600);
      redrawScreen();
      redrawTitle(view,lang)
      redrawChart(view,beginTime,markerTime,timeAxisIdx);
@@ -1482,7 +1485,7 @@
      view = $('#group').val();
      lang = getLang();
      beginTime -= 86400;
-     getData(view,beginTime,timeAxisLength[timeAxisIdx]*3600)
+     getData(view,beginTime,timeAxisLength[timeAxisIdx]*3600);
      redrawScreen();
      redrawTitle(view,lang)
      redrawChart(view,beginTime,markerTime,timeAxisIdx);
@@ -1495,7 +1498,7 @@
      view = $('#group').val();
      lang = getLang();
      beginTime += 86400;
-     getData(view,beginTime,timeAxisLength[timeAxisIdx]*3600)
+     getData(view,beginTime,timeAxisLength[timeAxisIdx]*3600);
      redrawScreen();
      redrawTitle(view,lang)
      redrawChart(view,beginTime,markerTime,timeAxisIdx);

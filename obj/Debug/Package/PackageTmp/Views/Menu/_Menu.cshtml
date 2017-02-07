@@ -1,4 +1,4 @@
-﻿<div class="sidenav">
+﻿<div class="sidenav a">
 @{
     ViewBag.Names = Session["names"];
     ViewBag.plc = Session["plc"];
@@ -19,12 +19,12 @@
     {
         if (i == 0)
         {
-            <a href="/@type?&name=@ViewBag.names[j]&plc=@ViewBag.plc[i]" class="sidenav a">@ViewBag.names[j]</a>
+            <a href="/@type?&name=@ViewBag.names[j]&plc=@ViewBag.plc[i]">@ViewBag.names[j]</a>
         }
         else
         {
             i--;
-            <a href="/@type?name=@ViewBag.names[j]&plc=@ViewBag.plc[i]" class="sidenav a">@ViewBag.names[j]</a>
+            <a href="/@type?name=@ViewBag.names[j]&plc=@ViewBag.plc[i]">@ViewBag.names[j]</a>
             i++;
         }
         j++;

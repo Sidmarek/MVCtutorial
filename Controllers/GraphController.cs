@@ -21,14 +21,11 @@ namespace MVCtutorial.Controllers
         [HttpPost]
         public void getConfig()
         {
-            if (config.ViewList.Count == 0)
-            {
-                ViewData["pathConfig"] = Session["pathConfig"];
-                ViewData["pathNames"] = Session["pathNames"];
-                Iniparser ini = new Iniparser(ViewData["pathConfig"].ToString(), ViewData["pathNames"].ToString());
-                ini.ParseNames(config, Const.separators);
-                ini.ParseCfg(config, Const.separators);
-            }
+            ViewData["pathConfig"] = Session["pathConfig"];
+            ViewData["pathNames"] = Session["pathNames"];
+            Iniparser ini = new Iniparser(ViewData["pathConfig"].ToString(), ViewData["pathNames"].ToString());
+            ini.ParseNames(config, Const.separators);
+            ini.ParseCfg(config, Const.separators);            
             string json = config.toJSON(config);
 
 
@@ -305,7 +302,6 @@ namespace MVCtutorial.Controllers
                                 dataRequest.tags[tagsPos[j - 1]].vals[buffPos] = double.NaN;// missing data adding NaN value to response
                             }
                             buffPos++;
-                            i--;
                         }
                     }
                 }

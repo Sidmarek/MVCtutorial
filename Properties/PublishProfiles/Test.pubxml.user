@@ -181,7 +181,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/23/2012 15:23:58</publishTime>
     </File>
     <File Include="bin/MVCtutorial.dll">
-      <publishTime>02/06/2017 14:48:33</publishTime>
+      <publishTime>02/07/2017 07:29:36</publishTime>
     </File>
     <File Include="bin/MVCtutorial.pdb">
       <publishTime>01/30/2017 14:10:15</publishTime>
@@ -316,7 +316,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/23/2016 16:33:04</publishTime>
     </File>
     <File Include="Content/bootstrap.css">
-      <publishTime>02/06/2017 14:43:32</publishTime>
+      <publishTime>02/06/2017 15:52:20</publishTime>
     </File>
     <File Include="Content/bootstrap.min.css">
       <publishTime>04/22/2016 13:19:20</publishTime>
@@ -613,10 +613,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/13/2016 12:23:05</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>06/13/2016 12:34:54</publishTime>
+      <publishTime>02/06/2017 15:40:48</publishTime>
     </File>
     <File Include="Views/Home/News.cshtml">
-      <publishTime>05/23/2016 10:40:17</publishTime>
+      <publishTime>02/06/2017 15:34:33</publishTime>
     </File>
     <File Include="Views/Home/Order.cshtml">
       <publishTime>05/23/2016 10:40:09</publishTime>
@@ -646,7 +646,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/17/2016 16:25:43</publishTime>
     </File>
     <File Include="Views/Menu/_Menu.cshtml">
-      <publishTime>02/06/2017 14:49:07</publishTime>
+      <publishTime>02/06/2017 14:56:52</publishTime>
     </File>
     <File Include="Views/Scheme/index.cshtml">
       <publishTime>06/20/2016 12:58:27</publishTime>

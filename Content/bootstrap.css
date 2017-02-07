@@ -6821,26 +6821,27 @@ td.visible-print {
 /* The side navigation menu */
 .sidenav {
     height: 100%; /* 100% Full-height */
-    width: 11%;
-    position: fixed; /* Stay in place */
+    position: fixed;
     top: 0;
-    left: 0;
+    left 0;
+    width: 10%;
+    max-width: 225px;
+    min-width:150px;
     background-color: #222222; /* Black*/
-    padding-top: 30px; /* Place content 60px from the top */
+    padding-top: 45px; /* */
     transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
 }
 
 /* The side navigation menu */
 .sidenav a {
-    width: 11%;
+    background-color: #222222;
     max-width: 250px;
-    padding-left: 150px;
     padding: 8px 8px 8px 32px;
     text-decoration:none;
     font-size: 18px;
     color: #428bca;
-    line-height:1;
     display: block;
+    line-height:1;
 }
 
 .plc {
@@ -6849,7 +6850,7 @@ td.visible-print {
     font-size: 18px;
     color: #428bca;
     line-height:1;
-    margin-right: 50px;
+    margin-right: 5px;
     margin-left: -10%;
     display: block;
     transition: 0.3s
@@ -6909,12 +6910,11 @@ td.visible-print {
     width: 15%;
 }
 .first {
-    margin-left: -10%;
+    margin-left: 10%;
 }
 .second {
-    margin-left: -10%;
+    margin-left: 10%;
 }
 .message {
     color: red;
 }
-+

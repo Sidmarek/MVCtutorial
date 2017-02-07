@@ -4,7 +4,6 @@
 }
 
 <h2>Index of Upload System</h2>
-@Html.Partial("~/Views/Menu/_Menu.cshtml")
 @ViewBag.message
 @using (Html.BeginForm("UploadFile", "Upload", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
 {

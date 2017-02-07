@@ -4,7 +4,6 @@
     ViewBag.Title = "Alarms";
 }
 <h2 class="header">Alarms</h2>
-@Html.Partial("~/Views/Menu/_Menu.cshtml")
 <div class="top">
     <div class="row">
         @using (Html.BeginForm("Form", "Alarm", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
