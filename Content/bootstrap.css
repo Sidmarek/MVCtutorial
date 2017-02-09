@@ -6825,7 +6825,7 @@ td.visible-print {
     top: 0;
     left 0;
     width: 10%;
-    max-width: 225px;
+    max-width: 25%;
     min-width:150px;
     background-color: #222222; /* Black*/
     padding-top: 45px; /* */

@@ -10,7 +10,7 @@
 @{
     ViewBag.error = Session["tempforview"];
 }
-<body onload="autoreload()">
+<body onresize="responsive()" onload="autoreload()">
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -32,26 +32,34 @@
                 }
                 @Html.Partial("_LoginPartial")
             </div>
-            
         </div>
     </div>
     @if (Session["types"] != null && Request.QueryString.Count != 0)
     {
-    <div class="sidenav nav-tabs">
-        @Html.Partial("~/Views/Menu/_Menu.cshtml")
-    </div>
+        <div class="sidenav">
+            @Html.Partial("~/Views/Menu/_Menu.cshtml")
+        </div>
     }
-    <div class="container body-content">
+    <script>
+        function responsive() {
+            var sidenavWidth = $('.sidenav').width();
+            console.log(sidenavWidth);
+            document.getElementById('container-body').style.marginLeft = sidenavWidth + 'px';
+        }
+    </script>
+    <div class="container body-content" id="container-body">
         <div class="message">@ViewBag.error<br></div>
         @RenderBody()
+        <div class="">
+        </div>
     </div>
     <hr />
+    <footer>
+        <p>&copy; @DateTime.Now.Year -  DIOSNA CS s.r.o. - Liberec ASP.NET MVC Application</p>
+    </footer>
     @{ 
         Session["tempforview"] = null;
     }
-    <footer>
-        <p>&copy; @DateTime.Now.Year - Marek Novak ASP.NET MVC Application</p>
-    </footer>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
