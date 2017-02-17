@@ -16,6 +16,26 @@ namespace MVCtutorial.Controllers
             CfgPath = aCfgPath;
             NamePath = aNamePath;
         }
+        public void ParseLangs(CIniFile config)
+        {
+            string[] lines = System.IO.File.ReadAllLines(CfgPath, System.Text.Encoding.Default);
+
+            for (int i = 0; i < lines.Length; i++)
+            {
+                if (!(lines[i].StartsWith("#")) && (lines[i].Length != 0))
+                {
+                    string[] langs = lines[i].Split(Const.separ_dollar, StringSplitOptions.None);
+                    for (int j = 0; j < langs.Length; j++)
+                    {
+                        if (langs[j].Length != 0)
+                        {
+                            LangDefinition.Add(config, LangDefinition.LangDefList[j].LangAbbreviation);
+                        }
+                    }
+                    i = lines.Length;
+                }
+            }
+        }
 
         public void ParseCfg(CIniFile config, string[] separators)
         {
@@ -102,12 +122,18 @@ namespace MVCtutorial.Controllers
 
                     if (int.TryParse(separeted_string[0], out result) == true)
                     {
-                        rowNumber = parseNameDefinition(config, separators, lines, i);
+                        try
+                        {
+                            rowNumber = parseNameDefinition(config, separators, lines, i);
+                        }
+                        catch (Exception e)
+                        {
+                            throw e;
+                        }
                     }
                 }
                 if (rowNumber != 0)
                 {
-
                     i = rowNumber;
                     rowNumber = 0;
                 }
@@ -120,6 +146,7 @@ namespace MVCtutorial.Controllers
             List<string[]> multitext_lines = new List<string[]>();
             List<int> Idxs = new List<int>();
             int position;
+            int id;
 
             multitext_name = separeted_string[1];
 
@@ -133,11 +160,14 @@ namespace MVCtutorial.Controllers
                 else
                 {
                     line_with_id = lines[i].Split(separators, StringSplitOptions.RemoveEmptyEntries);
-                    Idxs.Add(int.Parse(line_with_id[0]));
-                    position = lines[i].IndexOf(';');
-                    line_without_id = lines[i].Substring(position+1); // Because of spliting this string. Before semicolon is first index
-                    multitext_line = line_without_id.Split(separators, StringSplitOptions.None);
-                    multitext_lines.Add(multitext_line);
+
+                    if (int.TryParse(line_with_id[0], out id) == true) {
+                        Idxs.Add(id);
+                        position = lines[i].IndexOf(';');
+                        line_without_id = lines[i].Substring(position + 1); // Because of spliting this string. Before semicolon is first index
+                        multitext_line = line_without_id.Split(Const.separ_semicolon, StringSplitOptions.RemoveEmptyEntries);
+                        multitext_lines.Add(multitext_line);
+                    }
                 }
             }
             return 0;
@@ -172,9 +202,14 @@ namespace MVCtutorial.Controllers
                     {
                         if (!(nameLineLangMutate[idx + 1].Contains(@"\")) && !(nameLineLangMutate[idx + 1].Contains("multitext:")))
                         {
-                            langs.Insert(j, nameLineLangMutate[idx]);
-                            units.Insert(j, nameLineLangMutate[idx + 1]);
-                            j++;
+                            if (nameLineLangMutate.Length > config.LangEnbList.Count) {
+                                langs.Insert(j, nameLineLangMutate[idx]);
+                                units.Insert(j, nameLineLangMutate[idx + 1]);
+                                j++;
+                            } else {
+                                langs.Insert(j, nameLineLangMutate[idx]);
+                                j++;
+                            }
                         }
                         else {
                             langs.Insert(j, nameLineLangMutate[idx]);

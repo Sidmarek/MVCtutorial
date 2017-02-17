@@ -21,11 +21,15 @@ namespace MVCtutorial.Controllers
         [HttpPost]
         public void getConfig()
         {
-            ViewData["pathConfig"] = Session["pathConfig"];
-            ViewData["pathNames"] = Session["pathNames"];
-            Iniparser ini = new Iniparser(ViewData["pathConfig"].ToString(), ViewData["pathNames"].ToString());
-            ini.ParseNames(config, Const.separators);
-            ini.ParseCfg(config, Const.separators);            
+            if (config.ViewList.Count == 0)
+            {
+                ViewData["pathConfig"] = Session["pathConfig"];
+                ViewData["pathNames"] = Session["pathNames"];
+                Iniparser ini = new Iniparser(ViewData["pathConfig"].ToString(), ViewData["pathNames"].ToString());
+                ini.ParseLangs(config);
+                ini.ParseCfg(config, Const.separators);
+                ini.ParseNames(config, Const.separators);
+            }
             string json = config.toJSON(config);
 
 
@@ -35,6 +39,7 @@ namespace MVCtutorial.Controllers
 
         public ActionResult Index()
         {
+            config = new CIniFile();
             object pathConfig = null;
             object pathNames = null;
             foreach (string key in Session.Keys)
@@ -50,14 +55,7 @@ namespace MVCtutorial.Controllers
             }
             Session.Add("pathConfig", pathConfig);
             Session.Add("pathNames", pathNames);
-            /*
-            if (config.ViewList.Count == 0)
-            {
-                Iniparser ini = new Iniparser(pathConfig.ToString(), pathNames.ToString());
-                ini.ParseNames(config, Const.separators);
-                ini.ParseCfg(config, Const.separators);
-                string json = config.toJSON(config);
-            }*/
+
             return View();
         }
         public string pkTimeToUTC(double time)

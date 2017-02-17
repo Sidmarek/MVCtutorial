@@ -18,7 +18,6 @@
     ViewBag.types = Session["types"];
     ViewBag.values = Session["values"];
 }
-@Html.Partial("~/Views/Menu/_Menu.cshtml")
 <h2>@ViewBag.name</h2>
 <div onclick="reload()">
     <img id="schema" src="/scheme/getImage" />

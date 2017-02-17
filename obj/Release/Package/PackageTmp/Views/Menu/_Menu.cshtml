@@ -1,4 +1,5 @@
-﻿<div class="sidenav a">
+﻿@if (Session["types"] != null && Request.QueryString.Count != 0) { 
+<div class="sidenav a">
 @{
     ViewBag.Names = Session["names"];
     ViewBag.plc = Session["plc"];
@@ -8,13 +9,15 @@
     int j = 0;
  }
 <h2>@ViewBag.inView</h2>    
-
 @foreach (String type in ViewBag.types)
 {
-    if (type.Contains("plc"))    {
+    if (type.Contains("plc"))
+    {
         <a href="" class="plc">@ViewBag.plc[i]</a>
         i++;
-    } else {
+    }
+    else
+    {
         if (i == 0)
         {
             <a href="/@type?&name=@ViewBag.names[j]&plc=@ViewBag.plc[i]">@ViewBag.names[j]</a>
@@ -29,3 +32,4 @@
     }
 }
 </div>
+}

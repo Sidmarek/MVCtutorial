@@ -121,6 +121,7 @@ namespace MVCtutorial.Controllers
                         result.Add(r[i]);
                     }
                 }
+                r.Close();
             }
 
             return result;

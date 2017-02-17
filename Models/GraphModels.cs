@@ -34,6 +34,7 @@ namespace MVCtutorial.Graph.Models
     public class LangDefinition
     {
         public static List<LangDef> LangDefList = new List<LangDef>() { new LangDef() { LangAbbreviation = "EN" }, new LangDef() { LangAbbreviation = "CZ" }, new LangDef() { LangAbbreviation = "DE" }, new LangDef() { LangAbbreviation = "PL" } };
+        public static List<LangDef> LangEnbList = new List<LangDef>();
         public int Find(CIniFile config, string lang)
         {
             foreach (LangDef LangDef in config.LangDefList)
@@ -54,11 +55,11 @@ namespace MVCtutorial.Graph.Models
         {
             if (position == 0)
             {
-                config.LangDefList.Add(new LangDef() { LangAbbreviation = lang });
+                config.LangEnbList.Add(new LangDef() { LangAbbreviation = lang });
             }
             else
             {
-                config.LangDefList.Insert(position, new LangDef() { LangAbbreviation = lang });
+                config.LangEnbList.Insert(position, new LangDef() { LangAbbreviation = lang });
             }
         }
         public static string toJSON(CIniFile config)
@@ -68,8 +69,22 @@ namespace MVCtutorial.Graph.Models
                 json += "\"" + LangDef.LangAbbreviation + "\",";
             }
             json = json.Substring(0, json.Length - 1);
+            json += "],";
+            json += "\"LangEnb\": [";
+            foreach (LangDef LangDef in config.LangEnbList)
+            {
+                json += "\"" + LangDef.LangAbbreviation + "\",";
+            }
+            json = json.Substring(0, json.Length - 1);
             json += "]";
             return json;
+        }
+
+        public static void DeleteOtherLangs(CIniFile config, int langCount) {
+            for (int i = langCount; i < config.LangDefList.Count-1; i++)
+            {
+                config.LangDefList.RemoveAt(i);
+            }
         }
     }
 
@@ -229,7 +244,7 @@ namespace MVCtutorial.Graph.Models
                     json += "{\"idx\":" + Values.idx + ",";
                     for (int i=0;i<Values.langTexts.Length; i++)
                     {
-                        LangDef LangDef = config.LangDefList[i];
+                        LangDef LangDef = config.LangEnbList[i];
                         json += "\"text_" + LangDef.LangAbbreviation + "\":\"" + Values.langTexts[i] + "\",";
                     }
                     json = json.Substring(0, json.Length - 1);
@@ -311,12 +326,12 @@ namespace MVCtutorial.Graph.Models
                 json += "\"table\":\"" + NameDef.table + "\", \"column\":\"" + NameDef.column +"\",";
                 for (int i = 0; i < NameDef.fullNames.Count; i++)
                 {
-                    LangDef LangDef = config.LangDefList[i];
+                    LangDef LangDef = config.LangEnbList[i];
                     json += "\"fullName_" + LangDef.LangAbbreviation + "\":\"" + NameDef.fullNames[i] + "\",";
                 }
                 for (int i = 0; i < NameDef.units.Count; i++)
                 {
-                    LangDef LangDef = config.LangDefList[i];
+                    LangDef LangDef = config.LangEnbList[i];
                     json += "\"unit_" + LangDef.LangAbbreviation + "\":\"" + NameDef.units[i] + "\",";
                 }
                 json = json.Substring(0, json.Length - 1);
@@ -335,6 +350,7 @@ namespace MVCtutorial.Graph.Models
         public static readonly string[] separators_view = { "$", ",", ":", "=", "  ", "             ", ";;", "\n" };
         public static readonly string[] separ_equate = { "=" };
         public static readonly string[] separ_dollar = { "$" };
+        public static readonly string[] separ_semicolon= { ";" };
         public static readonly string[] separ_names = { "$", "             ", ";" };
         public static readonly string[] separ_backslash = { @"\", "$", "             ", ";" };
     }
@@ -575,6 +591,7 @@ namespace MVCtutorial.Graph.Models
         public List<TextlistDef> TextlistDefList = new List<TextlistDef>();
         public List<TableDef> TableDefList = new List<TableDef>();
         public List<LangDef> LangDefList = new List<LangDef>() { new LangDef() { LangAbbreviation = "EN" }, new LangDef() { LangAbbreviation = "CZ" }, new LangDef() { LangAbbreviation = "DE" }, new LangDef() { LangAbbreviation = "PL" } };
+        public List<LangDef> LangEnbList = new List<LangDef>();
         public void AddView(CView CViewInstance)
         {
             ViewList.Add(CViewInstance);
