@@ -80,8 +80,9 @@ namespace MVCtutorial.Graph.Models
             return json;
         }
 
-        public static void DeleteOtherLangs(CIniFile config, int langCount) {
-            for (int i = langCount; i < config.LangDefList.Count-1; i++)
+        public static void DeleteOtherLangs(CIniFile config, int langCount)
+        {
+            for (int i = langCount; i < config.LangDefList.Count - 1; i++)
             {
                 config.LangDefList.RemoveAt(i);
             }
@@ -296,7 +297,7 @@ namespace MVCtutorial.Graph.Models
     public class NameDef {
         public string table;
         public string column;
-        public List<string> fullNames;
+        public string[] fullNames;
         public List<string> units;
     }
     public class NameDefinition {
@@ -312,7 +313,7 @@ namespace MVCtutorial.Graph.Models
             }
             return null;
         }
-        public static string Add(CIniFile config, string ascolumn, List<string> asfullNames, List<string> asunits, string astable = null)
+        public static string Add(CIniFile config, string ascolumn, string[] asfullNames, List<string> asunits, string astable = null)
         {
             config.NameDefList.Add(new NameDef() { table = astable, column = ascolumn, fullNames = asfullNames, units = asunits });
             return ascolumn;
@@ -324,10 +325,16 @@ namespace MVCtutorial.Graph.Models
             {
                 json += "{";
                 json += "\"table\":\"" + NameDef.table + "\", \"column\":\"" + NameDef.column +"\",";
-                for (int i = 0; i < NameDef.fullNames.Count; i++)
+                for (int i = 0; i < NameDef.fullNames.Length; i++)
                 {
                     LangDef LangDef = config.LangEnbList[i];
-                    json += "\"fullName_" + LangDef.LangAbbreviation + "\":\"" + NameDef.fullNames[i] + "\",";
+                    if (NameDef.fullNames[i] != null)
+                    {
+                        if (NameDef.fullNames[i].Length != 0)
+                        {
+                            json += "\"fullName_" + LangDef.LangAbbreviation + "\":\"" + NameDef.fullNames[i] + "\",";
+                        }
+                    }
                 }
                 for (int i = 0; i < NameDef.units.Count; i++)
                 {
@@ -350,7 +357,7 @@ namespace MVCtutorial.Graph.Models
         public static readonly string[] separators_view = { "$", ",", ":", "=", "  ", "             ", ";;", "\n" };
         public static readonly string[] separ_equate = { "=" };
         public static readonly string[] separ_dollar = { "$" };
-        public static readonly string[] separ_semicolon= { ";" };
+        public static readonly string[] separ_semicolon = { ";" };
         public static readonly string[] separ_names = { "$", "             ", ";" };
         public static readonly string[] separ_backslash = { @"\", "$", "             ", ";" };
     }
@@ -555,11 +562,11 @@ namespace MVCtutorial.Graph.Models
         {
             FieldList.Add(CFieldInstatance);
         }
-        public string toJSON(CView view)
+        public string toJSON(CView view, CIniFile config)
         {
             string json = "{";
             int pos = 0;
-            foreach (LangDef LangDef in  LangDefinition.LangDefList)
+            foreach (LangDef LangDef in config.LangEnbList)
             {
                 if (pos < view.Names.Count) {
                     json += "\"name_" + LangDef.LangAbbreviation + "\":\""+ view.Names[pos] +"\", ";
@@ -602,7 +609,7 @@ namespace MVCtutorial.Graph.Models
             string json = "{";
             json += LangDefinition.toJSON(this);
             json += ",";
-
+            
             json += TableDefinition.toJSON(this);
             json += ",";
             json += NameDefinition.toJSON(this);
@@ -612,7 +619,7 @@ namespace MVCtutorial.Graph.Models
             json += "\"View\":[";
             foreach (CView view in ViewList)
             {
-                json += view.toJSON(view);
+                json += view.toJSON(view, IniFile);
             }
             json = json.Substring(0, json.Length - 1);
             json += "]}";

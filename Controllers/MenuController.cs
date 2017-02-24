@@ -56,7 +56,11 @@ namespace MVCtutorial.Controllers
             }
             else
             {
-                if ((Int32.TryParse(Session["id"].ToString(), out id)) != true)
+                if ((Int32.TryParse(Session["id"].ToString(), out id)) == true)
+                {
+                    //out int id = int id 
+                }
+                else
                 {
                     return RedirectToAction("Index", "Home");
                 }
@@ -69,27 +73,23 @@ namespace MVCtutorial.Controllers
             List<String> plc = XC.readNodesNameXML("plc", id, 1);
             List<String> names = XC.readNodesNameXML("plc", id, 2);
             List<String> types = XC.XMLgetTypes("plc", id);
-            if (types.Count != 0)
+
+            i = 0;
+            foreach (String value in values)
             {
-                i = 0;
-                foreach (String value in values)
-                {
-                    Session.Add(items[i], value);
-                    i++;
-                }
-                Session.Add("values", values);
-
-                Session.Add("id", id);
-                Session.Add("names", names);
-                Session.Add("plc", plc);
-                Session.Add("types", types);
-                ViewBag.id = id;
-
-                return RedirectToAction("Index", "Menu");
+                //String name = names[i] + items[i];
+                Session.Add(items[i], value);
+                i++;
             }
-            else {
-                return RedirectToAction("Login", "Account");
-            }
+            Session.Add("values", values);
+
+            Session.Add("id", id);
+            Session.Add("names", names);
+            Session.Add("plc", plc);
+            Session.Add("types", types);
+            ViewBag.id = id;
+
+            return RedirectToAction("Index", "Menu");
         }
     }
 }

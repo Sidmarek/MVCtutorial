@@ -32,6 +32,7 @@
                 }
                 @Html.Partial("_LoginPartial")
             </div>
+            
         </div>
     </div>
     @if (Session["types"] != null && Request.QueryString.Count != 0)
@@ -52,12 +53,12 @@
         @RenderBody()
     </div>
     <hr />
-    <footer>
-        <p>&copy; @DateTime.Now.Year -  DIOSNA CS s.r.o. - Liberec</p>
-    </footer>
     @{ 
         Session["tempforview"] = null;
     }
+    <footer>
+        <p>&copy; @DateTime.Now.Year - DIOSNA CS s.r.o. - Liberec</p>
+    </footer>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)

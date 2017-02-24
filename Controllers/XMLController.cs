@@ -9,7 +9,7 @@ namespace MVCtutorial.Controllers
 {
     public class XMLController : Controller
     {
-        public static String path = @"C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\Config\";
+        public static String path = @"C:\Akce\www\MVCtutorial\Config";
         List<String> ProjectNames = new List<string>();
         List<int> ProjectNumbers = new List<int>();
         public string[] absoulte_path;
@@ -119,7 +119,6 @@ namespace MVCtutorial.Controllers
                             {
                                 grandParentNode = node.ParentNode.ParentNode.Name;
                                 parentNode = node.ParentNode.Name;
-
                             }
                             else
                             {
@@ -149,7 +148,7 @@ namespace MVCtutorial.Controllers
                 {
                     int length = fileName.Length;
                     int start = fileName.IndexOf("_");
-                    int end = fileName.LastIndexOf("_");
+                    int end = fileName.IndexOf("_", start+1);
 
                     String projectNumber = fileName.Substring(start + 1, end - start - 1);
                     int temp = Int32.Parse(projectNumber);

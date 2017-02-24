@@ -1,4 +1,4 @@
-    // globální konstanty
+﻿    // globální konstanty
 
     // globální proměnné
     var fontFamily = "Tahoma",
@@ -123,7 +123,7 @@
                      
           //nadefinování values
           for (var m=0;m<30;m++) {
-            for (var v=0;v<100;v++) {
+            for (var v=0;v<60;v++) {
               multitexts[m]["values"].push({"idx" : -99, "text": ""});
             };
           };
@@ -158,7 +158,11 @@
       chartWidth = iWidth-fieldLeftAdjust-fieldBreakVals-fieldValWidth-fieldRightAdjust;
       chartHeight = iHeight-fieldTopAdjust-fieldBottomAdjust;
       
-      $('#top_menu').css('width',iWidth);      
+      $('#top_menu').css('width',iWidth);
+      $('#top_menu').css('position','absolute');  
+      $('#top_menu').css('top',$('.navbar').height()+$('.message').height());
+      $('#top_menu').css('left',$('.sidenav').width()+8);
+      
       $('#calendar').css('left',$('.sidenav').width()+367);
       
       $('#graph_content').css('left',$('.sidenav').width()+7);
@@ -175,6 +179,9 @@
       
       $('#back_canvas').attr('width',iWidth+1);
       $('#back_canvas').attr('height',iHeight+1);     
+
+      $('hr').css('position','absolute');
+      $('hr').css('top',$('.navbar').height()+$('.message').height()+$('#top_menu').height()+iHeight+14);
       
       $('footer').css('position','absolute');
       $('footer').css('top',$('.navbar').height()+$('.message').height()+$('#top_menu').height()+iHeight+15);      
@@ -272,7 +279,7 @@
 
     // operace klávesnice a myši
 
-    function getClickStep () {
+    function getClickStep () {    
       switch (timeAxisIdx) { 
       case 0:
         return 5;
@@ -336,7 +343,6 @@
     };
 
     function mouseDown() {
-
       mouseIsDown = 1;      
 
       canX = (event.x-canvasOffsetLeft)+0.5;
@@ -365,7 +371,7 @@
           view = $('#group').val();
           lang = getLang();
           redrawChart(view,beginTime,markerTime,timeAxisIdx);
-          redrawTimeAxis(view,lang);
+          redrawTimeAxis(view,lang);                              
           redrawValues(view,markerTime,lang);
           redrawLegend(view,lang);
         };
@@ -429,7 +435,6 @@
     };
     
     function mouseMove() {
-
       canX = (event.x-canvasOffsetLeft)+0.5;
       canY = (event.y-canvasOffsetTop)+0.5;
             
@@ -461,7 +466,7 @@
     };
 
     // vykreslení kurzoru 
-    function drawCursor(x) {
+    function drawCursor(x) {    
     var markerX,
         timeX;
     
@@ -676,7 +681,6 @@
     dataRequest = dataRequest.substr(0,dataRequest.length-2);
     dataRequest += ']';
     dataRequest += '}';
-    console.log(dataRequest);
     var xmlHttp = new XMLHttpRequest();
     
     var url = '/graph/getData';
@@ -697,7 +701,7 @@
     // základní view
     function setupLayout() {
     var lang;
-      lang = config.LangDef[0];      
+      lang = config.LangEnb[0];      
       //nastavení tlačítka lang na defaultní jazyk      
       setLang(lang);                                
       
@@ -713,15 +717,12 @@
       redrawChart(view,beginTime,markerTime,timeAxisIdx);      
       redrawTimeAxis(view,lang);
       redrawBeginTime(beginTime,lang);
-      redrawMarkerTime(beginTime,lang);
-      drawCursor(beginTime);
-      redrawValues(view,beginTime,lang);
       redrawLegend(view,lang);
-      
+      drawCursor(beginTime);
     };
 
     function setData() {
-      console.log('setData');
+    console.log('setData');
       //přes všechny tagy
       for (var m=0;m<data.tags.length;m++) {
         chartDef[m+1]["id"] = (data.tags[m].table + '.' + data.tags[m].column);                        
@@ -741,11 +742,10 @@
 
     // nastavení multitextů s aktuálním jazykem   
     function setMultitexts(lang) {
-    
-      //vyčištění předchozích multitextů
+      //vyprázdnění předchozích multitextů
       for (var m=0;m<30;m++) {
         multitexts[m]["name"] = "";
-        for (var v=0;v<100;v++) {
+        for (var v=0;v<60;v++) {
           multitexts[m]["values"][v].idx = -99;                       
           multitexts[m]["values"][v].text = "";            
         };    
@@ -756,8 +756,8 @@
         if (m < 30) {
           multitexts[m]["name"] = config.TextlistDef[m].textlist;
           for (var v=0;v<config.TextlistDef[m].values.length;v++) {
-            multitexts[m]["values"][v].idx = config.TextlistDef[m]["values"][v].idx;                         
-            multitexts[m]["values"][v].text = config.TextlistDef[m]["values"][v]["text_" + lang];              
+            multitexts[m]["values"][v].idx = config.TextlistDef[m]["values"][v].idx;
+            multitexts[m]["values"][v].text = config.TextlistDef[m]["values"][v]["text_" + lang];
           };
         };
       };
@@ -765,7 +765,7 @@
 
     // nastavení titulků
     function setTitles(view, lang) {
-      if (config.LangDef.indexOf(lang) != -1) {
+      if (config.LangEnb.indexOf(lang) != -1) {
         $('#group option').remove();
         for (v=0;v<config.View.length;v++) {
           titles[v] = '';
@@ -784,7 +784,6 @@
 
     // funkce pro kreslení na canvas
     function redrawScreen() {
-
       // vyčištění a překreslení plochy mimo backCanvas      
       
       // levá část
@@ -883,9 +882,9 @@
 
         // signals
         for (var x=0;x<signals.length;x++) {
-    
+
           var idx = signals.length-x;
-                    
+
           signalIdCfg = signals[x].table + "." + signals[x].column;          
           
           // data
@@ -922,9 +921,9 @@
                       value = a*(markerTime-chartDef[d]["times"][t]) + chartDef[d]["values"][t];
                     }
                     else {
-                      frontCanvas.clearRect(posX+iWidth-fieldRightAdjust-fieldValWidth+180,posY+fieldTopAdjust+FieldPosY+fieldSigHeight-(idx-1)*14-14,95,14);
+                      //frontCanvas.clearRect(posX+iWidth-fieldRightAdjust-fieldValWidth+180,posY+fieldTopAdjust+FieldPosY+fieldSigHeight-(idx)*14,95,14);
                       frontCanvas.fillStyle = colorBackFields;
-                      frontCanvas.fillRect(posX+iWidth-fieldRightAdjust-fieldValWidth+180-0.5,posY+fieldTopAdjust+FieldPosY+fieldSigHeight-(idx-1)*14-14.5,95.5,14.5);
+                      frontCanvas.fillRect(posX+iWidth-fieldRightAdjust-fieldValWidth+180-0.5,posY+fieldTopAdjust+FieldPosY+fieldSigHeight-(idx)*14,95.5,14);
                       
                       frontCanvas.fillStyle = signals[x].color;
                       frontCanvas.font = fontLegend;
@@ -987,6 +986,8 @@
                               };
                             };
                             break;
+                          }
+                          else {signalStrVal = "- - -";
                           };
                         };
                       };
@@ -996,9 +997,9 @@
                     break;  
                     };
                     
-                  frontCanvas.clearRect(posX+iWidth-fieldRightAdjust-fieldValWidth+180,posY+fieldTopAdjust+FieldPosY+fieldSigHeight-(idx-1)*14-14,95,14);
+                  //frontCanvas.clearRect(posX+iWidth-fieldRightAdjust-fieldValWidth+180,posY+fieldTopAdjust+FieldPosY+fieldSigHeight-(idx)*14,95,14);
                   frontCanvas.fillStyle = colorBackFields;
-                  frontCanvas.fillRect(posX+iWidth-fieldRightAdjust-fieldValWidth+180-0.5,posY+fieldTopAdjust+FieldPosY+fieldSigHeight-(idx-1)*14-14.5,95.5,14.5);
+                  frontCanvas.fillRect(posX+iWidth-fieldRightAdjust-fieldValWidth+180-0.5,posY+fieldTopAdjust+FieldPosY+fieldSigHeight-(idx)*14.3,95.5,14);
                   
                   frontCanvas.fillStyle = signals[x].color;
                   frontCanvas.fillText(signalStrVal,xPos,posY+fieldTopAdjust+FieldPosY+fieldSigHeight-(idx-1)*14-4);
@@ -1029,11 +1030,15 @@
       fieldsCnt = viewInfo[1];
       
       chartHeightLoc = chartHeight - chartHeight%fieldSumRatio;
-            
-      // vyčištění plochy grafu
-      signalCanvas.clearRect(posX+1,posY+fieldBottomAdjust,chartWidth+fieldLeftAdjust,chartHeightLoc);      
-      backCanvas.clearRect(posX+1,posY+fieldBottomAdjust,chartWidth+fieldLeftAdjust,chartHeightLoc);
       
+      // vyčištění y-osy grafu
+      frontCanvas.fillStyle = colorView;
+      frontCanvas.fillRect(posX+1,posY+fieldBottomAdjust-10,39,chartHeight);
+            
+      // vyčištění plochy grafu      
+      signalCanvas.clearRect(posX+1,posY+fieldBottomAdjust,chartWidth+fieldLeftAdjust,chartHeightLoc);
+      backCanvas.clearRect(posX+1,posY+fieldBottomAdjust,chartWidth+fieldLeftAdjust,chartHeightLoc);
+
       if (fieldSumRatio != 0) { //ochrana proti děleni nulou
         koefFieldHeight = (chartHeightLoc-fieldBrake*(fieldsCnt-1))/fieldSumRatio;                        
       };
@@ -1060,7 +1065,9 @@
           };
         };
 
-        lineCnt = Math.trunc(fieldRange/stepVertGrid);
+        if (stepVertGrid != 0) {
+        lineCnt = Math.floor(fieldRange/stepVertGrid);
+        };
 
         for (var k=0;k<=lineCnt;k++) {
           numLength = ((k*stepVertGrid).toString()).length*6+5;
@@ -1071,7 +1078,8 @@
 
               // značky - body
               frontCanvas.strokeStyle = BLACK;
-              frontCanvas.setLineDash([0,0]);
+              //frontCanvas.setLineDash([0,0]);
+              //frontCanvas.setLineDash([1]);
               frontCanvas.lineWidth = 1;
 
               frontCanvas.beginPath();
@@ -1082,8 +1090,8 @@
 
               if (k != 0) {
                 // mřížka
-                backCanvas.strokeStyle = colorGrid;
-                backCanvas.setLineDash([15,5]);
+                backCanvas.strokeStyle = colorGrid;                               
+                //backCanvas.setLineDash ([15,5]);                
                 backCanvas.lineWidth = 1;
 
                 backCanvas.beginPath();
@@ -1128,7 +1136,8 @@
 
                 // vykreslení průběhů
                 signalCanvas.strokeStyle = signals[x].color;
-                signalCanvas.setLineDash([0,0]);
+                //signalCanvas.setLineDash ([0,0]);
+                //signalCanvas.setLineDash ([1]);
                 signalCanvas.lineWidth = 1;
 
                 for (var v=0;v<chartDef[i]["values"].length;v++) {
@@ -1180,7 +1189,7 @@
           
       // horizontální mřížka
       stepHorzGrid = stepGridTime[timeAxisIdx]/60;
-      lineCnt = Math.trunc(timeAxisLength[timeAxisIdx]/stepHorzGrid);
+      lineCnt = Math.floor(timeAxisLength[timeAxisIdx]/stepHorzGrid);
       
       for (var k=0;k<=lineCnt;k++) {
         if (timeAxisLength[timeAxisIdx] != 0) { //ochrana před dělením nulou
@@ -1188,7 +1197,7 @@
           // mřížka
           if ((k != 0) && (timeAxisLength[timeAxisIdx] != k*stepHorzGrid)) {  // nevykreslovat mřížku pro dolní a horní limit 
             backCanvas.strokeStyle = colorGrid;
-            backCanvas.setLineDash([15,5]);
+            //backCanvas.setLineDash ([15,5]);
             backCanvas.lineWidth = 1;
             
             backCanvas.beginPath();
@@ -1217,20 +1226,21 @@
       chartHeightLoc = chartHeight - chartHeight%fieldSumRatio;  
       
       // vyčištění plochy časové osy
-      frontCanvas.clearRect(posX+1,posY+fieldTopAdjust+chartHeightLoc,fieldLeftAdjust+chartWidth+fieldBreakVals+0.5,25.5);
+      frontCanvas.clearRect(posX+1,posY+fieldTopAdjust+chartHeightLoc,fieldLeftAdjust+chartWidth+fieldBreakVals,38.5);
       frontCanvas.fillStyle = colorView;
-      frontCanvas.fillRect(posX+1,posY+fieldTopAdjust+chartHeightLoc,fieldLeftAdjust+chartWidth+fieldBreakVals+0.5,25.5);
+      frontCanvas.fillRect(posX+1,posY+fieldTopAdjust+chartHeightLoc,fieldLeftAdjust+chartWidth+fieldBreakVals,38.5);
   
       // časová osa
       stepHorzGrid = stepGridTime[timeAxisIdx]/60;
-      lineCnt = Math.trunc(timeAxisLength[timeAxisIdx]/stepHorzGrid);
+      lineCnt = Math.floor(timeAxisLength[timeAxisIdx]/stepHorzGrid);
       
       for (var k=0;k<=lineCnt;k++) {
         if (timeAxisLength[timeAxisIdx] != 0) { //ochrana před dělením nulou
                     
           // značky - body
           frontCanvas.strokeStyle = BLACK;
-          frontCanvas.setLineDash([0,0]);
+          //frontCanvas.setLineDash([0,0]);          
+          //frontCanvas.setLineDash([1]);
           frontCanvas.lineWidth = 1;
       
           frontCanvas.beginPath();
@@ -1260,7 +1270,6 @@
     };
     
     function redrawBeginTime(beginTime,lang) {
-
       frontCanvas.clearRect(posX+fieldLeftAdjust,posY+iHeight-fieldBottomAdjust+poleBegtimeOdsazY,fieldValWidth,16);
 
       frontCanvas.strokeStyle = colorFrames;      
@@ -1272,7 +1281,6 @@
     };
 
     function redrawTitle(view) {
-
       frontCanvas.clearRect(posX+fieldLeftAdjust,posY+fieldTopAdjust-24,350.5,23.5);
 
       frontCanvas.fillStyle = colorView;
@@ -1283,7 +1291,7 @@
       frontCanvas.fillText(titles[view],posX+fieldLeftAdjust,posY+fieldTopAdjust-10);
     };
 
-    function redrawLegend(view,lang) {    
+    function redrawLegend(view,lang) {
     var viewInfo = new Array(),
         fieldsCnt = 0,
         fieldSumRatio = 0,
@@ -1356,8 +1364,8 @@
           };
 
           sX = posX+iWidth-fieldRightAdjust-fieldValWidth-13; 
-          sY = posY+fieldTopAdjust+FieldPosY+fieldSigHeight-(idx-1)*14-14;
-          frontCanvas.fillText(signalLegend,posX+iWidth-fieldRightAdjust-fieldValWidth+5,posY+fieldTopAdjust+FieldPosY+fieldSigHeight-(idx-1)*14-4);
+          sY = posY+fieldTopAdjust+FieldPosY+fieldSigHeight-(idx)*14;
+          frontCanvas.fillText(signalLegend,posX+iWidth-fieldRightAdjust-fieldValWidth+5,posY+fieldTopAdjust+FieldPosY+fieldSigHeight-(idx-1)*14-4.5);
           
           // omezeni indexu
           if (sigGlobalIdx <= MAX_CLICKMAPS) {                    
@@ -1373,15 +1381,13 @@
               frontCanvas.drawImage(img,11,0,11,11,sX,sY,11,11);
             };
           };
-          
-          //redrawValues(view,markerTime,lang);
-          
+
           //jednotky
           if (signals[x].type == "analog") {  // typ číslo
             
             frontCanvas.fillStyle = signals[x].color;  
             frontCanvas.font = fontLegend;            
-            frontCanvas.fillText(signalUnits,posX+iWidth-fieldRightAdjust-fieldValWidth+275,posY+fieldTopAdjust+FieldPosY+fieldSigHeight-(idx-1)*14-4);
+            frontCanvas.fillText(signalUnits,posX+iWidth-fieldRightAdjust-fieldValWidth+275,posY+fieldTopAdjust+FieldPosY+fieldSigHeight-(idx-1)*14-4.5);
           };
         };
         
@@ -1433,26 +1439,22 @@
      view = $('#group').val();
      lang = getLang();          
      beginTime -= (timeAxisLength[timeAxisIdx]*3600)/2;
-     getData(view,beginTime,timeAxisLength[timeAxisIdx]*3600)
-     redrawScreen();    
-     redrawTitle(view,lang) 
+     getData(view,beginTime,timeAxisLength[timeAxisIdx]*3600);
      redrawChart(view,beginTime,markerTime,timeAxisIdx);
+     redrawBeginTime(beginTime,lang);
      redrawTimeAxis(view,lang);
      drawCursor(markerTime);
-     redrawBeginTime(beginTime,lang);
    }; 
    
    function fwdShift() {
      view = $('#group').val();
      lang = getLang();     
      beginTime += (timeAxisLength[timeAxisIdx]*3600)/2;
-     getData(view,beginTime,timeAxisLength[timeAxisIdx]*3600)
-     redrawScreen();
-     redrawTitle(view,lang)
+     getData(view,beginTime,timeAxisLength[timeAxisIdx]*3600);
      redrawChart(view,beginTime,markerTime,timeAxisIdx);
+     redrawBeginTime(beginTime,lang);
      redrawTimeAxis(view,lang);
      drawCursor(markerTime);
-     redrawBeginTime(beginTime,lang);
    };
    
    function narrow() {
@@ -1460,12 +1462,10 @@
      lang = getLang();    
      timeAxisIdx = (timeAxisIdx >= 9) ? 9 : timeAxisIdx+1;
      getData(view,beginTime,timeAxisLength[timeAxisIdx]*3600);
-     redrawScreen();    
-     redrawTitle(view,lang) 
      redrawChart(view,beginTime,markerTime,timeAxisIdx);
+     redrawBeginTime(beginTime,lang);
      redrawTimeAxis(view,lang);
      drawCursor(markerTime);
-     redrawBeginTime(beginTime,lang);
    };
    
    function extend() {
@@ -1473,12 +1473,10 @@
      lang = getLang();
      timeAxisIdx = (timeAxisIdx <= 0) ? 0 : timeAxisIdx-1;
      getData(view,beginTime,timeAxisLength[timeAxisIdx]*3600);
-     redrawScreen();
-     redrawTitle(view,lang)
      redrawChart(view,beginTime,markerTime,timeAxisIdx);
+     redrawBeginTime(beginTime,lang);
      redrawTimeAxis(view,lang);
      drawCursor(markerTime);
-     redrawBeginTime(beginTime,lang);
    };
    
    function backDay() {
@@ -1486,12 +1484,10 @@
      lang = getLang();
      beginTime -= 86400;
      getData(view,beginTime,timeAxisLength[timeAxisIdx]*3600);
-     redrawScreen();
-     redrawTitle(view,lang)
      redrawChart(view,beginTime,markerTime,timeAxisIdx);
-     redrawTimeAxis(view,lang);
-     drawCursor(markerTime);     
      redrawBeginTime(beginTime,lang);
+     redrawTimeAxis(view,lang);
+     drawCursor(markerTime);
    };
    
    function fwdDay() {
@@ -1499,12 +1495,10 @@
      lang = getLang();
      beginTime += 86400;
      getData(view,beginTime,timeAxisLength[timeAxisIdx]*3600);
-     redrawScreen();
-     redrawTitle(view,lang)
      redrawChart(view,beginTime,markerTime,timeAxisIdx);
+     redrawBeginTime(beginTime,lang);
      redrawTimeAxis(view,lang);
      drawCursor(markerTime);
-     redrawBeginTime(beginTime,lang);
    };
    
    function zoomSignal(val) {
@@ -1521,7 +1515,7 @@
      };   
    };      
 
-   function resetValue(val) {     
+   function resetValue(val) {
      switch (val) {
        case ">0<":
          for (var m=0;m<MAX_CLICKMAPS;m++) {           
@@ -1529,12 +1523,12 @@
            
              if (Math.abs(chartDef[m]["times"][t] - markerTime) <= 5) {               
                for (var m=1;m<=MAX_CLICKMAPS;m++) {                      
-                 chartDef[m].offset = chartDef[m]["values"][t];                 
+                 chartDef[m].offset = chartDef[m]["values"][t];
                  reset = true;
-                 chartDef[0].offset = markerTime;                 
-                 redrawMarkerTime(markerTime,lang);
+                 chartDef[0].offset = markerTime;
                  view = $('#group').val();
                  lang = getLang();
+                 redrawMarkerTime(markerTime,lang);
                  redrawValues(view,markerTime,lang);
                  $('#reset').attr('value',">>0<<");               
                };
@@ -1557,7 +1551,6 @@
    };   
 
    function changeGroup(view) {
-
      for (m=1;m<=MAX_CLICKMAPS;m++) {       
       chartDef[m]["visibility"] = "true";         
      };
@@ -1566,22 +1559,21 @@
      
      lang = getLang();
      redrawScreen();
-     redrawScreen();
      redrawTitle(view,lang);
      redrawChart(view,beginTime,markerTime,timeAxisIdx);
      redrawValues(view,markerTime,lang);
      redrawLegend(view,lang);
      redrawTimeAxis(view,lang);
-     drawCursor(markerTime);
      redrawBeginTime(beginTime,lang);
-     redrawMarkerTime(markerTime,lang);
+     drawCursor(markerTime);
    };
    
    function reload() {
-     redrawScreen();
+     getData(view,beginTime,timeAxisLength[timeAxisIdx]*3600);
      
      view = $('#group').val();
      lang = getLang();
+     redrawScreen();
      redrawTitle(view,lang);
      redrawChart(view,beginTime,markerTime,timeAxisIdx);
      redrawLegend(view,lang);
@@ -1596,39 +1588,38 @@
        idx = 0;
 
      view = $('#group').val();
-     
      lang = getLang();
-     idx = config.LangDef.indexOf(lang);
+     idx = config.LangEnb.indexOf(lang);
 
-     if (idx < config.LangDef.length-1) {
-       $('#lang').attr('value',"lang:" + config.LangDef[idx+1]);
-       setTitles(view,config.LangDef[idx+1]);
-       setMultitexts(config.LangDef[idx+1]);
-       redrawLegend(view,config.LangDef[idx+1]);
-       redrawValues(view,markerTime,config.LangDef[idx+1]);
-       redrawMarkerTime(markerTime,config.LangDef[idx+1]);
-       redrawBeginTime(beginTime,config.LangDef[idx+1]);
-       redrawTitle(view,config.LangDef[idx+1]);
+     if (idx < config.LangEnb.length-1) {
+       $('#lang').attr('value',"lang:" + config.LangEnb[idx+1]);
+       setTitles(view,config.LangEnb[idx+1]);
+       setMultitexts(config.LangEnb[idx+1]);
+       redrawTitle(view,config.LangEnb[idx+1]);       
+       redrawLegend(view,config.LangEnb[idx+1]);
+       redrawValues(view,markerTime,config.LangEnb[idx+1]);
+       redrawMarkerTime(markerTime,config.LangEnb[idx+1]);
+       redrawBeginTime(beginTime,config.LangEnb[idx+1]);       
      }
      else {
-       $('#lang').attr('value',"lang:" + config.LangDef[0]);
-       setTitles(view,config.LangDef[0]);
-       setMultitexts(config.LangDef[0]);
-       redrawLegend(view,config.LangDef[0]);
-       redrawValues(view,markerTime,config.LangDef[0]);
-       redrawMarkerTime(markerTime,config.LangDef[0]);
-       redrawBeginTime(beginTime,config.LangDef[0]);
-       redrawTitle(view,config.LangDef[0]);
+       $('#lang').attr('value',"lang:" + config.LangEnb[0]);
+       setTitles(view,config.LangEnb[0]);
+       setMultitexts(config.LangEnb[0]);
+       redrawTitle(view,config.LangEnb[0]);
+       redrawLegend(view,config.LangEnb[0]);
+       redrawValues(view,markerTime,config.LangEnb[0]);
+       redrawMarkerTime(markerTime,config.LangEnb[0]);
+       redrawBeginTime(beginTime,config.LangEnb[0]);
      };
    };
 
    //nastavení tlačítka jazyk vstupem je string "CZ", "EN", apod.
-   function setLang(lang) {
-     if (config.LangDef.indexOf(lang) != -1) {
+   function setLang(lang) {   
+     if (config.LangEnb.indexOf(lang) != -1) {
        $('#lang').attr('value',"lang:" + lang)
      }
      else {
-       $('#lang').attr('value',"lang:" + config.LangDef)
+       $('#lang').attr('value',"lang:" + config.LangEnb)
      };
    };
 
@@ -1638,10 +1629,10 @@
    
      lang = $('#lang').val();
      lang = lang.substring(lang.length-2,lang.length);
-     if (config.LangDef.indexOf(lang) != -1) {
+     if (config.LangEnb.indexOf(lang) != -1) {
        return lang;
      }
-     else return config.LangDef;
+     else return config.LangEnb;
    };
 
    function changeZone(zone) {
@@ -1665,25 +1656,22 @@
      redrawScreen();
      redrawTitle(view,lang);          
      redrawChart(view,beginTime,markerTime,timeAxisIdx);
-     drawCursor(markerTime);
-     redrawTimeAxis(view,lang);
      redrawBeginTime(beginTime,lang);
-     redrawMarkerTime(markerTime,lang);
+     redrawTimeAxis(view,lang);
+     drawCursor(markerTime);
    };
    
-   function goDateTime(dd,MM,yyyy) {   
+   function goDateTime(dd,MM,yyyy) {
      $('#calendar').css('visibility','hidden');     
      beginTime = parseInt((Date.UTC(yyyy,MM-1,dd,-1,0,0,0) - Date.UTC(2000,0,1,0,0,0,0))/1000,10);
      
      view = $('#group').val();
      lang = $('#lang').val();
-
-     timeAxisIdx = 6;    
+     timeAxisIdx = 6;
      redrawChart(view,beginTime,markerTime,timeAxisIdx);
-     drawCursor(markerTime);
      redrawTimeAxis(view,lang);
      redrawBeginTime(beginTime,lang);
-     redrawMarkerTime(markerTime,lang);
+     drawCursor(markerTime);     
    };
 
    function maxDays(mm,yyyy){

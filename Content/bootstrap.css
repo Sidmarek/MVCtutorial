@@ -4940,7 +4940,10 @@ a.list-group-item.active > .badge,
   color: inherit;
   background-color: #eeeeee;
 }
-
+.jumbotron a {
+    margin-left: 0.5%;
+    margin-right: 0.5%;
+}
 .jumbotron h1 {
   line-height: 1;
   color: inherit;
@@ -6824,7 +6827,7 @@ td.visible-print {
     position: fixed;
     top: 0;
     left 0;
-    width: 10%;
+    width: 11%;
     max-width: 25%;
     min-width:150px;
     background-color: #222222; /* Black*/
@@ -6910,11 +6913,12 @@ td.visible-print {
     width: 15%;
 }
 .first {
-    margin-left: 10%;
+    margin-left: -10%;
 }
 .second {
-    margin-left: 10%;
+    margin-left: -10%;
 }
 .message {
     color: red;
 }
++

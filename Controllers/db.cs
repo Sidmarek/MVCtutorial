@@ -20,7 +20,8 @@ namespace MVCtutorial.Controllers
         /// <summary>
         /// MSSQL constructor
         /// </summary>
-        public db() {
+        public db()
+        {
             string ConnStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
             conn = new SqlConnection(ConnStr);
         }
@@ -44,7 +45,8 @@ namespace MVCtutorial.Controllers
         /// <param name="table">table SQL to select</param>
         /// <param name="where">where statement to specify select</param>
         /// <returns>Data in object</returns>
-        public object singleItemSelect(string column, string table, string where=null) {
+        public object singleItemSelect(string column, string table, string where = null)
+        {
             if (conn.State.ToString().Contains("Closed"))
             {
                 conn.Open();
@@ -73,7 +75,7 @@ namespace MVCtutorial.Controllers
                     result = r.GetValue(0);
                 }
             }
-            
+
             return result;
         }
 
@@ -110,20 +112,19 @@ namespace MVCtutorial.Controllers
             else
             {
                 string sql = string.Format("SELECT {0} FROM {1} WHERE {2}", column, table, where);
-                SqlCommand cmd = new SqlCommand(sql,conn);
+                SqlCommand cmd = new SqlCommand(sql, conn);
                 //SqlCommand cmd = new SqlCommand("SELECT "+ column +" FROM " + table + " WHERE bakeryId = @where" , conn);
                 //cmd.Parameters.AddWithValue("@where", 15014);
                 SqlDataReader r = cmd.ExecuteReader();
                 while (r.Read())
                 {
-                    for (int i=0; i<r.FieldCount;i++)
+                    for (int i = 0; i < r.FieldCount; i++)
                     {
                         result.Add(r[i]);
                     }
                 }
                 r.Close();
-            }
-
+            }            
             return result;
         }
 
@@ -133,7 +134,8 @@ namespace MVCtutorial.Controllers
         /// <param name="table">columnn SQL to select<</param>
         /// <param name="set">values to set</param>
         /// <param name="where">where statement to specify select</param>
-        public void singleItemUpdate(string table, string set, string where=null) {
+        public void singleItemUpdate(string table, string set, string where = null)
+        {
             if (conn.State.ToString().Contains("Closed"))
             {
                 conn.Open();
@@ -204,7 +206,7 @@ namespace MVCtutorial.Controllers
             string tableSQL = string.Format(@"{0}", table);
             string columnSQL = string.Format(@"{0}", column);
             string valueSQL = string.Format(@"{0}", value);
-            
+
             if (where == null)
             {
                 string sql = string.Format("INSERT INTO {0} ({1}) VALUES ({2})", table, column, value);
@@ -243,18 +245,21 @@ namespace MVCtutorial.Controllers
         /// <param name="table">table SQL to update</param>
         /// <param name="set">values to set</param>
         /// <param name="where">string where condition</param>
-        public async void singleItemUpdateAsync(string table, string set, string where=null) {
+        public async void singleItemUpdateAsync(string table, string set, string where = null)
+        {
             if (conn.State.ToString().Contains("Closed"))
             {
                 await conn.OpenAsync();
             }
-            if (where==null) {
+            if (where == null)
+            {
                 //SqlCommand cmd = new SqlCommand("UPDATE " + table + " SET "+ set, conn);
                 string sql = string.Format("UPDATE {0} SET {1}", table, set);
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 await cmd.ExecuteNonQueryAsync();
             }
-            else {
+            else
+            {
                 //SqlCommand cmd = new SqlCommand("UPDATE " + table + " SET "+ set +" WHERE " + where, conn);
                 string sql = string.Format("UPDATE {0} SET {1} WHERE {2}", table, set, where);
                 SqlCommand cmd = new SqlCommand(sql, conn);
@@ -363,7 +368,8 @@ namespace MVCtutorial.Controllers
                         }
                     }
                 }
-                else {
+                else
+                {
                     if (groupBy == null)
                     {
                         if (order == null)
@@ -388,7 +394,7 @@ namespace MVCtutorial.Controllers
                     }
                 }
             }
-            
+
             NpgsqlCommand cmd = new NpgsqlCommand(sql, connection);
             NpgsqlDataReader r = cmd.ExecuteReader();
             while (r.Read())
@@ -408,7 +414,8 @@ namespace MVCtutorial.Controllers
         /// <param name="groupBy"></param>
         /// <param name="order"></param>
         /// <returns></returns>        
-        public List<object[]> multipleItemSelectPostgres(string column, string table, string whereMultiple = null, string groupBy = null, string order = null) {
+        public List<object[]> multipleItemSelectPostgres(string column, string table, string whereMultiple = null, string groupBy = null, string order = null)
+        {
             string sql = null;
             List<object[]> result = new List<object[]>();
             if (connection.FullState == System.Data.ConnectionState.Closed)
@@ -550,15 +557,16 @@ namespace MVCtutorial.Controllers
                     }
                 }
             }
-            
+
             NpgsqlCommand cmd = new NpgsqlCommand(sql, connection);
             NpgsqlDataReader r = cmd.ExecuteReader();
-                        
+
             while (await r.ReadAsync())
             {
                 object[] tmpObjectArray = new object[r.FieldCount];
-                for (int i = 0; i<(r.FieldCount);i++) {
-                    tmpObjectArray[i] = r[i];                    
+                for (int i = 0; i < (r.FieldCount); i++)
+                {
+                    tmpObjectArray[i] = r[i];
                 }
                 result.Add(tmpObjectArray);
                 //tmpObjectArray.c
@@ -571,29 +579,33 @@ namespace MVCtutorial.Controllers
             return result;
         }
 
-        public static string where(string conditionVariable1, string Operator , string conditionVariable2) {
+        public static string where(string conditionVariable1, string Operator, string conditionVariable2)
+        {
             string whereSQL = conditionVariable1 + Operator + conditionVariable2;
             return whereSQL;
         }
-        public static string whereMultiple (string[] conditionVariables1, string[] Operators, string[] conditionVariables2)
+        public static string whereMultiple(string[] conditionVariables1, string[] Operators, string[] conditionVariables2)
         {
             string whereSQL = null;
-            if (conditionVariables1.Length == conditionVariables2.Length && conditionVariables1.Length == Operators.Length && conditionVariables2.Length == Operators.Length) {
+            if (conditionVariables1.Length == conditionVariables2.Length && conditionVariables1.Length == Operators.Length && conditionVariables2.Length == Operators.Length)
+            {
                 whereSQL = conditionVariables1[0] + Operators[0] + conditionVariables2[0];
-                for (int i=1;i<conditionVariables1.Length;i++)
+                for (int i = 1; i < conditionVariables1.Length; i++)
                 {
                     whereSQL += " AND " + conditionVariables1[i] + Operators[i] + conditionVariables2[i];
                 }
             }
             return whereSQL;
         }
-        public static string sum(string column, string newcolumn=null) {
+        public static string sum(string column, string newcolumn = null)
+        {
             string sumSQL = null;
             if (newcolumn == null)
             {
                 sumSQL = "SUM(" + column + ")";
             }
-            else {
+            else
+            {
                 sumSQL = "SUM(" + column + ") AS " + newcolumn;
             }
             return sumSQL;

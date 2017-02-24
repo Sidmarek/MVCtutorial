@@ -1,4 +1,4 @@
-    body {
+    #graph {
       font-family: "Trebuchet MS", arial, helvetica, sans-serif;
       font-size: 14px;    
       font-style: normal;
@@ -32,90 +32,38 @@
       padding-top: 10px;
     }
     
-    #top-menu {
+    #top_menu {
       position: absolute;
-      top: 5px;
-      left: 126px;
-      width: 1030px;
-      height: 18px;
-      background-color:#6699CC;
+      top: 70px;
+      left: 200px;      
+      height: 35px;
+      width: 1600px;
+      background-color:#F0F0F0;
+      padding: 6px 0px 0px 5px;
+      margin: 0px;
     }
     
-    #top-menu li.selected { 
+    #top_menu li.selected { 
       background:#000000;
     }
     
-    #left-menu {
-      position: absolute;
-      top: 34px;
-      left: 5px;
-      width: 110px;
-      height: 920px;
-      background-color:#dddddd;
-      padding-left: 8px;
-    }
-    
-    #content {
-      position: absolute;
-      top: 35px;
-      left: 10px;
-      width: 850px;
-      height: 800px;
-    }  
-    
-    #top-menu {
-      background-color: #dddddd;
-      padding: 4px 0px;  
-    }
-    
-    #top-menu a {
+    #top_menu a {
       padding: 2px 15px;
       text-decoration: none;
-      font-weight: 700; 
+      font-weight: 700;        
       color: black;
     }
     
-    #top-menu a:hover {  
+    #top_menu a:hover {  
       color: #0000cc; 
     }
     
-    #left-menu ul {
-      margin: 7px 0;
-      padding: 1px 15px 0 0;
+    #graph_content {
+      position: absolute;
+      top: 90px;
+      left: 200px;            
+      height: 900px;
     }
-    
-    #left-menu div span {
-      font-weight: 700;
-      font-size: 14px;
-    }
-    
-    #left-menu li {
-      list-style-type: none;
-      font-size: 12px;
-    	padding: 1px 0 1px 5px;
-    }
-    
-    #left-menu li a {
-      font-style: none;
-      font-size: 12px;
-      text-decoration: none;
-    	padding: 1px 0 1px 5px;
-    	color: #000000;
-    }
-    
-    #left-menu  li a:hover {
-      font-weight: bold;
-      background-color: #CCFFFF;
-    }
-    
-    #left-menu li:selected {
-      color: #000;
-    	background-color: #CCFFFF;
-    }
-    
-    #left-menu div {    
-    	padding: 10px 0;
-    }  
 
     .bg-color {
       background-color: #eeeeee;
@@ -194,10 +142,6 @@
       border: 0px;
     }
     
-    #factory {
-      display:none;
-    }
-    
     @media print {    
 
     body {
@@ -225,30 +169,14 @@
       display:none;  
     }
     
-    #top-menu {
+    #top_menu {
       display:none;
-    }
+    }    
     
-    #left-menu {
+    #graph_content .filter {
       display:none; 
     }
     
-    #content {
-      position: absolute;
-      top: 0px;
-      left: 0px;  
-    }
-    
-    #content .filter {
-      display:none; 
-    }
-    #top-menu {
-      display:none;    
-    }
-    
-    #left-menu ul {
-      display: none;
-    }
     table {  
       border-collapse: collapse;
     }

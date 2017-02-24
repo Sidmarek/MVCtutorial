@@ -27,10 +27,10 @@ namespace MVCtutorial.Controllers
                 ViewData["pathNames"] = Session["pathNames"];
                 Iniparser ini = new Iniparser(ViewData["pathConfig"].ToString(), ViewData["pathNames"].ToString());
                 ini.ParseLangs(config);
-                ini.ParseCfg(config, Const.separators);
+                ini.ParseCfg(config, Const.separators, config);
                 ini.ParseNames(config, Const.separators);
             }
-            string json = config.toJSON(config);
+           string json = config.toJSON(config);
 
 
             Response.ContentType= "application/json";
@@ -55,44 +55,40 @@ namespace MVCtutorial.Controllers
             }
             Session.Add("pathConfig", pathConfig);
             Session.Add("pathNames", pathNames);
-
             return View();
         }
         public string pkTimeToUTC(double time)
         {
             double utcTime = (time / 86400) + 2451544.5;
             string utc = utcTime.ToString();
-            if (utc.Contains(",")) {
+            if (utc.Contains(","))
+            {
                 utc = utc.Replace(",", ".");
             }
-            return Convert.ToString(utcTime);
+            return utc;
         }
-
         public long utcToPkTime(string time)
         {
-            try
-            {
                 double utcTime;
-                //time = time.Replace(".", ",");
-
                 //zakrácení času v utc na fixní délku 'od ":" až do konce odmažeme'
                 if (time.IndexOf(":") >= 0)
                 {
                     int idx = time.IndexOf(":");
                     time = time.Substring(0, idx - 1);
                 }
-                //fjikosdjfgdk
-                utcTime = double.Parse(time);
+                try {
+                    utcTime = double.Parse(time);
+                }
+                catch (FormatException e) {
+                    time = time.Replace(".", ",");
+                    utcTime = double.Parse(time);
+                }
+
                 utcTime = Math.Round((utcTime - (24515445E-1)) * 86400);
                 return (long)utcTime;
-            }
-            catch (Exception e) {
-                string k = e.Message.ToString(); // TODO to txt file
-                return 0;
-            }
         }
         [HttpPost]
-        public async Task<JsonResult> getData()
+        public JsonResult getData()
         {
             StreamReader stream = new StreamReader(Request.InputStream);
             string json = stream.ReadToEnd();
@@ -102,7 +98,7 @@ namespace MVCtutorial.Controllers
                 DataRequest dataRequest = new JavaScriptSerializer().Deserialize<DataRequest>(json);
                 try
                 {
-                    DataRequest dataResponse = await proceedSQLquery(dataRequest);
+                    DataRequest dataResponse = proceedSQLquery(dataRequest);
                     data = dataResponse;
                     return Json(data, "application/json", JsonRequestBehavior.AllowGet);
                 }
@@ -118,7 +114,7 @@ namespace MVCtutorial.Controllers
                 return null;
             }
         }
-        private async Task<DataRequest> proceedSQLquery(DataRequest dataRequest) {
+        private DataRequest proceedSQLquery(DataRequest dataRequest) {
 
             getDbConfig();
             openDBconnections();
@@ -143,7 +139,8 @@ namespace MVCtutorial.Controllers
                     db opennedDbConn = openDbList.Find(x => x.dbIdx == tabledef.dbIdx);
                     string where = db.whereMultiple(conditions1, Operators, conditions2);
                     string order = db.order("\"UTC\"", "ASC");
-                    objects = await opennedDbConn.multipleItemSelectPostgresAsync("\"UTC\"," + columns, "\"" + tabledef.tabName  + "\"", where, null, order);
+                    objects = opennedDbConn.multipleItemSelectPostgres("\"UTC\"," + columns, "\"" + tabledef.tabName  + "\"", where, null, order);
+                    //readResponse(objects, dataRequest, tagsPos, tabledef);
                     readResponseforTable(objects, tagsPos, period, dataRequest, tabledef);
                 }
                 columns = null;
@@ -195,29 +192,32 @@ namespace MVCtutorial.Controllers
                         }
                         else
                         {
-                            if (vals_agreg.Count != 0)
-                            {
-                                vals_agreg.Reverse();
-                                vals_buffer[buffPos] = vals_agreg[0];
-                                buffPos++;
-                                vals_agreg.Clear();
+                            if (low_buff_time>time && time>startTime) {
+                                rstPos--;
                             }
-                            else
+                            if (high_buff_time < time)
                             {
-                                if (buffPos < vals_buffer.Length)
+                                if (vals_agreg.Count != 0)
                                 {
-                                    vals_buffer[buffPos] = double.NaN;
+                                    vals_agreg.Reverse();
+                                    vals_buffer[buffPos] = vals_agreg[0];
                                     buffPos++;
-                                    rstPos++;
-                                    j--;
+                                    vals_agreg.Clear();
                                 }
-                            } 
+                                else
+                                {
+                                    if (buffPos < vals_buffer.Length)
+                                    {
+                                        vals_buffer[buffPos] = double.NaN;
+                                        buffPos++;
+                                        rstPos++;
+                                    }
+                                }
+                            }
                         }
                 }
-
-                    rstPos = 0;
                     buffPos = 0; 
-                //    dataRequest.tags[tagsPos[i-1]].vals = vals_buffer;
+                   // dataRequest.tags[tagsPos[i-1]].vals = vals_buffer;
                 }
                 
             }
@@ -243,7 +243,7 @@ namespace MVCtutorial.Controllers
             }
             for (int i = 0; i < rstObjects.Count; i++)
             {
-                objectsArray = rstObjects[i];
+                objectsArray = rstObjects[rstPos];
                 low_buff_time = (startTime + (i * period));
                 high_buff_time = (startTime + ((i + 1) * period));
                 time = utcToPkTime(objectsArray[0].ToString());
@@ -259,7 +259,7 @@ namespace MVCtutorial.Controllers
                             for (int j = 1; j < (objectsArray.Length - 1); j++)
                             {
                                 double value = Convert.ToDouble(vals_agreg[0][j]);
-                                dataRequest.tags[tagsPos[j - 1]].vals[buffPos] = value;
+                                dataRequest.tags[tagsPos[j-1]].vals[buffPos] = value;
                             }
                             buffPos++;
 
@@ -271,11 +271,15 @@ namespace MVCtutorial.Controllers
                             {
                                 for (int j = 1; j < (objectsArray.Length - 1); j++)
                                 {
-                                    dataRequest.tags[tagsPos[j - 1]].vals[buffPos] = double.NaN; // missing data adding NaN value to response
+                                    dataRequest.tags[tagsPos[j-1]].vals[buffPos] = double.NaN; // missing data adding NaN value to response
                                 }
                                 buffPos++;
                             }
                         }
+                    }
+                    else
+                    {
+                        i--;
                     }
                 }
                 else
@@ -286,8 +290,9 @@ namespace MVCtutorial.Controllers
                         for (int j = 1; j < (objectsArray.Length - 1); j++)
                         {
                             double value = Convert.ToDouble(vals_agreg[0][j]);
-                            dataRequest.tags[tagsPos[j - 1]].vals[buffPos] = value; //Adding value to response
+                            dataRequest.tags[tagsPos[j-1]].vals[buffPos] = value; //Adding value to response
                         }
+                        i--;
                         buffPos++;
                         vals_agreg.Clear();
                     }
@@ -297,22 +302,23 @@ namespace MVCtutorial.Controllers
                         {
                             for (int j = 1; j < (objectsArray.Length - 1); j++)
                             {
-                                dataRequest.tags[tagsPos[j - 1]].vals[buffPos] = double.NaN;// missing data adding NaN value to response
+                                dataRequest.tags[tagsPos[j-1]].vals[buffPos] = double.NaN;// missing data adding NaN value to response
                             }
                             buffPos++;
                         }
                     }
                 }
+                rstPos++;
             }
         }
 
         // WARNING: very fast to transform but not very secure way
         private void getDbConfig(){
-            int i = 0;
+            int i =0;
             int dataserverNumber, dbIndex;
             string databaseName = null;
             string[] separeted_string = null;
-            string[] separators = {"URL=",",jdbc", ".2.", ":5432/"}; //possible problem
+            string[] separators = {"URL=",",jdbc", ".2.", ":5432/"}; 
             string[] lines = System.IO.File.ReadAllLines(dbConfigPath, Encoding.Default);
             foreach (string line in lines)
             {
@@ -350,6 +356,7 @@ namespace MVCtutorial.Controllers
         }
 
         [HttpPost]
+        
         public JsonResult Config()
         {
             if (config.ViewList.Count == 0)
@@ -358,7 +365,8 @@ namespace MVCtutorial.Controllers
                 ViewData["pathNames"] = Session["pathNames"];
                 Iniparser ini = new Iniparser(ViewData["pathConfig"].ToString(), ViewData["pathNames"].ToString());
                 ini.ParseNames(config, Const.separators);
-                ini.ParseCfg(config, Const.separators);                
+                ini.ParseCfg(config, Const.separators, config);
+                ini.ParseCfg(config, Const.separators, config);
             }
             object data = new object();
             data = config;
