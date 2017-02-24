@@ -172,7 +172,18 @@ namespace MVCtutorial.Controllers
             }
             return 0;
         }
+        private int parseNameDefinitionNew(CIniFile config, string[] lines, int startLineIdx)
+        {
+            for(int i = startLineIdx; i < lines.Length; i++) {
+                if (!(lines[i].StartsWith("#")) && (lines[i].Length != 0))
+                {
 
+                }
+                else {
+                    return i;
+                }
+            }
+        }
         private int parseNameDefinition(CIniFile config, string[] separators, string[] lines, int startLineIdx)
         {
             string[] nameLine = null, nameLineFirstPart = null, nameLineLangMutate = null;

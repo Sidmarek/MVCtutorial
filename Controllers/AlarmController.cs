@@ -87,7 +87,7 @@ namespace MVCtutorial.Controllers
                     if (alarm_id[j] == label[i])
                     {
                         labels[i] = title[j];
-                        j = 1100;
+                        j = 1000;
                     }
                 }
                 originTime[i] = Int32.Parse(dr["origin_pktime"].ToString());
