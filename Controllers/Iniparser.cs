@@ -183,6 +183,8 @@ namespace MVCtutorial.Controllers
                     return i;
                 }
             }
+            int i = 0;
+            return i;
         }
         private int parseNameDefinition(CIniFile config, string[] separators, string[] lines, int startLineIdx)
         {
