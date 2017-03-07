@@ -7,6 +7,7 @@
 <h2>Add new status infromations of project</h2>
 @using (Html.BeginForm("AddArticle", "CMS", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
+    @Html.TextBoxFor(m => m.Header, new {@class="form-control", @type = "date", @value = DateTime.UtcNow, @label=DateTime.UtcNow})
     <hr />
     @Html.ValidationSummary("", new { @class = "text-danger" })
     <div class="form-group">

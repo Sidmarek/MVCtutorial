@@ -9,6 +9,8 @@ using Microsoft.Owin.Security;
 using MVCtutorial.Models;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Collections.Generic;
+using System.Web.Optimization;
 
 namespace MVCtutorial.Controllers
 {
@@ -72,6 +74,36 @@ namespace MVCtutorial.Controllers
             
             Session["tempforview"] = "View: " + defaultView + " has been successfully chosen.";
             return RedirectToAction("DefaultView", "Manage");
+        }
+
+
+        [Authorize]
+        public ActionResult ChangeTheme()
+        {
+            List<string> ThemesListString = new List<string>();
+            string startupPath = @"C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\Content";
+            try {
+                string[] absoulte_paths = System.IO.Directory.GetFiles(startupPath, "*bootstra*.css");
+                
+                foreach (string path in absoulte_paths)
+                {
+                    ThemesListString.Add(path.Substring(path.LastIndexOf(@"\")+1));
+                }  
+            } 
+            catch (Exception e) {
+
+            }
+            MultiSelectList ThemesList = new MultiSelectList(ThemesListString);
+            var model = new ChangeThemeModel { ThemesList = ThemesList };
+            return View(model);
+        }
+        
+        [HttpPost]
+        [Authorize]
+        public ActionResult ChangeTheme(ChangeThemeModel model)
+        {
+            Session["tempforview"] = "Theme: " + model.Theme + " has been successfully chosen.";
+            return View();
         }
         //
         // GET: /Manage/Index

@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
+using System.Web.Mvc;
 
 namespace MVCtutorial.Models
 {
@@ -19,9 +20,15 @@ namespace MVCtutorial.Models
         public IList<UserLoginInfo> CurrentLogins { get; set; }
         public IList<AuthenticationDescription> OtherLogins { get; set; }
     }
-
-    public class FactorViewModel
+    public class ChangeThemeModel
     {
+        [Required]
+        [Display(Name = "Change Theme")]
+        public string Theme { get; set; }
+        public MultiSelectList ThemesList { get; set; }
+    }
+    public class FactorViewModel
+    {    
         public string Purpose { get; set; }
     }
 
@@ -35,7 +42,7 @@ namespace MVCtutorial.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm new password")]
-        [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+        [System.Web.Mvc.Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }
 
@@ -54,7 +61,7 @@ namespace MVCtutorial.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm new password")]
-        [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+        [System.ComponentModel.DataAnnotations.Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }
     public class DefaultViewModel

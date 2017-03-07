@@ -6821,43 +6821,7 @@ td.visible-print {
     display: none !important;
   }
 }
-/* The side navigation menu */
-.sidenav {
-    height: 100%; /* 100% Full-height */
-    position: fixed;
-    top: 0;
-    left 0;
-    width: 11%;
-    max-width: 25%;
-    min-width:150px;
-    background-color: #222222; /* Black*/
-    padding-top: 45px; /* */
-    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
-}
 
-/* The side navigation menu */
-.sidenav a {
-    background-color: #222222;
-    max-width: 250px;
-    padding: 8px 8px 8px 32px;
-    text-decoration:none;
-    font-size: 18px;
-    color: #428bca;
-    display: block;
-    line-height:1;
-}
-
-.plc {
-    padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 18px;
-    color: #428bca;
-    line-height:1;
-    margin-right: 5px;
-    margin-left: -10%;
-    display: block;
-    transition: 0.3s
-}
 .tg {
     border-collapse: collapse;
     border-spacing: 0;

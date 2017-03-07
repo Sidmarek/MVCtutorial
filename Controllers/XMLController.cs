@@ -9,7 +9,7 @@ namespace MVCtutorial.Controllers
 {
     public class XMLController : Controller
     {
-        public static String path = @"C:\Akce\www\MVCtutorial\Config";
+        public static String path = @"C:\Users\ADMIN\Documents\Visual Studio 2015\Projects\MVCtutorial\MVCtutorial\Config";
         List<String> ProjectNames = new List<string>();
         List<int> ProjectNumbers = new List<int>();
         public string[] absoulte_path;
@@ -117,8 +117,12 @@ namespace MVCtutorial.Controllers
                             XmlAttribute attributeNameOther = n.Attributes["name"];
                             if (attributeNameOther == null)
                             {
-                                grandParentNode = node.ParentNode.ParentNode.Name;
                                 parentNode = node.ParentNode.Name;
+                                if (node.ParentNode.ParentNode.Attributes["name"] == null) {
+                                    grandParentNode = node.ParentNode.ParentNode.Name;
+                                } else {
+                                    grandParentNode = node.ParentNode.ParentNode.Attributes["name"].Value;
+                                }
                             }
                             else
                             {

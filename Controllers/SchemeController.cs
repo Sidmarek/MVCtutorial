@@ -11,13 +11,11 @@ namespace MVCtutorial.Controllers
         //[Authorize]
         public ActionResult Index()
         {
-            int i = 0;
-            String name = Request.QueryString["name"];
-            String plc = Request.QueryString["plc"];
+            string name = Request.QueryString["name"];
+            string plc = Request.QueryString["plc"];
             foreach (String key in Session.Keys) {
                 if (key.Contains(name+plc)) {
                     ViewBag.url = Session[key];
-                    i++;
                 }
             }
 
@@ -27,12 +25,18 @@ namespace MVCtutorial.Controllers
         }
 
         public void getImage() {
-            string url = Session["SchemeURLImage"].ToString();
+            if (Session["SchemeURLImage"] != null)
+            {
+                try {
+                    string url = Session["SchemeURLImage"].ToString();
 
-            WebClient client = new WebClient();
-            byte[] data = client.DownloadData(url);
-            Response.BinaryWrite(data);
-            Response.ContentType = "image/png";
+                    WebClient client = new WebClient();
+                    byte[] data = client.DownloadData(url);
+                    Response.BinaryWrite(data);
+                    Response.ContentType = "image/png";
+                }
+                catch (Exception e){ }
+            }
         }
     }
 }

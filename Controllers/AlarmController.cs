@@ -13,17 +13,19 @@ namespace MVCtutorial.Controllers
         //define int i
         public int i = 0;
         //Predefiened arrays
-        public string[] title = new string[1250];
-        public int[] alarm_id = new int[1250];
+        string DB;
+        public List<string> titles = new List<string>();
+        public List<int> alarm_ids = new List<int>();
         public int[] id = new int[32];
-        public int[] label = new int[32];
+        public int[] alarm_id = new int[32];
         public int[] originTime = new int[32];
         public int[] expTime = new int[32];
         public string[] labels = new string[32];
-        public string[] datetimeOrigin = new string[32];
-        public string[] datetimeExp = new string[32];
+        public DateTime[] datetimeOrigin = new DateTime[32];
+        public DateTime[] datetimeExp = new DateTime[32];
 
-        public String JulToDateTime(int timeForFormat) {
+        public DateTime JulToDateTime(int timeForFormat)
+        {
             int date, time, fact, reminder;
             int years, months, days, hours, minutes, seconds;
 
@@ -31,7 +33,7 @@ namespace MVCtutorial.Controllers
             time = timeForFormat % 86400;
 
             seconds = time % 60;
-            time = (time - seconds) / 60; 
+            time = (time - seconds) / 60;
             minutes = time % 60;
             hours = time / 60;
 
@@ -39,57 +41,62 @@ namespace MVCtutorial.Controllers
             fact -= 233;
             years = fact / 1461;
 
-            reminder = (((fact%1461)/4)*5) + 2;
+            reminder = (((fact % 1461) / 4) * 5) + 2;
             months = reminder / 153;
             days = (reminder % 153) / 5;
 
-            if (months < 10) {
+            if (months < 10)
+            {
                 months += 3;
             }
-            else {
+            else
+            {
                 months -= 9;
                 years++;
             }
             years += 2000;
             hours -= 0;
 
-            String DateTime = days + "." + months + "." + years + "      " + hours + ":" + minutes + ":" + seconds;
-            return DateTime; 
+            DateTime DateTime = new DateTime(years, months, days, hours, minutes, seconds);
+            return DateTime;
         }
 
-        public string DBConnnection() {
-            // PostgeSQL-style connection string
-            int id = (int)(Session["id"]);
-            String DB = Session["dbNamealarmplc"].ToString();
+        public string DBConnnection()
+        {
+            // PostgeSQL-style connection string            
+            foreach (string key in Session.Keys)
+            {
+                if (key.Contains("dbName" + Request.QueryString["name"] + Request.QueryString["plc"]))
+                {
+                    DB = Session[key.ToString()].ToString();
+                }
+            }
             string connstring = String.Format("Server={0};Port={1};User Id={2};Password={3};Database={4};",
               "192.168.2.12", 5432, "postgres", "Nordit0276", DB);
             return connstring;
         }
 
-        public void SelectAlarms(int NumberOfRecords, int PageNumber) {
-            if (NumberOfRecords == 0) {
+        public void SelectAlarms(int NumberOfRecords, int PageNumber)
+        {
+            if (NumberOfRecords == 0)
+            {
                 NumberOfRecords = 20;
             }
             string connstring = DBConnnection();
             NpgsqlConnection conn = new NpgsqlConnection(connstring);
             conn.Open();
-            
-            string sql = "SELECT * FROM alarm_history ORDER BY origin_pktime DESC LIMIT " + NumberOfRecords + " OFFSET " + (PageNumber * NumberOfRecords);
+            int plcID = 1;
+            string sql = "SELECT * FROM alarm_history WHERE plc_id=" + plcID + " ORDER BY origin_pktime DESC LIMIT " + NumberOfRecords + " OFFSET " + (PageNumber * NumberOfRecords);
             NpgsqlCommand cmd = new NpgsqlCommand(sql, conn);
             //Prepare DataReader
             NpgsqlDataReader dr = cmd.ExecuteReader();
             while (dr.Read())
             {
                 id[i] = Int16.Parse(dr["plc_id"].ToString());
-                label[i] = Int16.Parse(dr["alarm_id"].ToString());
-                for (int j = 0; j < 1000; j++)
-                {
-                    if (alarm_id[j] == label[i])
-                    {
-                        labels[i] = title[j];
-                        j = 1100;
-                    }
-                }
+                alarm_id[i] = Int16.Parse(dr["alarm_id"].ToString());
+                //small improvment beacause alarm_id in table alarm_texts and alarm_id in table alarm_history are bind
+                labels[i] = titles[alarm_id[i]];
+
                 originTime[i] = Int32.Parse(dr["origin_pktime"].ToString());
                 datetimeOrigin[i] = JulToDateTime(originTime[i]);
                 expTime[i] = Int32.Parse(dr["expiry_pktime"].ToString());
@@ -104,7 +111,7 @@ namespace MVCtutorial.Controllers
             ViewBag.NumberOfRecords = NumberOfRecords;
 
             //Give data to view
-            ViewBag.Id = label;
+            ViewBag.Id = alarm_id;
             ViewBag.Label = labels;
             ViewBag.originTime = datetimeOrigin;
             ViewBag.expTime = datetimeExp;
@@ -118,19 +125,18 @@ namespace MVCtutorial.Controllers
             conn.Open();
 
             // Execute the query and obtain a result set                
-            NpgsqlCommand cmd = new NpgsqlCommand("SELECT title,alarm_id FROM alarm_texts LIMIT 1000", conn);
+            NpgsqlCommand cmd = new NpgsqlCommand("SELECT title,alarm_id FROM alarm_texts", conn);
             //Prepare DataReader
             NpgsqlDataReader dataReader = cmd.ExecuteReader();
 
             //Cycle reads data from result set 
             while (dataReader.Read())
             {
-                title[i] = (dataReader["title"].ToString());
-                alarm_id[i] = Int16.Parse(dataReader["alarm_id"].ToString());
-                i++;
+                titles.Add(dataReader["title"].ToString());
+                alarm_ids.Add(Int16.Parse(dataReader["alarm_id"].ToString()));
+
             }
             //We need to close connection to select texts
-            i = 0;
             //cmd.Dispose();
             conn.Close();
 
@@ -147,7 +153,7 @@ namespace MVCtutorial.Controllers
                 //Select Alarms using SelectAlarms(int count) method (defined upper )
                 int count = 20;
                 SelectAlarms(count, 0);
-           
+
             }
             catch (Exception msg)
             {
@@ -155,7 +161,7 @@ namespace MVCtutorial.Controllers
 
                 throw msg;
             }
-           return View();
+            return View();
         }
         /*
 
@@ -163,13 +169,13 @@ namespace MVCtutorial.Controllers
         {
             return View();
         }
-        */  
+        */
 
         // POST: Alarm
         [HttpPost]
         public ActionResult Form(AlarmFormModel model, string returnUrl)
         {
-            
+
             try
             {
                 SelectAlarmsTexts();
@@ -180,12 +186,12 @@ namespace MVCtutorial.Controllers
                 int PageNumber = model.someId;
                 int NumberOfRecords = model.NumberOfRecords;
                 SelectAlarms(NumberOfRecords, PageNumber);
-                
+
             }
             catch (Exception msg)
             {
                 // something went wrong, and you wanna know why
-                
+
                 throw msg;
             }
 

@@ -1,10 +1,9 @@
 ﻿<script>
-    var t;
-    function autoreload() {
+    var i = 0;
+    $(document).ready(function autreload() {
         load();
         setInterval("autoreload()", 20000);
-        console.log("loading");
-    }
+    });
     function reload() {
         load();
     }
@@ -13,11 +12,6 @@
         document.getElementById("schema").src = "/scheme/getImage?514561" + d.getTime();
     }
 </script>
-@{
-    ViewBag.Title = "index";
-    ViewBag.types = Session["types"];
-    ViewBag.values = Session["values"];
-}
 <h2>@ViewBag.name</h2>
 <div onclick="reload()">
     <img id="schema" src="/scheme/getImage" />

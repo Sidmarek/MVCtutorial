@@ -1,0 +1,22 @@
+﻿@model MVCtutorial.Models.ChangeThemeModel
+@{
+    ViewBag.Title = "ChangeTheme";
+}
+
+<h2>@ViewBag.Title</h2>
+@using (Html.BeginForm("ChangeTheme", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    <div class="message">
+        @ViewBag.message
+    </div>
+    <hr />
+    <div class="col">
+        @Html.LabelFor(m => m.Theme, new { @class = "col-md-2 control-label" })
+        <div class="col-md-offset-2 col-md-10">
+            @Html.ListBoxFor(m => m.Theme, Model.ThemesList, new { @class = "col-md-2" })
+        </div>
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Change Theme" class="btn btn-default" />
+        </div>
+    </div>
+}

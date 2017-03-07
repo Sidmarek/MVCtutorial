@@ -282,6 +282,7 @@
     <Compile Include="Controllers\Iniparser.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\SchemeController.cs" />
     <Compile Include="Controllers\SecurityAttribute.cs" />
     <Compile Include="Controllers\ToJSON.cs" />
@@ -293,6 +294,7 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\GraphModels.cs" />
+    <Compile Include="Models\ReportModels.cs" />
     <Compile Include="Models\UploadModels.cs" />
     <Compile Include="Models\CMSModels.cs" />
     <Compile Include="Models\AdminModels.cs" />
@@ -304,11 +306,12 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-bootswatch.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\site.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
     <Content Include="Scripts\ai.0.15.0-build58334.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -376,11 +379,13 @@
     <Content Include="Views\Upload\Index.cshtml" />
     <Content Include="Views\Upload\Index3.aspx" />
     <Content Include="Views\Graph\index.cshtml" />
+    <Content Include="Views\Manage\ChangeTheme.cshtml" />
     <None Include="Views\Shared\master.master" />
     <Content Include="Views\Upload\Upload.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Report\" />
     <Folder Include="Views\Security\" />
   </ItemGroup>
   <ItemGroup>

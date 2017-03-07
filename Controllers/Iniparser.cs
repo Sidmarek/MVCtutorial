@@ -127,7 +127,7 @@ namespace MVCtutorial.Controllers
                     {
                         try
                         {
-                            rowNumber = parseNameDefinition(config, separators, lines, i);
+                            rowNumber = parseNameDefinitionNew(config, separators, lines, i);
                         }
                         catch (Exception e)
                         {
@@ -174,6 +174,51 @@ namespace MVCtutorial.Controllers
             }
             return 0;
         }
+        /// <summary>
+        /// Parse NameDef
+        /// </summary>
+        /// <param name="config"></param>
+        /// <param name="separators"></param>
+        /// <param name="lines"></param>
+        /// <param name="startLineIdx"></param>
+        /// <returns>Position in the lines array</returns>
+        private int parseNameDefinitionNew(CIniFile config, string[] separators, string[] lines, int startLineIdx)
+        {
+            string tableName = null;
+            for (int i = startLineIdx; i<lines.Length;i++) {
+                if (!(lines[i].StartsWith("#") && lines[i].Length != 0)) {
+
+                    string[] nameLine = lines[i].Split(Const.separators, StringSplitOptions.RemoveEmptyEntries);
+
+                    if (nameLine.Length != 0)
+                    {
+                        foreach (CView view in config.ViewList) //find tableName in all signals
+                        {
+                            foreach (CField field in view.FieldList)
+                            {
+                                foreach (CSignal signal in field.SigList)
+                                {
+                                    if (signal.column.Contains(nameLine[0]))
+                                    {
+                                        tableName = signal.table;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        foreach (string nameLinePart in nameLine) //Foreach to resolve a line
+                        {
+                            string namePartTrimed = nameLinePart.Trim();
+                        }
+                    }
+
+                } else {
+                    return i;
+                }
+            }
+            return 0;
+        }
         private int parseNameDefinition(CIniFile config, string[] separators, string[] lines, int startLineIdx)
         {
             string[] nameLine = null, nameLineFirstPart = null, nameLineLangMutate = null;
@@ -188,7 +233,7 @@ namespace MVCtutorial.Controllers
                 {
                     nameLine = lines[i].Split(Const.separ_equate, StringSplitOptions.RemoveEmptyEntries);
                     nameLineFirstPart = nameLine[0].Split(separators, StringSplitOptions.RemoveEmptyEntries);
-                    nameLineLangMutate = nameLine[1].Split(Const.separ_names, StringSplitOptions.None);
+                    nameLineLangMutate = nameLine[1].Split(Const.separ_names, StringSplitOptions.RemoveEmptyEntries);
                     foreach (CView view in config.ViewList) {
                         foreach (CField field in view.FieldList) {
                             foreach (CSignal signal in field.SigList) {
