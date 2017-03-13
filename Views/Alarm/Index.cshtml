@@ -49,15 +49,37 @@
             <th class="tg-yw44">ExpiryTime</th>
         </tr>
 
-
         @for (int i = 0; i < 20; i++)
         {
             <tr>
                 <td class="tg-yw4l">@ViewBag.Id[i]</td>
                 <td class="tg-yw42">@ViewBag.Label[i]</td>
-                <td class="tg-yw43">@ViewBag.originTime[i]</td>
-                <td class="tg-yw44">@ViewBag.expTime[i]</td>
+                <td class="tg-yw43" id="date_@i">@ViewBag.originTime[i]</td>        
+                <td class="tg-yw44"  id="expDate_@i">@ViewBag.expTime[i]</td>
             </tr>
         }
     </table>
+    @for (int i = 0; i < 20; i++)
+    {
+        <script>
+        var date = "@ViewBag.originTime[i]";
+        var expDate = "@ViewBag.expTime[i]";
+
+                var localDateTime = DateTime(date);
+                document.getElementById("date_" + "@i").innerHTML = localDateTime;
+                var localExpDateTime = DateTime(expDate);
+                document.getElementById("expDate_" + "@i").innerHTML = localExpDateTime;
+
+                function DateTime(date){
+                    var d = new Date(date);
+                    var offset = d.getTimezoneOffset();
+                    var offseted_miliseconds = d.getTime() - (offset*60000);
+                    var DateTime = new Date(offseted_miliseconds);
+                    var localDateTime = DateTime.toLocaleString();
+                    console.log(DateTime);
+                    console.log(localDateTime);
+                    return localDateTime;
+                }
+    </script>
+    }
 </div>

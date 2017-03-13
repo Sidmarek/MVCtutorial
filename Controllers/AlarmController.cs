@@ -10,10 +10,11 @@ namespace MVCtutorial.Controllers
     [Authorize]
     public class AlarmController : Controller
     {
-        //define int i
+        //define variables
         public int i = 0;
-        //Predefiened arrays
         string DB;
+        //Predefiened arrays
+
         public List<string> titles = new List<string>();
         public List<int> alarm_ids = new List<int>();
         public int[] id = new int[32];
@@ -24,53 +25,26 @@ namespace MVCtutorial.Controllers
         public DateTime[] datetimeOrigin = new DateTime[32];
         public DateTime[] datetimeExp = new DateTime[32];
 
-        public DateTime JulToDateTime(int timeForFormat)
+        public DateTime pkTimeToDateTime(long timeForFormat)
         {
-            int date, time, fact, reminder;
-            int years, months, days, hours, minutes, seconds;
-
-            date = timeForFormat / 86400;
-            time = timeForFormat % 86400;
-
-            seconds = time % 60;
-            time = (time - seconds) / 60;
-            minutes = time % 60;
-            hours = time / 60;
-
-            fact = date * 4;
-            fact -= 233;
-            years = fact / 1461;
-
-            reminder = (((fact % 1461) / 4) * 5) + 2;
-            months = reminder / 153;
-            days = (reminder % 153) / 5;
-
-            if (months < 10)
-            {
-                months += 3;
-            }
-            else
-            {
-                months -= 9;
-                years++;
-            }
-            years += 2000;
-            hours -= 0;
-
-            DateTime DateTime = new DateTime(years, months, days, hours, minutes, seconds);
+            long timeInNanoSeconds = (timeForFormat * 10000000);
+            //TimeSpan converted = TimeSpan.FromSeconds(timeForFormat);
+            DateTime DateTime = new DateTime(((630836424000000000 - 13608000000000) + timeInNanoSeconds));
+            //DateTime DateTime = new DateTime(years, months, days, hours, minutes, seconds);
             return DateTime;
-        }
+         }
 
         public string DBConnnection()
         {
-            // PostgeSQL-style connection string            
-            foreach (string key in Session.Keys)
-            {
-                if (key.Contains("dbName" + Request.QueryString["name"] + Request.QueryString["plc"]))
+
+                // PostgeSQL-style connection string            
+                foreach (string key in Session.Keys)
                 {
-                    DB = Session[key.ToString()].ToString();
+                    if (key.Contains("dbName" + Request.QueryString["name"] + Request.QueryString["plc"]))
+                    {
+                        DB = Session[key.ToString()].ToString();
+                    }
                 }
-            }
             string connstring = String.Format("Server={0};Port={1};User Id={2};Password={3};Database={4};",
               "192.168.2.12", 5432, "postgres", "Nordit0276", DB);
             return connstring;
@@ -98,9 +72,9 @@ namespace MVCtutorial.Controllers
                 labels[i] = titles[alarm_id[i]];
 
                 originTime[i] = Int32.Parse(dr["origin_pktime"].ToString());
-                datetimeOrigin[i] = JulToDateTime(originTime[i]);
+                datetimeOrigin[i] = pkTimeToDateTime(originTime[i]);
                 expTime[i] = Int32.Parse(dr["expiry_pktime"].ToString());
-                datetimeExp[i] = JulToDateTime(expTime[i]);
+                datetimeExp[i] = pkTimeToDateTime(expTime[i]);
                 i++;
             }
             //cmd.Dispose();
@@ -159,7 +133,7 @@ namespace MVCtutorial.Controllers
             {
                 // something went wrong, and you wanna know why
 
-                throw msg;
+                return RedirectToAction("Login", "Account");
             }
             return View();
         }

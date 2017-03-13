@@ -17,5 +17,18 @@ namespace MVCtutorial
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
+        protected void Session_Start()
+        {
+            if (Context.Session != null)
+            {
+                if (Context.Session.IsNewSession)
+                {
+                    if (HttpContext.Current.Session.Count == 0)
+                    {
+                        Response.Redirect("~/Account/Login/");   
+                    }
+                }
+            }
+        }
     }
 }

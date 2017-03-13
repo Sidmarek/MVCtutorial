@@ -30,16 +30,16 @@ namespace MVCtutorial.Controllers
         {
             string[] existingRolesForUser = Roles.GetRolesForUser();
             int id;
-            int i = 0;
+            int projectsCount = 0;
 
             foreach (String role in existingRolesForUser)
             {
                 if ((Int32.TryParse(role, out id)) == true)
                 {
                     Session.Add("id", id);
-                    i++;
+                    projectsCount++;
                 }
-                if (i >= 2)
+                if (projectsCount >= 2)
                 {
                     var exist = Roles.GetAllRoles();
                     String some = User.Identity.Name.ToString();
@@ -56,7 +56,7 @@ namespace MVCtutorial.Controllers
                     return View();
                 }
             }
-            if (i == 0)
+            if (projectsCount <= 1)
             {
                 return RedirectToAction("Index", "Home");
             }
